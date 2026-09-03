@@ -346,7 +346,7 @@ section.tight { padding: 56px 0; }
    ========================================================================== */
 .persona-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
 }
 
@@ -642,3 +642,29 @@ section.tight { padding: 56px 0; }
   display: inline-block;
   margin-bottom: 18px;
 }
+
+
+/* ==========================================================================
+   PHILOSOPHER WATERMARKS
+   Fixed, non-interactive layer behind the page. Visible only through
+   sections that carry no background of their own.
+   ========================================================================== */
+.portrait-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.portrait-layer img {
+  position: absolute;
+  width: 360px;
+  height: auto;
+  opacity: 0.12;
+  filter: grayscale(100%);
+}
+.portrait-goethe       { left: 4%;  top: 34%; }
+.portrait-wittgenstein { right: 4%; top: 8%; }
+
+@media (max-width: 1100px) { .portrait-layer { display: none; } }
+@media (prefers-reduced-motion: reduce) { .portrait-layer img { transition: none; } }
