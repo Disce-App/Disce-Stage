@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow">
+  <title>CERVUS Study — Join the Waitlist | Disce</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================== RESET & BASE =========================== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --color-primary:        #4FAC4E;
+      --color-primary-dark:   #357435;
+      --color-primary-light:  #E8F3EA;
+      --color-error:          #801818;
+      --color-bg:             #4FAC4E;
+      --color-bg-secondary:   #357435;
+      --color-white:          #FFFFFF;
+      --color-cream:          #F4F3F3;
+      --color-text:           #101012;
+      --color-text-secondary: #3A3A3C;
+      --color-text-muted:     #857B7B;
+      --color-border:         #C9AB8D;
+      --color-link:           #0352A4;
+      --font-heading:         'Noto Serif', serif;
+      --font-body:            'Inter', sans-serif;
+      --space-xs:  4px;
+      --space-sm:  8px;
+      --space-md:  12px;
+      --space-lg:  16px;
+      --space-xl:  24px;
+      --space-2xl: 32px;
+      --space-3xl: 48px;
+      --space-4xl: 64px;
+      --radius-sm: 8px;
+      --radius-md: 10px;
+      --radius-lg: 12px;
+      --shadow-card:  0 4px 20px rgba(0,0,0,0.15);
+      --shadow-hover: 0 6px 24px rgba(0,0,0,0.20);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      background-color: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 var(--space-xl);
+    }
+
+    /* =========================== LANGUAGE TOGGLE =========================== */
+    .language-toggle {
+      position: fixed;
+      top: 20px; right: 20px;
+      z-index: 1000;
+      cursor: pointer;
+      background: rgba(255,255,255,0.95);
+      border-radius: 999px;
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-body);
+      font-weight: 700; font-size: 14px;
+      color: var(--color-primary-dark);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      user-select: none;
+      transition: transform 180ms ease-out;
+      border: none;
+    }
+    .language-toggle:hover { transform: scale(1.08); }
+
+    /* =========================== BACK LINK =========================== */
+    .back-link {
+      position: fixed;
+      top: 20px; left: 20px;
+      z-index: 1000;
+      display: flex; align-items: center; gap: var(--space-sm);
+      font-size: 14px; font-weight: 600;
+      color: var(--color-white);
+      text-decoration: none;
+      opacity: 0.85;
+      transition: opacity 180ms;
+    }
+    .back-link:hover { opacity: 1; }
+
+    /* =========================== HERO =========================== */
+    .hero {
+      background-color: var(--color-bg);
+      padding: var(--space-4xl) 0 var(--space-3xl);
+      text-align: center;
+    }
+    .hero-logo {
+      width: 120px; height: 120px;
+      margin-bottom: var(--space-lg);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: 36px; font-weight: 700;
+      color: var(--color-white);
+      margin-bottom: var(--space-sm);
+      line-height: 1.2;
+    }
+    .hero .subtitle {
+      font-size: 18px;
+      color: var(--color-primary-light);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* =========================== DIVIDER =========================== */
+    .divider {
+      height: 4px; width: 80px;
+      background-color: var(--color-white);
+      margin: var(--space-2xl) auto;
+      border-radius: 2px; opacity: 0.8;
+    }
+
+    /* =========================== CARD =========================== */
+    .card {
+      background: var(--color-cream);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      box-shadow: var(--shadow-card);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================== INFO SECTION =========================== */
+    .info-section { padding: 0 0 var(--space-xl); }
+    .info-section .card { animation-delay: 0.15s; }
+
+    .info-section h2 {
+      font-family: var(--font-heading);
+      font-size: 26px; font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: var(--space-lg);
+      text-align: center;
+    }
+    .info-text {
+      font-size: 16px; line-height: 1.7;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-xl);
+    }
+    .info-text strong { color: var(--color-text); }
+
+    .details-list {
+      list-style: none;
+      display: flex; flex-direction: column;
+      gap: var(--space-md);
+    }
+    .details-list li {
+      display: flex; gap: var(--space-md);
+      align-items: flex-start;
+      font-size: 15px; line-height: 1.5;
+    }
+    .details-list .icon { font-size: 20px; flex-shrink: 0; line-height: 1.3; }
+
+    /* =========================== FORM SECTION =========================== */
+    .form-section { padding: 0 0 var(--space-xl); }
+    .form-section .card { animation-delay: 0.3s; }
+
+    .form-section h2 {
+      font-family: var(--font-heading);
+      font-size: 24px; font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: var(--space-sm);
+      text-align: center;
+    }
+    .form-intro {
+      font-size: 15px;
+      color: var(--color-text-muted);
+      text-align: center;
+      margin-bottom: var(--space-xl);
+    }
+
+    /* Form groups */
+    .form-group { margin-bottom: var(--space-xl); }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--color-text);
+      margin-bottom: var(--space-sm);
+    }
+    .form-group label .required {
+      color: var(--color-primary-dark);
+      margin-left: 2px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group select {
+      width: 100%;
+      padding: var(--space-md) 14px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--color-text);
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      transition: border-color 140ms ease-out, box-shadow 140ms ease-out;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23857B7B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      border-width: 2px;
+      box-shadow: 0 0 0 3px var(--color-primary-light);
+    }
+
+    /* Checkbox group */
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-md);
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+    }
+    .checkbox-label input[type="checkbox"] {
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      margin-top: 2px;
+      accent-color: var(--color-primary);
+      cursor: pointer;
+    }
+
+    /* Availability checkboxes */
+    .availability-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm) var(--space-lg);
+    }
+    .availability-grid .checkbox-label { font-size: 14px; }
+
+    /* Error state */
+    .form-error {
+      display: none;
+      font-size: 13px;
+      color: var(--color-error);
+      margin-top: var(--space-xs);
+    }
+    .form-group.has-error .form-error { display: block; }
+    .form-group.has-error input,
+    .form-group.has-error select {
+      border-color: var(--color-error);
+      border-width: 2px;
+    }
+
+    /* Optional tag */
+    .label-optional {
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-left: var(--space-sm);
+    }
+
+    /* Divider within form */
+    .form-divider {
+      height: 1px;
+      background: var(--color-border);
+      margin: var(--space-xl) 0;
+      opacity: 0.5;
+    }
+
+    /* =========================== BUTTONS =========================== */
+    .btn-primary {
+      width: 100%;
+      min-height: 48px;
+      padding: var(--space-md) var(--space-xl);
+      font-family: var(--font-body);
+      font-size: 16px; font-weight: 600;
+      color: var(--color-white);
+      background-color: var(--color-primary);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background-color 140ms ease-out, transform 100ms ease-out;
+      display: flex; align-items: center; justify-content: center;
+      gap: var(--space-sm);
+    }
+    .btn-primary:hover { background-color: var(--color-primary-dark); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:disabled {
+      background-color: var(--color-text-muted);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Spinner */
+    .spinner {
+      display: none;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn-primary.loading .spinner { display: block; }
+    .btn-primary.loading .btn-text { opacity: 0.7; }
+
+    /* =========================== SUCCESS / ERROR MESSAGES =========================== */
+    .submit-feedback {
+      display: none;
+      margin-top: var(--space-xl);
+      padding: var(--space-lg) var(--space-xl);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      font-weight: 500;
+      animation: fadeIn 0.4s ease-out;
+    }
+    .submit-feedback.success {
+      background-color: var(--color-primary-dark);
+      color: var(--color-white);
+    }
+    .submit-feedback.error-msg {
+      background-color: #fff3f3;
+      color: var(--color-error);
+      border: 1px solid #f5c6c6;
+    }
+    .submit-feedback.show { display: block; }
+
+    /* =========================== PRIVACY SECTION =========================== */
+    .privacy-section { padding: 0 0 var(--space-3xl); }
+    .privacy-section .card {
+      animation-delay: 0.45s;
+      background: var(--color-white);
+    }
+    .privacy-section h3 {
+      font-family: var(--font-heading);
+      font-size: 18px; font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--space-md);
+      display: flex; align-items: center; gap: var(--space-sm);
+    }
+    .privacy-text {
+      font-size: 13px; line-height: 1.6;
+      color: var(--color-text-muted);
+    }
+    .privacy-text a { color: var(--color-link); text-decoration: none; }
+    .privacy-text a:hover { text-decoration: underline; }
+
+    /* =========================== FOOTER =========================== */
+    footer {
+      text-align: center;
+      padding: var(--space-2xl) var(--space-xl);
+      font-size: 13px;
+      color: var(--color-primary-light);
+      opacity: 0.7;
+    }
+    footer a { color: var(--color-white); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* =========================== LANG HIDE/SHOW =========================== */
+    [data-lang="en"] { display: none; }
+    body.lang-en [data-lang="de"] { display: none; }
+    body.lang-en [data-lang="en"] { display: revert; }
+
+    /* =========================== RESPONSIVE =========================== */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 28px; }
+      .hero .subtitle { font-size: 16px; }
+      .card { padding: var(--space-xl) var(--space-lg); }
+      .language-toggle { top: 15px; right: 15px; width: 42px; height: 42px; font-size: 13px; }
+      .back-link { top: 15px; left: 15px; font-size: 13px; }
+      .hero-logo { width: 90px; height: 90px; }
+      .availability-grid { grid-template-columns: 1fr; }
+    }
+
+    /* =========================== ACCESSIBILITY =========================== */
+    *:focus-visible {
+      outline: 2px solid #0352A4;
+      outline-offset: 2px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Language Toggle -->
+  <button class="language-toggle" id="langToggle" aria-label="Switch language" title="Switch language">
+    <span data-lang="de">EN</span>
+    <span data-lang="en">DE</span>
+  </button>
+
+  <!-- Back Link -->
+  <a class="back-link" href="/">
+    <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M11 4L6 9l5 5"/>
+    </svg>
+    <span data-lang="de">Zurück</span>
+    <span data-lang="en">Back</span>
+  </a>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <img src="antlers.png" alt="Disce Logo" class="hero-logo" />
+      <h1>
+        <span data-lang="de">Sei dabei – Pilotstudie</span>
+        <span data-lang="en">Join us – Pilot Study</span>
+      </h1>
+      <p class="subtitle">
+        <span data-lang="de">Hilf uns, die Zukunft des Sprachlernens zu gestalten. Melde dich unverbindlich für unsere Studie an.</span>
+        <span data-lang="en">Help us shape the future of language learning. Sign up for our study — no commitment yet.</span>
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <div class="divider"></div>
+
+    <!-- STUDY INFO -->
+    <section class="info-section">
+      <div class="container">
+        <div class="card">
+          <h2>
+            <span data-lang="de">Worum geht's?</span>
+            <span data-lang="en">What is this study?</span>
+          </h2>
+
+          <p class="info-text">
+            <span data-lang="de"><strong>Disce</strong> erforscht, wie KI-gestütztes Feedback beim Deutschsprechen helfen kann. In unserer Pilotstudie hältst du vier kurze Monologe (je 60–90 Sek.) zu einem Bewerbungsgespräch-Szenario — und bekommst anschließend individuelles Feedback.</span>
+            <span data-lang="en"><strong>Disce</strong> explores how AI-powered feedback can help you improve your spoken German. In our pilot study, you'll deliver four short monologues (60–90 sec. each) in a job-interview scenario — and receive personalized feedback.</span>
+          </p>
+
+          <ul class="details-list">
+            <li>
+              <span class="icon">🎯</span>
+              <span>
+                <span data-lang="de"><strong>Wer kann mitmachen?</strong> Alle, die Deutsch als Fremdsprache sprechen (Niveau B2–C1).</span>
+                <span data-lang="en"><strong>Who can join?</strong> Anyone who speaks German as a foreign language (level B2–C1).</span>
+              </span>
+            </li>
+            <li>
+              <span class="icon">📅</span>
+              <span>
+                <span data-lang="de"><strong>Wann?</strong> Die Studie startet Mitte Juni 2026. Du setzt dich jetzt auf die Warteliste und wir melden uns bei dir.</span>
+                <span data-lang="en"><strong>When?</strong> The study starts mid-June 2026. Sign up for the waitlist now and we'll contact you.</span>
+              </span>
+            </li>
+            <li>
+              <span class="icon">💻</span>
+              <span>
+                <span data-lang="de"><strong>Wo?</strong> Komplett online im Browser — du brauchst nur ein Mikrofon.</span>
+                <span data-lang="en"><strong>Where?</strong> Entirely online in your browser — you just need a microphone.</span>
+              </span>
+            </li>
+            <li>
+              <span class="icon">🎁</span>
+              <span>
+                <span data-lang="de"><strong>Vergütung:</strong> Amazon-Gutschein (7–10 €) nach Abschluss der Studie.</span>
+                <span data-lang="en"><strong>Compensation:</strong> Amazon voucher (€7–10) after completing the study.</span>
+              </span>
+            </li>
+            <li>
+              <span class="icon">⏱️</span>
+              <span>
+                <span data-lang="de"><strong>Aufwand:</strong> ca. 25–30 Minuten, einmalig.</span>
+                <span data-lang="en"><strong>Time:</strong> approx. 25–30 minutes, one-time session.</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- FORM SECTION -->
+    <section class="form-section" id="form">
+      <div class="container">
+        <div class="card">
+          <h2>
+            <span data-lang="de">📝 Auf die Warteliste setzen</span>
+            <span data-lang="en">📝 Join the Waitlist</span>
+          </h2>
+          <p class="form-intro">
+            <span data-lang="de">Trag dich ein — wir melden uns im Juni zur Terminbestätigung.</span>
+            <span data-lang="en">Fill in the form — we'll reach out in June to confirm your slot.</span>
+          </p>
+
+          <form id="waitlistForm" novalidate>
+
+            <!-- First Name -->
+            <div class="form-group" id="group-first_name">
+              <label for="first_name">
+                <span data-lang="de">Vorname</span>
+                <span data-lang="en">First name</span>
+                <span class="required">*</span>
+              </label>
+              <input type="text" id="first_name" name="first_name"
+                autocomplete="given-name"
+                placeholder="Maria" />
+              <div class="form-error">
+                <span data-lang="de">Bitte gib deinen Vornamen ein.</span>
+                <span data-lang="en">Please enter your first name.</span>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group" id="group-email">
+              <label for="email">
+                <span data-lang="de">E-Mail-Adresse</span>
+                <span data-lang="en">Email address</span>
+                <span class="required">*</span>
+              </label>
+              <input type="email" id="email" name="email"
+                autocomplete="email"
+                placeholder="maria@example.com" />
+              <div class="form-error">
+                <span data-lang="de">Bitte gib eine gültige E-Mail-Adresse ein.</span>
+                <span data-lang="en">Please enter a valid email address.</span>
+              </div>
+            </div>
+
+            <!-- German Level -->
+            <div class="form-group" id="group-german_level">
+              <label for="german_level">
+                <span data-lang="de">Deutsch-Niveau (Selbsteinschätzung)</span>
+                <span data-lang="en">German level (self-assessment)</span>
+                <span class="required">*</span>
+              </label>
+              <select id="german_level" name="german_level">
+                <option value="" disabled selected>
+                  <!-- shown via JS per language -->
+                </option>
+                <option value="A1">A1</option>
+                <option value="A2">A2</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+                <option value="C1">C1</option>
+                <option value="C2">C2</option>
+              </select>
+              <div class="form-error">
+                <span data-lang="de">Bitte wähle dein Niveau aus.</span>
+                <span data-lang="en">Please select your level.</span>
+              </div>
+            </div>
+
+            <!-- Availability in June -->
+            <div class="form-group" id="group-availability_june">
+              <label>
+                <span data-lang="de">Verfügbarkeit im Juni 2026</span>
+                <span data-lang="en">Availability in June 2026</span>
+                <span class="required">*</span>
+              </label>
+              <div class="availability-grid">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="availability_june" value="Early June" />
+                  <span>
+                    <span data-lang="de">Anfang Juni</span>
+                    <span data-lang="en">Early June</span>
+                  </span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="availability_june" value="Mid June" />
+                  <span>
+                    <span data-lang="de">Mitte Juni</span>
+                    <span data-lang="en">Mid June</span>
+                  </span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="availability_june" value="Late June" />
+                  <span>
+                    <span data-lang="de">Ende Juni</span>
+                    <span data-lang="en">Late June</span>
+                  </span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="availability_june" value="Flexible" />
+                  <span>
+                    <span data-lang="de">Flexibel</span>
+                    <span data-lang="en">Flexible</span>
+                  </span>
+                </label>
+              </div>
+              <div class="form-error">
+                <span data-lang="de">Bitte wähle mindestens eine Option.</span>
+                <span data-lang="en">Please select at least one option.</span>
+              </div>
+            </div>
+
+            <div class="form-divider"></div>
+
+            <!-- Required checkboxes -->
+            <div class="form-group" id="group-checkboxes">
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="has_microphone" name="has_microphone" />
+                  <span>
+                    <span data-lang="de">Ich habe ein funktionierendes Mikrofon und einen ruhigen Raum. <span class="required">*</span></span>
+                    <span data-lang="en">I have a working microphone and a reasonably quiet space. <span class="required">*</span></span>
+                  </span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="consent_contact" name="consent_contact" />
+                  <span>
+                    <span data-lang="de">Ich stimme zu, für diese Studie kontaktiert zu werden. <span class="required">*</span></span>
+                    <span data-lang="en">I agree to be contacted for this study. <span class="required">*</span></span>
+                  </span>
+                </label>
+              </div>
+              <div class="form-error" id="checkbox-error">
+                <span data-lang="de">Bitte bestätige beide Punkte, um fortzufahren.</span>
+                <span data-lang="en">Please confirm both items to continue.</span>
+              </div>
+            </div>
+
+            <div class="form-divider"></div>
+
+            <!-- Optional: How did you hear about this -->
+            <div class="form-group">
+              <label for="source_channel">
+                <span data-lang="de">Wie hast du von uns erfahren?</span>
+                <span data-lang="en">How did you hear about this?</span>
+                <span class="label-optional">
+                  <span data-lang="de">(optional)</span>
+                  <span data-lang="en">(optional)</span>
+                </span>
+              </label>
+              <input type="text" id="source_channel" name="source_channel"
+                placeholder="LinkedIn, Uni, Freunde, ..." />
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-primary" id="submitBtn">
+              <div class="spinner" id="spinner"></div>
+              <span class="btn-text">
+                <span data-lang="de">Auf die Warteliste →</span>
+                <span data-lang="en">Join the waitlist →</span>
+              </span>
+            </button>
+
+            <!-- Feedback messages -->
+            <div class="submit-feedback success" id="successMsg">
+              <span data-lang="de">✓ Du bist auf der Liste! Wir melden uns im Juni. Danke!</span>
+              <span data-lang="en">✓ You're on the list! We'll be in touch in June. Thank you!</span>
+            </div>
+            <div class="submit-feedback error-msg" id="errorMsg">
+              <span data-lang="de">⚠ Etwas ist schiefgelaufen. Bitte versuche es erneut oder schreib uns direkt.</span>
+              <span data-lang="en">⚠ Something went wrong. Please try again or contact us directly.</span>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- PRIVACY NOTE -->
+    <section class="privacy-section">
+      <div class="container">
+        <div class="card">
+          <h3>🔒
+            <span data-lang="de">Datenschutzhinweis</span>
+            <span data-lang="en">Privacy Notice</span>
+          </h3>
+          <p class="privacy-text">
+            <span data-lang="de">
+              Deine Daten (Name, E-Mail, Deutsch-Niveau, Verfügbarkeit) werden ausschließlich zum Zweck der Rekrutierung für diese Studie erhoben und verarbeitet. Sie werden in einer geschützten Datenbank (Airtable) gespeichert und nicht an Dritte weitergegeben. Nach Abschluss der Rekrutierungsphase werden Daten von Personen, die nicht an der Studie teilnehmen, innerhalb von 4 Wochen gelöscht.<br><br>
+              Du kannst deine Eintragung jederzeit widerrufen, indem du uns eine E-Mail schreibst.
+              Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).<br><br>
+              Verantwortlich: Bjarne Dudzus · BSP Business &amp; Law School Berlin ·
+              <a href="mailto:bjarne.dudzus@student.businessschhool-berlin.de">bjarne.dudzus@student.businessschool-berlin.de</a>
+            </span>
+            <span data-lang="en">
+              Your data (name, email, German level, availability) is collected and processed solely for the purpose of recruiting participants for this study. It is stored in a secure database (Airtable) and will not be shared with third parties. After the recruitment phase, data from individuals who do not participate will be deleted within 4 weeks.<br><br>
+              You can withdraw your registration at any time by sending us an email.
+              Legal basis: Art. 6(1)(a) GDPR (consent).<br><br>
+              Responsible: Bjarne Dudzus · BSP Business &amp; Law School Berlin ·
+              <a href="mailto:bjarne.dudzus@student.businessschool-berlin.de">bjarne.dudzus@student.businessschool-berlin.de</a>
+            </span>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span data-lang="de">© 2026 Disce · Ein Forschungsprojekt der <a href="https://www.businessschool-berlin.de/" target="_blank" rel="noopener">BSP Berlin</a></span>
+    <span data-lang="en">© 2026 Disce · A research project at <a href="https://www.businessschool-berlin.de/" target="_blank" rel="noopener">BSP Berlin</a></span>
+  </footer>
+
+  <script>
+
+    // =========================== LANGUAGE TOGGLE ===========================
+    (function () {
+      const toggle = document.getElementById('langToggle');
+      const body   = document.body;
+
+      const saved = localStorage.getItem('disce-lang');
+      if (saved === 'en' || (!saved && !navigator.language.startsWith('de'))) {
+        body.classList.add('lang-en');
+      }
+
+      // Update select placeholder per language
+      function updateSelectPlaceholder() {
+        const sel = document.getElementById('german_level');
+        const isEn = body.classList.contains('lang-en');
+        sel.options[0].text = isEn ? '— Please select —' : '— Bitte wählen —';
+      }
+      updateSelectPlaceholder();
+
+      toggle.addEventListener('click', function () {
+        body.classList.toggle('lang-en');
+        localStorage.setItem('disce-lang', body.classList.contains('lang-en') ? 'en' : 'de');
+        updateSelectPlaceholder();
+      });
+
+      toggle.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle.click(); }
+      });
+    })();
+
+    // =========================== FORM SUBMIT ===========================
+    document.getElementById('waitlistForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const form      = e.target;
+      const submitBtn = document.getElementById('submitBtn');
+      const spinner   = document.getElementById('spinner');
+      const successMsg = document.getElementById('successMsg');
+      const errorMsg   = document.getElementById('errorMsg');
+
+      // --- Validation ---
+      let valid = true;
+
+      function setError(groupId, hasError) {
+        const group = document.getElementById(groupId);
+        if (!group) return;
+        group.classList.toggle('has-error', hasError);
+        if (hasError) valid = false;
+      }
+
+      // First name
+      const firstName = form.first_name.value.trim();
+      setError('group-first_name', !firstName);
+
+      // Email
+      const email = form.email.value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      setError('group-email', !emailOk);
+
+      // German level
+      const level = form.german_level.value;
+      setError('group-german_level', !level);
+
+      // Availability (at least one checkbox)
+      const availability = Array.from(form.querySelectorAll('input[name="availability_june"]:checked')).map(cb => cb.value);
+      setError('group-availability_june', availability.length === 0);
+
+      // Required checkboxes
+      const hasMic     = document.getElementById('has_microphone').checked;
+      const hasConsent = document.getElementById('consent_contact').checked;
+      const cbGroup    = document.getElementById('group-checkboxes');
+      if (!hasMic || !hasConsent) {
+        cbGroup.classList.add('has-error');
+        valid = false;
+      } else {
+        cbGroup.classList.remove('has-error');
+      }
+
+      if (!valid) return;
+
+      // Clear previous messages
+      successMsg.classList.remove('show');
+      errorMsg.classList.remove('show');
+
+      // --- Loading state ---
+      submitBtn.disabled = true;
+      submitBtn.classList.add('loading');
+
+      // --- Build Airtable record ---
+      const sourceChannel = form.source_channel.value.trim();
+      const isEn = document.body.classList.contains('lang-en');
+      const langPref = isEn ? 'English' : 'German';
+
+      const fields = {
+        'first_name':          firstName,
+        'email':               email,
+        'german_level':        level,
+        'availability_june':   availability,   // array → Airtable multiple select
+        'has_microphone':      hasMic,
+        'consent_contact':     hasConsent,
+        'language_pref':       langPref,
+      };
+      if (sourceChannel) fields['source_channel'] = sourceChannel;
+
+      // --- Airtable API call ---
+      try {
+        const response = await fetch(
+          'https://waitlist-proxy.bjarne-dudzus.workers.dev',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fields }),
+          }
+        );
+
+        if (!response.ok) {
+          const errBody = await response.json().catch(() => ({}));
+          console.error('Airtable error:', errBody);
+          throw new Error('API error ' + response.status);
+        }
+
+        // Success!
+        form.style.display = 'none';
+        successMsg.classList.add('show');
+
+      } catch (err) {
+        console.error(err);
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        errorMsg.classList.add('show');
+      }
+    });
+
+    // Clear error on field interaction
+    document.querySelectorAll('input, select').forEach(function (el) {
+      el.addEventListener('input', function () {
+        const group = this.closest('.form-group');
+        if (group) group.classList.remove('has-error');
+      });
+      el.addEventListener('change', function () {
+        const group = this.closest('.form-group');
+        if (group) group.classList.remove('has-error');
+      });
+    });
+  </script>
+
+</body>
+</html>
