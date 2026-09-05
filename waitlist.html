@@ -731,8 +731,9 @@
       const toggle = document.getElementById('langToggle');
       const body   = document.body;
 
+      // German is the default site-wide; only a stored choice overrides it.
       const saved = localStorage.getItem('disce-lang');
-      if (saved === 'en' || (!saved && !navigator.language.startsWith('de'))) {
+      if (saved === 'en') {
         body.classList.add('lang-en');
       }
 
