@@ -46,4 +46,31 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  // Language. German is the default; a stored choice wins over it.
+  // No browser sniffing: a first-time visitor always gets German.
+  var LANG_KEY = 'disce-lang';
+  function readLang() {
+    try { return localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'de'; }
+    catch (e) { return 'de'; }
+  }
+  function applyLang(lang) {
+    document.documentElement.classList.remove('pre-en');
+    document.body.classList.toggle('lang-en', lang === 'en');
+    document.body.classList.toggle('lang-de', lang === 'de');
+    document.documentElement.setAttribute('lang', lang);
+    document.querySelectorAll('.lang-switch button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.setLang === lang));
+    });
+    var t = document.querySelector('title[data-title-' + lang + ']');
+    if (t) document.title = t.getAttribute('data-title-' + lang);
+  }
+  applyLang(readLang());
+  document.querySelectorAll('.lang-switch button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var lang = b.dataset.setLang;
+      try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+      applyLang(lang);
+    });
+  });
 });

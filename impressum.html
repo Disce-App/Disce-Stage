@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Impressum gemäß § 5 DDG.">
 <title>Impressum — Disce</title>
+<script>try{if(localStorage.getItem('disce-lang')==='en'){document.documentElement.className+=' pre-en';document.documentElement.lang='en';}}catch(e){}</script>
 <link rel="stylesheet" href="css/experimental.css">
 </head>
 <body>
@@ -16,13 +17,18 @@
       <img class="brand-mark" src="images/antlers-green.png" alt="" aria-hidden="true">
       DISCE
     </a>
-    <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <button class="nav-toggle" aria-label="Navigation / Menu">&#9776;</button>
     <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="philosophy.html">Philosophy</a>
-      <a href="team.html">Our Team</a>
-      <a href="status.html">Development Status</a>
-      <a href="waitlist.html" class="nav-cta">Join the Waitlist</a>
+      <a href="index.html"><span data-lang="de">Start</span><span data-lang="en">Home</span></a>
+      <a href="philosophy.html"><span data-lang="de">Philosophie</span><span data-lang="en">Philosophy</span></a>
+      <a href="team.html"><span data-lang="de">Team</span><span data-lang="en">Our Team</span></a>
+      <a href="status.html"><span data-lang="de">Entwicklungsstand</span><span data-lang="en">Development Status</span></a>
+      <a href="waitlist.html" class="nav-cta"><span data-lang="de">Auf die Warteliste</span><span data-lang="en">Join the Waitlist</span></a>
+      <div class="lang-switch" role="group" aria-label="Sprache / Language">
+        <button type="button" data-set-lang="de" aria-pressed="true">DE</button>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+
     </nav>
   </div>
 </header>
@@ -32,6 +38,7 @@
     <span class="eyebrow">Rechtliches</span>
     <h1>Impressum</h1>
     <p class="lede">Angaben gem&auml;&szlig; &sect; 5 Digitale-Dienste-Gesetz (DDG) sowie &sect; 18 Abs. 2 Medienstaatsvertrag (MStV).</p>
+    <p class="lede legal-lang-note" data-lang="en" style="margin-top: var(--sp-16);">This Impressum is a legal notice under German law (§ 5 DDG) and is published in German only.</p>
   </div>
 </section>
 
@@ -98,30 +105,30 @@
     <div class="footer-grid">
       <div>
         <div class="footer-brand">DISCE</div>
-        <p class="footer-tag">AI-powered German learning for advanced learners. Building toward incorporation, Berlin / Potsdam.</p>
+        <p class="footer-tag"><span data-lang="de">KI-gestütztes Deutschlernen für fortgeschrittene Lernende. Auf dem Weg zur Gründung, Berlin / Potsdam.</span><span data-lang="en">AI-powered German learning for advanced learners. Building toward incorporation, Berlin / Potsdam.</span></p>
       </div>
       <div class="footer-col">
-        <h4>Site</h4>
-        <a href="index.html">Home</a>
-        <a href="philosophy.html">Philosophy</a>
-        <a href="team.html">Our Team</a>
-        <a href="status.html">Development Status</a>
+        <h4><span data-lang="de">Seiten</span><span data-lang="en">Site</span></h4>
+        <a href="index.html"><span data-lang="de">Start</span><span data-lang="en">Home</span></a>
+        <a href="philosophy.html"><span data-lang="de">Philosophie</span><span data-lang="en">Philosophy</span></a>
+        <a href="team.html"><span data-lang="de">Team</span><span data-lang="en">Our Team</span></a>
+        <a href="status.html"><span data-lang="de">Entwicklungsstand</span><span data-lang="en">Development Status</span></a>
       </div>
       <div class="footer-col">
-        <h4>Legal</h4>
+        <h4><span data-lang="de">Rechtliches</span><span data-lang="en">Legal</span></h4>
         <a href="impressum.html">Impressum</a>
         <a href="datenschutz.html">Datenschutzerkl&auml;rung</a>
       </div>
       <div class="footer-col">
-        <h4>Connect</h4>
-        <a href="waitlist.html">Join the Waitlist</a>
+        <h4><span data-lang="de">Kontakt</span><span data-lang="en">Connect</span></h4>
+        <a href="waitlist.html"><span data-lang="de">Auf die Warteliste</span><span data-lang="en">Join the Waitlist</span></a>
         <a href="https://disce.substack.com" target="_blank" rel="noopener">Substack</a>
-        <a href="mailto:bjarne.dudzus@disce.de">Contact</a>
+        <a href="mailto:bjarne.dudzus@disce.de"><span data-lang="de">Kontakt</span><span data-lang="en">Contact</span></a>
       </div>
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 Disce. All rights reserved.</span>
-      <span>Berlin &amp; Potsdam, Germany</span>
+      <span><span data-lang="de">Berlin &amp; Potsdam, Deutschland</span><span data-lang="en">Berlin &amp; Potsdam, Germany</span></span>
     </div>
   </div>
 </footer>

@@ -696,3 +696,47 @@ section.tight { padding: var(--sp-56) 0; }
 
 @media (max-width: 1100px) { .portrait-layer { display: none; } }
 @media (prefers-reduced-motion: reduce) { .portrait-layer img { transition: none; } }
+
+
+/* ==========================================================================
+   LANGUAGE TOGGLE
+   German is the default. Only ever hides, never sets display, so elements
+   that are flex or grid children keep their own layout.
+   ========================================================================== */
+/* Steady state, once site.js has run. */
+body.lang-de [data-lang="en"] { display: none; }
+body.lang-en [data-lang="de"] { display: none; }
+
+/* Before first paint, no body class exists yet. html.pre-en is set by a
+   head snippet for a returning English visitor; everyone else gets German.
+   site.js removes pre-en as soon as it sets the body class, so the toggle
+   is never fighting it. */
+html.pre-en  body:not(.lang-de):not(.lang-en) [data-lang="de"] { display: none; }
+html:not(.pre-en) body:not(.lang-de):not(.lang-en) [data-lang="en"] { display: none; }
+
+.lang-switch {
+  display: inline-flex;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  margin-left: var(--sp-8);
+  flex: none;
+}
+.lang-switch button {
+  font-family: var(--font-body);
+  font-size: var(--fs-200);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: var(--sp-4) var(--sp-8);
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.lang-switch button + button { border-left: 2px solid var(--ink); }
+.lang-switch button:hover { color: var(--ink); }
+.lang-switch button[aria-pressed="true"] { background: var(--ink); color: var(--cream); }
+
+@media (max-width: 900px) {
+  .lang-switch { margin-left: 0; margin-top: var(--sp-12); }
+}
