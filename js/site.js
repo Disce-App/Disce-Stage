@@ -8,10 +8,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Duplicate ticker content for seamless loop
+  // Duplicate ticker content for a seamless loop.
+  // The keyframe travels to -50%, so the track must end up as exactly two
+  // copies of the same run, and one run must be at least a viewport wide.
   var track = document.querySelector('.ticker-track');
   if (track) {
-    track.innerHTML += track.innerHTML;
+    var base = track.innerHTML;
+    var run = base;
+    track.innerHTML = run;
+    for (var i = 0; i < 8 && track.scrollWidth < window.innerWidth; i++) {
+      run += base;
+      track.innerHTML = run;
+    }
+    track.innerHTML = run + run;
   }
 
   // Accordion (FAQ-style)
