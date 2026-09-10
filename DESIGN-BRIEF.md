@@ -93,14 +93,19 @@ Rules:
 
 ## 7. Imagery & Usage Matrix
 
+Every placement below names a real, committed file under `images/`.
+
 | Asset | Motif | Placement | Treatment |
 |---|---|---|---|
-| Key visual (stag in arena before burgundy sphere) | Core brand motif | Homepage hero, full-bleed | Dark scrim (40–55 % black-green), headline in `--parchment`, fine grain overlay; focal point on stag + sphere (mind mobile crop) |
-| Kernel staircase (impossible stairs on deep green) | Progression, the beta product | Beta/prototype page hero; on homepage as card visual inside "How Disce works" | Little scrim needed (asset is dark), text right as in the mockup, keep ochre markers |
-| Corridor with stag | Threshold, stepping into visibility | Dark interstitial section (e.g. Problem or About) | Strong scrim, text left, stag stays visible right |
-| Zeppelin with forest | Vision, expanse | About/Vision banner or newsletter closer | 21:9 crop, calm surface, minimal text |
-| Loop train (violet ring) | Playful, retro | Insights/blog thumbnails, 404 page, possibly loading states | Small formats, card crops, never a fullscreen hero |
-| Mockup "Do more. Stress less." | Composition reference | Do **not** ship as an image | Template for hero composition only: badge top-left, large headline left, stat card right, testimonial card bottom-left |
+| `DISCE_C01_r1_arena-stag-bordeaux.png` | Key visual: white stag in empty arena before the burgundy sphere (clean, text-free) | Homepage hero, full-bleed | Dark scrim (40–55 % black-green), headline in `--parchment`, fine grain overlay; focal point on stag + sphere (mind mobile crop) |
+| `DISCE_B03_r3_canal-pavilions.png` | Kernel staircase / impossible architecture on deep green | Beta/prototype page hero; on homepage as card visual inside "How Disce works" | Little scrim needed (asset is dark), text right as in the mockup, keep ochre markers |
+| `DISCE_C02_r1_corridor-stag-threshold.png` | Corridor with stag | Dark interstitial section (e.g. Problem or About) | Strong scrim, text left, stag stays visible right |
+| `DISCE_C03_r1_zeppelin-forest.png` | Zeppelin with forest | About/Vision banner | 21:9 crop, calm surface, minimal text |
+| `DISCE_B04_r4_causeway-palms.png` | Open landscape / palm causeway with stag | Newsletter closer; wide section imagery | Full-bleed or wide section background, parchment text |
+| `DISCE_C04_r1_loop-train-violet.png` | Loop train (violet ring) | Insights/blog thumbnails, 404 page, possibly loading states | Small formats, card crops, never a fullscreen hero |
+| `DISCE_C06_r1_stag-antlers-city.png` | Stag carrying a city on its antlers | Secondary / brand-totem visual; section card | Card or section imagery, parchment text |
+| `DISCE_C07_r1_stag-path-bordeaux-city.png` | Stag on a path before the bordeaux sphere over the DACH skyline | Alternate / threshold visual | Scrim, keep a text-safe area |
+| Mockup "Do more. Stress less." | Composition reference | Do **not** ship as an image; stays out of the repository | Template for hero composition only: badge top-left, large headline left, stat card right, testimonial card bottom-left |
 | Sketch portraits (current site) | Editorial drawings | Stay as texture on light sections | Unchanged, optionally reduce opacity |
 
 Global imagery rules:
@@ -122,7 +127,8 @@ Global imagery rules:
 ## 9. Technical Image Integration
 
 - Formats: AVIF primary, WebP fallback, JPG last resort; serve via `<picture>` with art-directed crops (desktop/mobile).
-- Responsive sizes: `srcset`/`sizes` for at least 768/1280/1920/2560 px widths; hero images get `fetchpriority="high"` and no lazy-loading; everything else lazy.
+- Responsive sizes: `srcset`/`sizes` for the target 768/1280/1920/2560 px widths; hero images get `fetchpriority="high"` and no lazy-loading; everything else lazy.
+- Interim master-width rule: the widest masters in the repo are **1824 px** (curated `DISCE_*` assets) and **1376 px** (ComfyUI render plates). Until wider masters exist, a hero `srcset` tops out at the real master width — **do not upscale without approval**. Re-rendering hero-class assets at ≥ 2560 px is a later content task (Section 13).
 - LQIP/blur placeholders for all large images to prevent CLS; fixed aspect ratios in CSS.
 - Budgets: ≤ 250 KB per hero (AVIF, q~50), ≤ 120 KB per card image; commit an optimization script to the repo (e.g. `sharp`-based Node script) outputting into the asset directory; no external image CDN required.
 - Alt texts in German and English; purely decorative overlays carry empty `alt=""`.
@@ -179,13 +185,14 @@ Prompting rules for all phases:
 - After each task: require a short summary of changed files.
 
 Example prompt (Phase 5, hero):
-> Read @DESIGN-BRIEF.md sections 4, 5 and 7. Rework the homepage hero: full-bleed key visual `assets/hero-arena.avif` with a 45 % scrim in `--green-deep`, headline in `--parchment`, badge top-left, CTA unchanged. Mobile crop must keep stag and sphere visible. Do not touch navigation, copy, or other sections. Afterwards produce a screenshot comparison and list the changed files.
+> Read @DESIGN-BRIEF.md sections 4, 5 and 7. Rework the homepage hero: full-bleed key visual `images/DISCE_C01_r1_arena-stag-bordeaux.png` (Phase 4 produces the optimized AVIF/WebP derivatives and `<picture>` art direction from this master) with a 45 % scrim in `--green-deep`, headline in `--parchment`, badge top-left, CTA unchanged. Mobile crop must keep stag and sphere visible. Do not touch navigation, copy, or other sections. Afterwards produce a screenshot comparison and list the changed files.
 
 ## 13. Open Decisions
 
 - Serif display face for headlines on dark sections: yes/no (Section 6).
 - Does the current bright green survive as the button color, or is it replaced by sage?
 - Glass-card elements in the hero: adopt (darkened) or drop?
-- Which motif gets the 404 page (proposal: loop train)?
+- 404 page motif: **decided** — loop train (`images/DISCE_C04_r1_loop-train-violet.png`).
 - EN translations of new alt texts and captions: produce alongside or as a separate sprint?
 - Icon on dark surfaces: the existing icon was designed for light backgrounds — is a parchment/inverted variant already available from the source files, or does one need to be exported (recolor of the existing asset, not a redraw)?
+- Re-render hero-class assets at ≥ 2560 px width: needed to satisfy the full Section 9 `srcset`; current masters top out at 1824 px (curated `DISCE_*`) and 1376 px (ComfyUI render plates).
