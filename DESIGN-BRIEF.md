@@ -87,7 +87,7 @@ Rules:
 ## 6. Typography
 
 - The existing bold uppercase grotesque remains the backbone (brutalist-editorial).
-- Optional addition (open decision): a serif display face for large quotes and hero lines on dark image sections — reference: the mockup headline and "KERNEL" in the beta UI.
+- Decided: **Newsreader roman** serves as the display serif for large quotes and hero lines on dark image sections — reference: the mockup headline and "KERNEL" in the beta UI. Archivo Black (grotesque) remains the default headline face; pairing rule: grotesque on light surfaces, serif allowed on dark image sections.
 - Do not let agents improvise scale, tracking, or line-height: adopt existing values, document them, freeze as tokens.
 - Self-host all fonts (GDPR), `font-display: swap`.
 
@@ -119,6 +119,7 @@ Global imagery rules:
 
 - The brutalist grid (visible hairlines, hard edges, numbered cards) stays — it is the bridge between print aesthetics and interface.
 - New counterpoint: dark, cinematic image sections against the light grid sections. Rhythm per page: light (problem/facts) → dark (image/emotion) → light (concrete/CTA).
+- Hero glass cards: only a heavily darkened, parchment-tinted variant — surfaces tint toward `--green-deep`, never white/bright glassmorphism. Thin hairline border, square corners, no blur-heavy `backdrop-filter` stacks; used in the hero only.
 - Corners stay square; radii belong to the beta UI, not the marketing pages.
 - Adopt micro-details from the Kernel UI: ochre status dots, wide-tracked small-caps labels, hairline dividers.
 - No scoring, grading, or gamification patterns anywhere (progress rings, stars, XP) — the product explicitly refrains from overall verdicts, and the marketing site must not contradict that.
@@ -189,10 +190,19 @@ Example prompt (Phase 5, hero):
 
 ## 13. Open Decisions
 
-- Serif display face for headlines on dark sections: yes/no (Section 6).
-- Does the current bright green survive as the button color, or is it replaced by sage?
-- Glass-card elements in the hero: adopt (darkened) or drop?
+Decided:
+
+- Serif display face for headlines on dark sections: **decided yes** — Newsreader roman (Section 6). Archivo Black (grotesque) remains the default headline face; pairing rule: grotesque on light, serif allowed on dark.
+  - Implementation gap: only the Newsreader *italic* variable font is in `fonts/` today; the *roman* variable font is added as a separate asset. Wiring happens in Phase 5, when the dark hero section is built.
+- Hero glass-card elements: **decided yes** — adopt a heavily darkened, parchment-tinted variant only (surfaces tint toward `--green-deep`, never white/bright glassmorphism); thin hairline border, square corners, no blur-heavy `backdrop-filter` stacks, hero only (Section 8).
+- Bright green as button color: **decided** — the current bright green stays the functional accent/button color on light surfaces, unchanged from the Section 5 rules; it is not replaced by sage.
 - 404 page motif: **decided** — loop train (`images/DISCE_C04_r1_loop-train-violet.png`).
+
+Still open:
+
 - EN translations of new alt texts and captions: produce alongside or as a separate sprint?
 - Icon on dark surfaces: the existing icon was designed for light backgrounds — is a parchment/inverted variant already available from the source files, or does one need to be exported (recolor of the existing asset, not a redraw)?
+
+Deferred asset task:
+
 - Re-render hero-class assets at ≥ 2560 px width: needed to satisfy the full Section 9 `srcset`; current masters top out at 1824 px (curated `DISCE_*`) and 1376 px (ComfyUI render plates).
