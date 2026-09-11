@@ -772,22 +772,37 @@ section.tight { padding: var(--sp-56) 0; }
 
 @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
 
-/* Status-page inline visuals: a modest coverage/region graphic (dach-map) and
-   a small loop card (C04). Square corners, ink borders, no motion; the
-   explicit width/height plus fixed aspect-ratio keep both at zero CLS. */
+/* Status-page inline visuals: a small framed coverage/region plate (dach-map)
+   with a parchment caption, and a small loop card (C04). Square corners, ink
+   borders, no motion; the explicit width/height plus fixed aspect-ratio keep
+   both at zero CLS. Both are anchored to the section's left column so they
+   read as editorial plates rather than floats in open cream. */
 .region-graphic {
-  margin: var(--sp-48) auto 0;
-  max-width: 420px;
+  margin: var(--sp-48) 0 0;
+  max-width: 320px;
   background: var(--legacy-paper);
   border: 2px solid var(--legacy-ink);
 }
 .region-graphic img { display: block; width: 100%; height: auto; }
+.region-graphic figcaption {
+  border-top: 2px solid var(--legacy-ink);
+  background: var(--parchment);
+  color: var(--legacy-ink);
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--sp-8) var(--sp-12);
+}
 
 .loop-card {
   margin-top: var(--sp-48);
   max-width: 360px;
   background: var(--legacy-paper);
   border: 2px solid var(--legacy-ink);
+  /* No caption line exists for this visual, so the plate closes with the
+     8 px ink baseline bar instead of small-caps copy. */
+  border-bottom-width: 8px;
   overflow: hidden;
 }
 .loop-card img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
