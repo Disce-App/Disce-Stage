@@ -219,7 +219,7 @@ body::before {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--legacy-ink);
-  padding: var(--sp-40) var(--sp-16);
+  padding: var(--sp-28) var(--sp-16);
   transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
 .nav-links a:hover,
@@ -237,7 +237,7 @@ body::before {
   display: none;
   background: none;
   border: 2px solid var(--legacy-ink);
-  padding: var(--sp-40) var(--sp-40);
+  padding: var(--sp-12) var(--sp-16);
   font-size: var(--fs-700);
   color: var(--legacy-ink);
   cursor: pointer;
