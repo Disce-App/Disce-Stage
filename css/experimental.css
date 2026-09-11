@@ -717,7 +717,15 @@ section.tight { padding: var(--sp-56) 0; }
 .page-hero h1 { font-size: var(--fs-1000); margin-bottom: var(--sp-16); position: relative; z-index: 1; }
 .page-hero .eyebrow, .page-hero .lede { position: relative; z-index: 1; }
 
-*:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+/* Focus ring. `--green` (#4FAC4E) was only 2.53:1 on `--cream`, below the
+   3:1 WCAG non-text minimum. Use existing ink on light surfaces and
+   parchment on the dark surfaces; both clear 3:1 on their backgrounds. */
+*:focus-visible { outline: 3px solid var(--legacy-ink); outline-offset: 2px; }
+.bg-ink *:focus-visible,
+.bg-forest *:focus-visible,
+.site-footer *:focus-visible,
+.hero-panel *:focus-visible,
+.ticker-section *:focus-visible { outline-color: var(--legacy-paper); }
 
 /* Diamond accent used near select headlines */
 .diamond-accent {
