@@ -566,7 +566,7 @@ section.tight { padding: var(--sp-56) 0; }
   font-weight: 800;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  padding: var(--sp-16) var(--sp-40);
+  padding: var(--sp-16) var(--sp-20);
   border: 1.5px solid var(--legacy-ink);
 }
 .status-tag.done { background: var(--green); color: var(--legacy-ink); }
@@ -691,7 +691,7 @@ section.tight { padding: var(--sp-56) 0; }
 .footer-brand { font-family: var(--font-display); font-size: var(--fs-700); color: var(--legacy-paper); margin-bottom: var(--sp-12); text-transform: uppercase; }
 .footer-tag { font-size: var(--fs-400); max-width: 320px; color: var(--legacy-paper); }
 .footer-col h4 { color: var(--green); font-size: var(--fs-200); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--sp-16); font-family: var(--font-body); }
-.footer-col a { display: block; font-size: var(--fs-400); margin-bottom: var(--sp-40); color: var(--legacy-cream-75); }
+.footer-col a { display: block; font-size: var(--fs-400); margin-bottom: var(--sp-12); color: var(--legacy-cream-75); }
 .footer-col a:hover { color: var(--green); }
 .footer-bottom { border-top: 1px solid var(--legacy-cream-20); padding-top: 22px; display: flex; justify-content: space-between; font-size: var(--fs-200); color: var(--legacy-cream-50); flex-wrap: wrap; gap: var(--sp-12); }
 @media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr; } }
@@ -700,7 +700,7 @@ section.tight { padding: var(--sp-56) 0; }
    MISC
    ========================================================================== */
 .badge-row { display: flex; gap: var(--sp-40); flex-wrap: wrap; margin-top: var(--sp-16); }
-.badge { font-size: var(--fs-100); font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; padding: var(--sp-40) var(--sp-12); background: var(--legacy-paper); color: var(--legacy-ink); border: 1.5px solid var(--legacy-ink); }
+.badge { font-size: var(--fs-100); font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; padding: var(--sp-8) var(--sp-12); background: var(--legacy-paper); color: var(--legacy-ink); border: 1.5px solid var(--legacy-ink); }
 
 .page-hero { padding: var(--sp-64) 0 var(--sp-48); border-bottom: 2px solid var(--legacy-ink); background: var(--cream-dim); position: relative; overflow: hidden; }
 .page-hero::after {
