@@ -509,6 +509,19 @@ section.tight { padding: var(--sp-56) 0; }
 /* ==========================================================================
    PROBLEM STATEMENT
    ========================================================================== */
+/* Micro-language (DESIGN-BRIEF §5/§8): the problem section head carries the
+   locked ochre status-dot marker instead of the green diamond. Scoped with
+   :has() to the section that owns the problem grid, so no other section's
+   eyebrow changes. The eyebrow copy itself keeps the existing wide-tracked
+   small-caps pattern (.eyebrow: 12px/700/0.18em/uppercase). */
+.section-head:has(+ .problem-grid) .eyebrow::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ochre);
+  transform: none;
+}
+
 .problem-grid {
   display: grid;
   /* Deliberately unequal. The first problem is the one that matters most;
