@@ -797,3 +797,42 @@ html:not(.pre-en) body:not(.lang-de):not(.lang-en) [data-lang="en"] { display: n
 @media (max-width: 1080px) {
   .lang-switch { margin-left: 0; margin-top: var(--sp-12); }
 }
+
+/* ==========================================================================
+   320PX CONTAINMENT — long compounds & intrinsic min-content
+   Long, unbreakable words (mostly German compounds, e.g. in display headings)
+   and flex/grid children floored at `min-width: auto` could push the document
+   wider than the viewport. These rules only take effect when a word cannot fit
+   its line box or a track is narrower than its min-content; no copy is changed.
+   Hyphenation is confined to narrow viewports so wide-screen line breaks stay
+   identical. `:lang(de)` is set on <html> by site.js, so German only.
+   ========================================================================== */
+h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
+
+/* Grid tracks default to minmax(auto, 1fr); (0, 1fr) lets them shrink below
+   the card's min-content instead of overflowing the grid. */
+.kpi-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.kpi-card { min-width: 0; }
+.kpi-card .kpi-value, .kpi-card .kpi-label { overflow-wrap: break-word; }
+
+/* #index CTA frame is a column-flex item, so min-width:auto floors it at its
+   own min-content. Let it shrink and let the framed buttons wrap instead. */
+.cta-frame { min-width: 0; max-width: 100%; }
+.cta-frame .btn-primary, .cta-frame .btn-secondary { min-width: 0; max-width: 100%; overflow-wrap: break-word; }
+
+@media (max-width: 900px) {
+  .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 480px) {
+  :lang(de) h1, :lang(de) h2, :lang(de) h3 { hyphens: auto; -webkit-hyphens: auto; }
+  :lang(de) .kpi-card .kpi-value, :lang(de) .kpi-card .kpi-label,
+  :lang(de) .cta-frame .btn-primary, :lang(de) .cta-frame .btn-secondary { hyphens: auto; -webkit-hyphens: auto; }
+
+  .cta-frame { padding: var(--sp-20); }
+  .cta-frame-inner { padding: var(--sp-16) var(--sp-12); }
+  .cta-frame .btn-primary, .cta-frame .btn-secondary { padding-left: var(--sp-12); padding-right: var(--sp-12); }
+
+  .hero-panel .stat-row { flex-wrap: wrap; }
+  .hero-panel .stat-value { text-align: left; }
+}
