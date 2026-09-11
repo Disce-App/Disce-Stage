@@ -686,7 +686,7 @@ section.tight { padding: var(--sp-56) 0; }
    FOOTER
    ========================================================================== */
 .site-footer { background: var(--legacy-ink); color: var(--legacy-cream-75); padding: var(--sp-52) 0 var(--sp-32); border-top: 3px solid var(--green); }
-.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: var(--sp-40); padding-bottom: 40px; }
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--sp-40); padding-bottom: 40px; }
 .footer-brand { font-family: var(--font-display); font-size: var(--fs-700); color: var(--legacy-paper); margin-bottom: var(--sp-12); text-transform: uppercase; }
 .footer-tag { font-size: var(--fs-400); max-width: 320px; color: var(--legacy-paper); }
 .footer-col h4 { color: var(--green); font-size: var(--fs-200); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--sp-16); font-family: var(--font-body); }
