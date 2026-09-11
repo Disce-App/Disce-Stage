@@ -14,3 +14,5 @@ desktop.ini
 
 # Dependencies (none today; future-proofing)
 node_modules/
+.Rhistory
+.RData
