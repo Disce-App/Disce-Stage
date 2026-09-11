@@ -19,6 +19,11 @@ Example setup:
     PYTHONPATH=/tmp/pylibs python3 scripts/optimize_images.py \\
         images/DISCE_B04_r4_causeway-palms.png --kind hero
 
+Optional cropping (masters are never modified): ``--crop-inset 4`` removes a
+symmetric 4% paper-mat border, ``--crop-box 73,41,1256,942`` takes an explicit
+region, and ``--no-native`` skips the appended master width for oversized
+sources. Crops are applied before resizing, so derivatives inherit the crop.
+
 Budgets (Section 9): hero-class <= 250 KB AVIF at the largest width,
 card-class <= 120 KB. Quality starts at ~q50 and is stepped down until the
 largest AVIF meets the budget (or the floor is reached).
@@ -53,12 +58,33 @@ LQIP_WIDTH = 24
 LQIP_MAX_BYTES = 1024
 
 
-def target_widths(master_width, requested):
+def target_widths(master_width, requested, append_native=True):
     widths = sorted({int(w) for w in requested if 0 < int(w) <= master_width})
-    if master_width not in widths:
+    if append_native and master_width not in widths:
         widths.append(master_width)
         widths.sort()
+    if not widths:
+        widths = [master_width]
     return widths
+
+
+def apply_crop(image, crop_inset, crop_box):
+    """Return a cropped copy of ``image`` (masters stay untouched on disk).
+
+    ``crop_inset`` removes a symmetric percentage border (e.g. the printed
+    paper mat around the C04/B03/A08/B01 masters); ``crop_box`` is an explicit
+    ``(left, top, width, height)`` region in master pixels. ``crop_box`` wins
+    if both are supplied.
+    """
+    if crop_box:
+        left, top, width, height = crop_box
+        return image.crop((left, top, left + width, top + height))
+    if crop_inset:
+        master_w, master_h = image.size
+        dx = round(master_w * crop_inset / 100)
+        dy = round(master_h * crop_inset / 100)
+        return image.crop((dx, dy, master_w - dx, master_h - dy))
+    return image
 
 
 def scaled_height(width, master_w, master_h):
@@ -88,13 +114,15 @@ def make_lqip(image):
     return small, data, quality
 
 
-def optimize(master, kind, out_dir, requested_widths):
+def optimize(master, kind, out_dir, requested_widths, crop_inset=None, crop_box=None,
+             append_native=True):
     image = Image.open(master)
     image.load()
+    image = apply_crop(image, crop_inset, crop_box)
     master_w, master_h = image.size
     rgb = image.convert("RGB")
 
-    widths = target_widths(master_w, requested_widths)
+    widths = target_widths(master_w, requested_widths, append_native)
     largest = widths[-1]
 
     # Pick the highest AVIF quality whose largest-width output meets budget.
@@ -146,6 +174,7 @@ def optimize(master, kind, out_dir, requested_widths):
     return {
         "master": master,
         "kind": kind,
+        "crop": {"inset_percent": crop_inset, "box": list(crop_box) if crop_box else None},
         "master_width": master_w,
         "master_height": master_h,
         "max_width": largest,
@@ -166,10 +195,26 @@ def main(argv=None):
     parser.add_argument("--out", default="images/derived", help="output directory")
     parser.add_argument("--widths", default=",".join(str(w) for w in DEFAULT_WIDTHS),
                         help="comma-separated target widths; capped by the master width")
+    parser.add_argument("--crop-inset", type=float, default=None,
+                        help="symmetric inset crop, percent of each edge (paper mat removal)")
+    parser.add_argument("--crop-box", default=None,
+                        help="explicit 'left,top,width,height' crop in master pixels")
+    parser.add_argument("--no-native", action="store_true",
+                        help="do not append the master width (useful for oversized sources)")
     args = parser.parse_args(argv)
 
     requested = [w for w in args.widths.split(",") if w.strip()]
-    manifest = optimize(args.master, args.kind, args.out, requested)
+    crop_box = None
+    if args.crop_box:
+        try:
+            crop_box = tuple(int(v) for v in args.crop_box.split(","))
+        except ValueError:
+            sys.exit("--crop-box must be 'left,top,width,height' in integers")
+        if len(crop_box) != 4:
+            sys.exit("--crop-box must be 'left,top,width,height' in integers")
+    manifest = optimize(args.master, args.kind, args.out, requested,
+                        crop_inset=args.crop_inset, crop_box=crop_box,
+                        append_native=not args.no_native)
     print(json.dumps(manifest, indent=2))
     return 0
 
