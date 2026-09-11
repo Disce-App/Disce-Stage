@@ -655,6 +655,20 @@ section.tight { padding: var(--sp-56) 0; }
 @media (max-width: 700px) { .media-card-grid { grid-template-columns: 1fr; } }
 
 /* ==========================================================================
+   IMAGE BANDS — clean full-width visuals with no overlaid copy (§7/§9)
+   The <picture> stays in normal flow and the <img> carries explicit
+   width/height, so the band reserves its aspect ratio before the image
+   decodes and contributes zero layout shift. No scrim and no grain: nothing
+   is overlaid on these masters, so the "dark band" grain rule does not apply.
+   ========================================================================== */
+.band {
+  padding: 0;
+  border-bottom: 2px solid var(--legacy-ink);
+  background: var(--green-deep);
+}
+.band picture, .band img { display: block; width: 100%; height: auto; }
+
+/* ==========================================================================
    PRINCIPLES (kept for compatibility, restyled)
    ========================================================================== */
 .principles-grid {
