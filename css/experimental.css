@@ -6,7 +6,31 @@
    graphic design, not SaaS-template.
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,500;1,500&display=swap');
+/* ==========================================================================
+   SELF-HOSTED FONTS (DESIGN-BRIEF §6). No third-party font requests.
+   Weight ranges mirror the weights previously requested from Google Fonts.
+   ========================================================================== */
+@font-face {
+  font-family: 'Archivo Black';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/archivo-black-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('../fonts/inter-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/newsreader-italic-var.woff2') format('woff2');
+}
 
 :root {
   /* ---- Palette in use (frozen at current rendered values) ----
