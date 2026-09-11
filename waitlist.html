@@ -201,7 +201,7 @@
     }
     .form-intro {
       font-size: 15px;
-      color: var(--color-text-muted);
+      color: var(--color-text-secondary);
       text-align: center;
       margin-bottom: var(--space-xl);
     }
@@ -246,7 +246,7 @@
     .form-group input:focus,
     .form-group select:focus {
       outline: none;
-      border-color: var(--color-primary);
+      border-color: var(--color-primary-dark);
       border-width: 2px;
       box-shadow: 0 0 0 3px var(--color-primary-light);
     }
@@ -300,7 +300,7 @@
     .label-optional {
       font-weight: 400;
       font-size: 12px;
-      color: var(--color-text-muted);
+      color: var(--color-text-secondary);
       margin-left: var(--space-sm);
     }
 
@@ -385,7 +385,7 @@
     }
     .privacy-text {
       font-size: 13px; line-height: 1.6;
-      color: var(--color-text-muted);
+      color: var(--color-text-secondary);
     }
     .privacy-text a { color: var(--color-link); text-decoration: none; }
     .privacy-text a:hover { text-decoration: underline; }
@@ -395,10 +395,10 @@
       text-align: center;
       padding: var(--space-2xl) var(--space-xl);
       font-size: 13px;
-      color: var(--color-primary-light);
-      opacity: 0.7;
+      color: var(--color-text);
+      opacity: 0.85;
     }
-    footer a { color: var(--color-white); text-decoration: none; }
+    footer a { color: var(--color-text); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
     /* =========================== LANG HIDE/SHOW =========================== */
@@ -419,7 +419,7 @@
 
     /* =========================== ACCESSIBILITY =========================== */
     *:focus-visible {
-      outline: 2px solid #0352A4;
+      outline: 2px solid var(--color-text);
       outline-offset: 2px;
     }
     @media (prefers-reduced-motion: reduce) {
