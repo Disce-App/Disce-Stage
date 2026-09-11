@@ -58,6 +58,19 @@ LQIP_WIDTH = 24
 LQIP_MAX_BYTES = 1024
 
 
+def flatten_alpha(image, background):
+    """Composite a transparent master over ``background`` (an ``(r, g, b)``
+    tuple). AVIF/WebP here are encoded as RGB, so without this a PNG with an
+    alpha channel (e.g. the line-art ``dach-map.png``) would flatten to black.
+    """
+    if image.mode in ("RGBA", "LA") or (image.mode == "P" and "transparency" in image.info):
+        rgba = image.convert("RGBA")
+        bg = Image.new("RGB", rgba.size, background)
+        bg.paste(rgba, mask=rgba.split()[-1])
+        return bg
+    return image
+
+
 def target_widths(master_width, requested, append_native=True):
     widths = sorted({int(w) for w in requested if 0 < int(w) <= master_width})
     if append_native and master_width not in widths:
@@ -115,10 +128,11 @@ def make_lqip(image):
 
 
 def optimize(master, kind, out_dir, requested_widths, crop_inset=None, crop_box=None,
-             append_native=True):
+             append_native=True, background=(251, 248, 239)):
     image = Image.open(master)
     image.load()
     image = apply_crop(image, crop_inset, crop_box)
+    image = flatten_alpha(image, background)
     master_w, master_h = image.size
     rgb = image.convert("RGB")
 
@@ -201,6 +215,8 @@ def main(argv=None):
                         help="explicit 'left,top,width,height' crop in master pixels")
     parser.add_argument("--no-native", action="store_true",
                         help="do not append the master width (useful for oversized sources)")
+    parser.add_argument("--background", default="#FBF8EF",
+                        help="hex colour to flatten image transparency over (default: site paper)")
     args = parser.parse_args(argv)
 
     requested = [w for w in args.widths.split(",") if w.strip()]
@@ -212,9 +228,13 @@ def main(argv=None):
             sys.exit("--crop-box must be 'left,top,width,height' in integers")
         if len(crop_box) != 4:
             sys.exit("--crop-box must be 'left,top,width,height' in integers")
+    bg = args.background.lstrip("#")
+    if len(bg) != 6:
+        sys.exit("--background must be a 6-digit hex colour, e.g. #FBF8EF")
+    background = tuple(int(bg[i:i + 2], 16) for i in (0, 2, 4))
     manifest = optimize(args.master, args.kind, args.out, requested,
                         crop_inset=args.crop_inset, crop_box=crop_box,
-                        append_native=not args.no_native)
+                        append_native=not args.no_native, background=background)
     print(json.dumps(manifest, indent=2))
     return 0
 
