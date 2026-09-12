@@ -1,13 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Disce makes expertise visible: professional German for doctors preparing for the Fachsprachprüfung and for international professionals working in German.">
+<meta name="description" content="Disce macht Expertise sichtbar: professionelles Deutsch für die Fachsprachprüfung und für internationale Fachkräfte, die im deutschsprachigen Raum arbeiten.">
 <title data-title-de="Disce — Sag, was Du meinst." data-title-en="Disce — Say what you mean.">Disce — Sag, was Du meinst.</title>
 <script>try{if(localStorage.getItem('disce-lang')==='en'){document.documentElement.className+=' pre-en';document.documentElement.lang='en';}}catch(e){}</script>
 <link rel="stylesheet" href="css/experimental.css">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="images/derived/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="canonical" href="https://weltvorstellung.de/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Disce">
+<meta property="og:locale" content="de_DE">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:title" content="Disce — Sag, was Du meinst.">
+<meta property="og:description" content="Disce macht Expertise sichtbar: professionelles Deutsch für die Fachsprachprüfung und für internationale Fachkräfte, die im deutschsprachigen Raum arbeiten.">
+<meta property="og:url" content="https://weltvorstellung.de/">
+<meta property="og:image" content="https://weltvorstellung.de/images/derived/og-disce-1200x630.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Disce — Sag, was Du meinst.">
+<meta name="twitter:description" content="Disce macht Expertise sichtbar: professionelles Deutsch für die Fachsprachprüfung und für internationale Fachkräfte, die im deutschsprachigen Raum arbeiten.">
+<meta name="twitter:image" content="https://weltvorstellung.de/images/derived/og-disce-1200x630.jpg">
 </head>
 <body>
 
@@ -22,9 +41,9 @@
       <img class="brand-mark" src="images/antlers-green.png" alt="" aria-hidden="true">
       DISCE
     </a>
-    <button class="nav-toggle" aria-label="Navigation / Menu">☰</button>
-    <nav class="nav-links">
-      <a href="index.html" class="active"><span data-lang="de">Start</span><span data-lang="en">Home</span></a>
+    <button class="nav-toggle" aria-label="Navigation / Menu" aria-expanded="false" aria-controls="site-nav">☰</button>
+    <nav class="nav-links" id="site-nav">
+      <a href="index.html" class="active" aria-current="page"><span data-lang="de">Start</span><span data-lang="en">Home</span></a>
       <a href="philosophy.html"><span data-lang="de">Philosophie</span><span data-lang="en">Philosophy</span></a>
       <a href="team.html"><span data-lang="de">Team</span><span data-lang="en">Our Team</span></a>
       <a href="status.html"><span data-lang="de">Entwicklungsstand</span><span data-lang="en">Development Status</span></a>
@@ -40,6 +59,13 @@
 
 <!-- ============================= HERO ============================= -->
 <section class="hero">
+  <picture class="hero-bg">
+    <source type="image/avif" sizes="100vw"
+      srcset="images/derived/DISCE_C01_r1_arena-stag-bordeaux-768.avif 768w, images/derived/DISCE_C01_r1_arena-stag-bordeaux-1280.avif 1280w, images/derived/DISCE_C01_r1_arena-stag-bordeaux-1376.avif 1376w">
+    <source type="image/webp" sizes="100vw"
+      srcset="images/derived/DISCE_C01_r1_arena-stag-bordeaux-768.webp 768w, images/derived/DISCE_C01_r1_arena-stag-bordeaux-1280.webp 1280w, images/derived/DISCE_C01_r1_arena-stag-bordeaux-1376.webp 1376w">
+    <img src="images/DISCE_C01_r1_arena-stag-bordeaux.png" alt="" width="1376" height="1024" loading="eager" fetchpriority="high" decoding="async">
+  </picture>
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow"><span data-lang="de">Vor der Gründung · Berlin / Potsdam</span><span data-lang="en">Pre-Incorporation · Berlin / Potsdam</span></span>
@@ -49,6 +75,10 @@
         <a href="team.html" class="btn-primary"><span data-lang="de">Das Team</span><span data-lang="en">Meet the Team</span></a>
         <a href="philosophy.html" class="btn-secondary"><span data-lang="de">Unsere Philosophie</span><span data-lang="en">Read Our Philosophy</span></a>
       </div>
+      <figure class="glass-card glass-testimonial">
+        <blockquote><span data-lang="de">Weniger Zeit dafür, einen Satz vorher im Kopf zu proben. Mehr Aufmerksamkeit für das Argument selbst. An einem deutschen Gespräch teilnehmen, statt ihm zu folgen.</span><span data-lang="en">Less time spent rehearsing a sentence before saying it. More attention left for the argument itself. Participating in a German conversation rather than tracking it.</span></blockquote>
+        <figcaption><span data-lang="de">Was wir mit Disce verändern wollen</span><span data-lang="en">What we are building Disce to change</span></figcaption>
+      </figure>
     </div>
     <div class="hero-panel">
       <div class="stat-row"><span class="stat-label"><span data-lang="de">Fokus</span><span data-lang="en">Focus</span></span><span class="stat-value"><span data-lang="de">Berufliches Deutsch, B2 bis C2</span><span data-lang="en">Professional German, B2 to C2</span></span></div>
@@ -85,6 +115,23 @@
         <h3><span data-lang="de">Kursfortschritt ≠ Fortschritt im Leben</span><span data-lang="en">Course progress ≠ life progress</span></h3>
         <p><span data-lang="de">Zertifikate sammeln sich an, aber Präsentationen, Bewerbungen und Alltagsgespräche werden nicht leichter. Die meisten Lernenden, die B2 erreichen, bleiben dort stehen; der Schritt zu C1 gelingt selten ohne gezielte Arbeit.</span><span data-lang="en">Certificates accumulate, but presentations, applications, and everyday conversation don't get any easier. Most learners who reach B2 stall there, and the step up to C1 rarely happens without targeted work.</span></p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CORRIDOR INTERSTITIAL ============================= -->
+<section class="corridor">
+  <picture class="corridor-bg">
+    <source type="image/avif" sizes="100vw"
+      srcset="images/derived/DISCE_C02_r1_corridor-stag-threshold-768.avif 768w, images/derived/DISCE_C02_r1_corridor-stag-threshold-1280.avif 1280w, images/derived/DISCE_C02_r1_corridor-stag-threshold-1376.avif 1376w">
+    <source type="image/webp" sizes="100vw"
+      srcset="images/derived/DISCE_C02_r1_corridor-stag-threshold-768.webp 768w, images/derived/DISCE_C02_r1_corridor-stag-threshold-1280.webp 1280w, images/derived/DISCE_C02_r1_corridor-stag-threshold-1376.webp 1376w">
+    <img src="images/DISCE_C02_r1_corridor-stag-threshold.png" alt="" width="1376" height="1024" loading="lazy" decoding="async">
+  </picture>
+  <div class="wrap">
+    <div class="pull-quote corridor-quote">
+      <blockquote><span data-lang="de">Weniger Zeit dafür, einen Satz vorher im Kopf zu proben. Mehr Aufmerksamkeit für das Argument selbst. An einem deutschen Gespräch teilnehmen, statt ihm zu folgen.</span><span data-lang="en">Less time spent rehearsing a sentence before saying it. More attention left for the argument itself. Participating in a German conversation rather than tracking it.</span></blockquote>
+      <cite><span data-lang="de">Was wir mit Disce verändern wollen</span><span data-lang="en">What we are building Disce to change</span></cite>
     </div>
   </div>
 </section>
@@ -145,6 +192,27 @@
         </div>
       </div>
     </div>
+    <!-- Two brand visuals anchoring the process steps. Decorative (alt=""):
+         no copy is added. B03 is cropped 5% to remove its printed paper mat;
+         C07 is used at its native 4:3. Card-class derivatives, <= 120 KB. -->
+    <div class="media-card-grid">
+      <figure class="media-card">
+        <picture>
+          <source type="image/avif" sizes="(max-width: 700px) 100vw, 50vw"
+            srcset="images/derived/DISCE_B03_r3_canal-pavilions-768.avif 768w, images/derived/DISCE_B03_r3_canal-pavilions-1200.avif 1200w, images/derived/DISCE_B03_r3_canal-pavilions-1229.avif 1229w">
+          <img src="images/derived/DISCE_B03_r3_canal-pavilions-1229.webp" alt="" width="1229" height="922" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="media-card">
+        <picture>
+          <source type="image/avif" sizes="(max-width: 700px) 100vw, 50vw"
+            srcset="images/derived/DISCE_C07_r1_stag-path-bordeaux-city-768.avif 768w, images/derived/DISCE_C07_r1_stag-path-bordeaux-city-1200.avif 1200w, images/derived/DISCE_C07_r1_stag-path-bordeaux-city-1376.avif 1376w">
+          <source type="image/webp" sizes="(max-width: 700px) 100vw, 50vw"
+            srcset="images/derived/DISCE_C07_r1_stag-path-bordeaux-city-768.webp 768w, images/derived/DISCE_C07_r1_stag-path-bordeaux-city-1200.webp 1200w, images/derived/DISCE_C07_r1_stag-path-bordeaux-city-1376.webp 1376w">
+          <img src="images/DISCE_C07_r1_stag-path-bordeaux-city.png" alt="" width="1376" height="1024" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -173,6 +241,13 @@
 <!-- ============================= CTA ============================= -->
 <div class="divider"></div>
 <section class="cta-band">
+  <picture class="cta-band-bg">
+    <source type="image/avif" sizes="100vw"
+      srcset="images/derived/DISCE_B04_r4_causeway-palms-768.avif 768w, images/derived/DISCE_B04_r4_causeway-palms-1280.avif 1280w, images/derived/DISCE_B04_r4_causeway-palms-1824.avif 1824w">
+    <source type="image/webp" sizes="100vw"
+      srcset="images/derived/DISCE_B04_r4_causeway-palms-768.webp 768w, images/derived/DISCE_B04_r4_causeway-palms-1280.webp 1280w, images/derived/DISCE_B04_r4_causeway-palms-1824.webp 1824w">
+    <img src="images/DISCE_B04_r4_causeway-palms.png" alt="" width="1824" height="1024" loading="lazy" decoding="async">
+  </picture>
   <div class="wrap" style="display:flex; flex-direction:column; align-items:center;">
     <span class="eyebrow"><span data-lang="de">Mitmachen</span><span data-lang="en">Get Involved</span></span>
     <h2><span data-lang="de">Die Entwicklung verfolgen oder Teil der Beta werden.</span><span data-lang="en">Follow the build, or join the beta.</span></h2>

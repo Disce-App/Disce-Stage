@@ -1,13 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Meet the founding team behind Disce.">
+<meta name="description" content="Das Gründungsteam von Disce: die Menschen hinter dem Projekt, ihre Hintergründe und Rollen auf dem Weg zur Gründung.">
 <title data-title-de="Team — Disce" data-title-en="Our Team — Disce">Team — Disce</title>
 <script>try{if(localStorage.getItem('disce-lang')==='en'){document.documentElement.className+=' pre-en';document.documentElement.lang='en';}}catch(e){}</script>
 <link rel="stylesheet" href="css/experimental.css">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="images/derived/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="canonical" href="https://weltvorstellung.de/team.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Disce">
+<meta property="og:locale" content="de_DE">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:title" content="Team — Disce">
+<meta property="og:description" content="Das Gründungsteam von Disce: die Menschen hinter dem Projekt, ihre Hintergründe und Rollen auf dem Weg zur Gründung.">
+<meta property="og:url" content="https://weltvorstellung.de/team.html">
+<meta property="og:image" content="https://weltvorstellung.de/images/derived/og-disce-1200x630.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Team — Disce">
+<meta name="twitter:description" content="Das Gründungsteam von Disce: die Menschen hinter dem Projekt, ihre Hintergründe und Rollen auf dem Weg zur Gründung.">
+<meta name="twitter:image" content="https://weltvorstellung.de/images/derived/og-disce-1200x630.jpg">
 </head>
 <body>
 
@@ -17,11 +36,11 @@
       <img class="brand-mark" src="images/antlers-green.png" alt="" aria-hidden="true">
       DISCE
     </a>
-    <button class="nav-toggle" aria-label="Navigation / Menu">☰</button>
-    <nav class="nav-links">
+    <button class="nav-toggle" aria-label="Navigation / Menu" aria-expanded="false" aria-controls="site-nav">☰</button>
+    <nav class="nav-links" id="site-nav">
       <a href="index.html"><span data-lang="de">Start</span><span data-lang="en">Home</span></a>
       <a href="philosophy.html"><span data-lang="de">Philosophie</span><span data-lang="en">Philosophy</span></a>
-      <a href="team.html" class="active"><span data-lang="de">Team</span><span data-lang="en">Our Team</span></a>
+      <a href="team.html" class="active" aria-current="page"><span data-lang="de">Team</span><span data-lang="en">Our Team</span></a>
       <a href="status.html"><span data-lang="de">Entwicklungsstand</span><span data-lang="en">Development Status</span></a>
       <a href="waitlist.html" class="nav-cta"><span data-lang="de">Auf die Warteliste</span><span data-lang="en">Join the Waitlist</span></a>
       <div class="lang-switch" role="group" aria-label="Sprache / Language">
@@ -84,7 +103,7 @@
       <div class="team-card">
         <img class="portrait" src="images/team/joscha.svg" alt="Portrait placeholder: Joscha">
         <div class="team-body">
-          <h3>Joscha <span style="font-weight:400; color:var(--muted); font-size:14px;"><span data-lang="de">(Nachname &amp; Funktion offen)</span><span data-lang="en">(surname &amp; title pending)</span></span></h3>
+          <h3>Joscha <span class="process-period"><span data-lang="de">(Nachname &amp; Funktion offen)</span><span data-lang="en">(surname &amp; title pending)</span></span></h3>
           <span class="role"><span data-lang="de">Teammitglied · Rolle offen</span><span data-lang="en">Team Member · Role TBD</span></span>
           <p><span data-lang="de"><em>Platzhalter.</em> Rolle, Nachname und Kurzbiografie von Joscha liegen in den aktuellen Unterlagen nicht vor und sollten für die nächste Fassung dieser Seite ergänzt werden.</span><span data-lang="en"><em>Placeholder entry.</em> Joscha's role, surname, and biography were not present in the current business documentation and should be supplied for the next revision of this page.</span></p>
         </div>
@@ -120,6 +139,21 @@
       </div>
     </div>
   </div>
+</section>
+
+<!-- ============================= CALM BAND (C06) ============================= -->
+<!-- Single quiet full-width visual so the portraits stay dominant (§7). The
+     calm 21:9 crop (pipeline box 0,210,1376,590) keeps the antler-city and
+     stag; no overlay copy. The open-role copy follows beneath on the dark
+     surface. No grain: nothing is overlaid. -->
+<section class="band">
+  <picture>
+    <source type="image/avif" sizes="100vw"
+      srcset="images/derived/DISCE_C06_r1_stag-antlers-city-768.avif 768w, images/derived/DISCE_C06_r1_stag-antlers-city-1280.avif 1280w, images/derived/DISCE_C06_r1_stag-antlers-city-1376.avif 1376w">
+    <img src="images/derived/DISCE_C06_r1_stag-antlers-city-1376.webp" sizes="100vw"
+      srcset="images/derived/DISCE_C06_r1_stag-antlers-city-768.webp 768w, images/derived/DISCE_C06_r1_stag-antlers-city-1280.webp 1280w, images/derived/DISCE_C06_r1_stag-antlers-city-1376.webp 1376w"
+      alt="" width="1376" height="590" loading="lazy" decoding="async">
+  </picture>
 </section>
 
 <section class="bg-forest tight no-halftone">

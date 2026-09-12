@@ -6,22 +6,80 @@
    graphic design, not SaaS-template.
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,500;1,500&display=swap');
+/* ==========================================================================
+   SELF-HOSTED FONTS (DESIGN-BRIEF §6). No third-party font requests.
+   Weight ranges mirror the weights previously requested from Google Fonts.
+   ========================================================================== */
+@font-face {
+  font-family: 'Archivo Black';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/archivo-black-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('../fonts/inter-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/newsreader-italic-var.woff2') format('woff2');
+}
+/* Newsreader roman (DESIGN-BRIEF §6/§13): display serif for the dark hero.
+   Loaded only when the hero headline asks for it, so no other page pays for it. */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('../fonts/newsreader-roman-var.woff2') format('woff2');
+}
 
 :root {
-  --ink: #141414;
+  /* ---- Palette in use (frozen at current rendered values) ----
+     Three tokens were renamed to free their names for the DESIGN-BRIEF §5
+     palette; their values are unchanged. */
+  --legacy-ink: #141414;        /* was --ink; also consumed by team.html inline style */
+  --legacy-paper: #FBF8EF;      /* was --paper; brief --paper is a different value */
+  --green-forest: #1E4B3A;      /* was --green-deep; brief --green-deep is a different value */
+  --legacy-black: #000;
+  --legacy-white: #FFFFFF;
+  --legacy-white-20: rgba(255,255,255,0.2);
+  --legacy-white-75: rgba(255,255,255,0.75);
+  --legacy-cream-20: rgba(246,241,226,0.2);
+  --legacy-cream-50: rgba(246,241,226,0.5);
+  --legacy-cream-75: rgba(246,241,226,0.75);
+  --legacy-cream-78: rgba(246,241,226,0.78);
+  --legacy-green-neon-35: rgba(57,255,106,0.35);
+
   --ink-soft: #2A2A28;
   --cream: #F6F1E2;
   --cream-dim: #EDE6D2;
-  --paper: #FBF8EF;
   --green: #4FAC4E;
   --green-dark: #357435;
-  --green-deep: #1E4B3A;
   --green-neon: #39FF6A;
   --blush: #E7C9A6;
   --muted: #5C5A52;
   --line: #141414;
   --line-soft: rgba(20,20,20,0.16);
+
+  /* ---- DESIGN-BRIEF §5 tokens ----
+     Introduced for the Phase 5 rework. Deliberately not referenced by any
+     rule yet, so Phase 2 leaves current rendering untouched. */
+  --paper: #F7F1E3;
+  --paper-2: #EEE8D6;
+  --ink: #161210;
+  --green-deep: #123329;
+  --green-sage: #77816A;
+  --parchment: #D5C09D;
+  --bordeaux: #612E31;
+  --ochre: #E3AF50;
 
   --font-display: 'Archivo Black', 'Inter', sans-serif;
   --font-body: 'Inter', -apple-system, sans-serif;
@@ -56,7 +114,7 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
-  color: var(--ink);
+  color: var(--legacy-ink);
   background: var(--cream);
   line-height: 1.6;
   font-size: var(--fs-500);
@@ -67,11 +125,18 @@ body {
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 
+/* Compatibility bridge (Phase 2 -> Phase 5):
+   team.html:96 carries an inline `color: var(--ink)`. The brief's --ink now
+   holds a different value, so this rule pins that single inline consumer to
+   the frozen legacy value, keeping Phase 2 pixel-identical. Remove it once
+   the inline style is migrated to --legacy-ink. */
+[style*="var(--ink)"] { color: var(--legacy-ink) !important; }
+
 h1, h2, h3, h4 {
   font-family: var(--font-display);
   font-weight: 400;
   line-height: 1.06;
-  color: var(--ink);
+  color: var(--legacy-ink);
   letter-spacing: -0.01em;
   text-transform: uppercase;
 }
@@ -134,7 +199,7 @@ body::before {
   top: 0;
   z-index: 500;
   background: var(--cream);
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 2px solid var(--legacy-ink);
 }
 
 .nav {
@@ -150,7 +215,7 @@ body::before {
   gap: var(--sp-40);
   font-family: var(--font-display);
   font-size: var(--fs-800);
-  color: var(--ink);
+  color: var(--legacy-ink);
   text-transform: uppercase;
 }
 .brand .brand-mark { width: var(--sp-28); height: var(--sp-28); flex-shrink: 0; }
@@ -162,32 +227,32 @@ body::before {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink);
-  padding: var(--sp-40) var(--sp-16);
+  color: var(--legacy-ink);
+  padding: var(--sp-28) var(--sp-16);
   transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
 .nav-links a:hover,
-.nav-links a.active { background: var(--ink); color: var(--cream); }
+.nav-links a.active { background: var(--legacy-ink); color: var(--cream); }
 
 .nav-cta {
   background: var(--green) !important;
-  color: var(--ink) !important;
-  border: 2px solid var(--ink);
+  color: var(--legacy-ink) !important;
+  border: 2px solid var(--legacy-ink);
   margin-left: 8px;
 }
-.nav-cta:hover { background: var(--ink) !important; color: var(--green) !important; }
+.nav-cta:hover { background: var(--legacy-ink) !important; color: var(--green) !important; }
 
 .nav-toggle {
   display: none;
   background: none;
-  border: 2px solid var(--ink);
-  padding: var(--sp-40) var(--sp-40);
+  border: 2px solid var(--legacy-ink);
+  padding: var(--sp-12) var(--sp-16);
   font-size: var(--fs-700);
-  color: var(--ink);
+  color: var(--legacy-ink);
   cursor: pointer;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1080px) {
   .nav-links {
     position: fixed;
     top: 82px; left: 0; right: 0;
@@ -195,7 +260,7 @@ body::before {
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    border-bottom: 2px solid var(--ink);
+    border-bottom: 2px solid var(--legacy-ink);
     max-height: 0;
     overflow: hidden;
     transition: max-height var(--dur-slow) var(--ease);
@@ -207,21 +272,62 @@ body::before {
 }
 
 /* ==========================================================================
-   HERO
+   HERO — Phase 5 image-led rework (DESIGN-BRIEF §5–§8, §13)
+   Full-bleed key visual served via <picture> (AVIF -> WebP -> master PNG),
+   a left-weighted dark scrim tuned for AA copy, a ~5% film-grain overlay,
+   the Newsreader roman display serif on the headline, and two darkened
+   parchment-tinted glass cards (stat + testimonial). Every added layer is
+   absolutely positioned, so the picture contributes zero layout shift.
+   Scope: this selector only matches index.html; waitlist.html uses its own
+   <header class="hero"> with an inline stylesheet and never loads this file.
    ========================================================================== */
 .hero {
   position: relative;
   padding: 0;
-  background: var(--cream-dim);
-  border-bottom: 2px solid var(--ink);
+  background-color: var(--green-deep);
+  border-bottom: 2px solid var(--legacy-ink);
   overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0; display: block;
+  /* LQIP: 24x18 WebP from scripts/optimize_images.py, shown until the AVIF decodes. */
+  background-image: url("data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAABQBACdASoYABIAPu1eqE4ppKOvMBgMAeAdiWcAxNgR9tHAFLCmBmWKZToAAP7NY28UvxXriYg2C4J/AvqM2Iau6AJqZXFah145a+iQkC4bpb7Zk7eJfYXq7m6X3FovO52pKr+B+95/9h/jywUeRYAA");
+  background-size: cover;
+  background-position: 50% 45%;
+}
+.hero-bg img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 50% 45%; /* keeps the sphere (~y38%) and stag (~y65%) in crop */
+  display: block;
+}
+
+/* Scrim: --green-deep (#123329) at opacity, weighted toward the copy side
+   (~55% average) with a vertical pass to ground the lower third. */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(18, 51, 41, 0.80) 0%, rgba(18, 51, 41, 0.58) 48%, rgba(18, 51, 41, 0.34) 100%),
+    linear-gradient(180deg, rgba(18, 51, 41, 0.16) 0%, rgba(18, 51, 41, 0.42) 100%);
+}
+/* Film grain (~5%), same pattern as the cta-band proof. */
+.hero::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
 }
 
 .hero-map-bg { display: none; } /* replaced by antler watermark below */
 
 .hero-grid {
   position: relative;
-  z-index: 1;
+  z-index: 3;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
@@ -237,13 +343,28 @@ body::before {
   position: relative;
 }
 
+/* Newsreader roman is used on the dark hero only (DESIGN-BRIEF §6/§13);
+   Archivo Black remains the default headline face everywhere else. */
 .hero h1 {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 500;
   font-size: var(--fs-1100);
+  text-transform: none;
+  letter-spacing: -0.012em;
+  line-height: 1.02;
+  color: var(--parchment);
   margin-bottom: var(--sp-24);
   max-width: 560px;
 }
 
 .hero .pronunciation { display: none; }
+
+/* Small-caps eyebrow in parchment; ochre marker (the light-surface green is
+   replaced on dark per DESIGN-BRIEF §5, ochre status dots per §8). */
+.hero .eyebrow { color: var(--parchment); }
+.hero .eyebrow::before { background: var(--ochre); }
+
+.hero .lede { color: var(--legacy-paper); }
 
 .hero-actions { display: flex; gap: var(--sp-16); margin-top: var(--sp-32); flex-wrap: wrap; }
 
@@ -255,42 +376,98 @@ body::before {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
-  border: 2px solid var(--ink);
+  border: 2px solid var(--legacy-ink);
 }
 
-.btn-primary { background: var(--ink); color: var(--cream); }
-.btn-primary:hover { background: var(--green); color: var(--ink); border-color: var(--ink); }
+.btn-primary { background: var(--legacy-ink); color: var(--cream); }
+.btn-primary:hover { background: var(--green); color: var(--legacy-ink); border-color: var(--legacy-ink); }
 
-.btn-secondary { background: transparent; color: var(--ink); }
-.btn-secondary:hover { background: var(--ink); color: var(--cream); }
+.btn-secondary { background: transparent; color: var(--legacy-ink); }
+.btn-secondary:hover { background: var(--legacy-ink); color: var(--cream); }
 
-.hero-panel {
+/* Hero CTA on the dark surface: labels/markup unchanged. The primary keeps
+   its ink fill; both hovers resolve to parchment rather than the bright green
+   (bright green stays a light-surface accent only, §5/§13). */
+.hero .btn-primary:hover { background: var(--parchment); color: var(--legacy-ink); }
+.hero .btn-secondary { color: var(--legacy-paper); border-color: rgba(213, 192, 157, 0.6); }
+.hero .btn-secondary:hover { background: var(--legacy-paper); color: var(--legacy-ink); }
+
+/* Hero glass cards: heavily darkened, parchment-tinted, thin hairline,
+   square corners. No backdrop-filter: a backdrop blur on the scrolling hero
+   forced a full-card backdrop resample every frame and was the sole cause of
+   scroll jank (measured ~30 fps -> ~57 fps once removed). The darkened tint
+   alone carries the glass read, per DESIGN-BRIEF §8/§13 ("no blur-heavy
+   backdrop-filter stacks"). */
+.hero .glass-card {
   position: relative;
-  background: #000;
-  border-left: 2px solid var(--ink);
-  padding: var(--sp-56) var(--sp-48);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  border-radius: 0;
+  border: 1px solid rgba(213, 192, 157, 0.30);
+  background:
+    linear-gradient(180deg, rgba(213, 192, 157, 0.07), rgba(213, 192, 157, 0.03)),
+    rgba(18, 51, 41, 0.66);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  color: var(--legacy-paper);
+}
+
+/* Stat card = the existing .hero-panel, restyled as glass. */
+.hero .hero-panel {
+  position: relative;
+  align-self: center;
+  margin: var(--sp-40) var(--sp-40) var(--sp-40) 0;
+  padding: var(--sp-28) var(--sp-32);
+  background:
+    linear-gradient(180deg, rgba(213, 192, 157, 0.07), rgba(213, 192, 157, 0.03)),
+    rgba(18, 51, 41, 0.66);
+  border: 1px solid rgba(213, 192, 157, 0.30);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
   overflow: hidden;
 }
 
-.hero-panel .stat-row {
+.hero .hero-panel .stat-row {
   position: relative;
   z-index: 1;
   display: flex;
   justify-content: space-between;
   padding: var(--sp-16) 0;
-  border-bottom: 1.5px solid rgba(255,255,255,0.2);
+  border-bottom: 1px solid rgba(213, 192, 157, 0.18);
   font-size: var(--fs-600);
 }
-.hero-panel .stat-row:last-child { border-bottom: none; }
-.hero-panel .stat-label { color: rgba(255,255,255,0.75); font-weight: 600; text-transform: uppercase; font-size: var(--fs-500); letter-spacing: 0.06em; }
-.hero-panel .stat-value { font-weight: 800; color: var(--green-neon); text-align: right; text-shadow: 0 0 10px rgba(57,255,106,0.35); }
+.hero .hero-panel .stat-row:last-child { border-bottom: none; }
+.hero .hero-panel .stat-label { color: rgba(213, 192, 157, 0.9); font-weight: 600; text-transform: uppercase; font-size: var(--fs-300); letter-spacing: 0.06em; }
+.hero .hero-panel .stat-value { font-weight: 800; color: var(--legacy-paper); text-align: right; }
+
+/* Testimonial glass card. Copy is the site's existing pull-quote; no new text. */
+.hero .glass-testimonial { margin-top: var(--sp-40); max-width: 480px; padding: var(--sp-24); }
+.hero .glass-testimonial blockquote {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: var(--fs-700);
+  line-height: 1.35;
+  color: var(--legacy-paper);
+}
+.hero .glass-testimonial figcaption {
+  margin-top: var(--sp-16);
+  font-size: var(--fs-100);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--parchment);
+}
 
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: 1fr; min-height: 0; }
-  .hero-panel { border-left: none; border-top: 2px solid var(--ink); }
+  /* Art-directed mobile crop (DESIGN-BRIEF §9): the key visual leads as a
+     clean full-width band so the stag and sphere are neither cropped nor
+     covered, and the copy follows on flat --green-forest. That is also why
+     the desktop scrim is dropped here: the copy no longer sits on imagery,
+     so it clears AA without a heavy scrim. The band height is a single
+     custom property, shared by the layer and the grid's reserved space, so
+     the picture stays out of flow and contributes zero layout shift. */
+  .hero { --hero-band: 340px; background-color: var(--green-forest); }
+  .hero::before { display: none; }
+  .hero-bg { height: var(--hero-band); bottom: auto; }
+  .hero-grid { padding-top: var(--hero-band); }
+  .hero-grid > div:first-child { padding: var(--sp-56) var(--sp-32); }
+  .hero .hero-panel { margin: var(--sp-16) var(--sp-32) var(--sp-8); border-left: 1px solid rgba(213, 192, 157, 0.30); }
+  .hero .glass-testimonial { max-width: none; margin: var(--sp-24) 0 var(--sp-40); }
   .hero h1 { font-size: var(--fs-900); }
 }
 
@@ -302,18 +479,18 @@ section.tight { padding: var(--sp-56) 0; }
 .section-head { max-width: 680px; margin-bottom: var(--sp-48); }
 .section-head h2 { font-size: var(--fs-900); margin-bottom: var(--sp-16); }
 
-.divider { height: 2px; background: var(--ink); }
+.divider { height: 2px; background: var(--legacy-ink); }
 
-.bg-sage { background: var(--cream-dim); border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+.bg-sage { background: var(--cream-dim); border-top: 2px solid var(--legacy-ink); border-bottom: 2px solid var(--legacy-ink); }
 .bg-forest, .bg-ink {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--legacy-ink);
+  color: var(--legacy-paper);
   position: relative;
 }
 .bg-forest h2, .bg-forest h3, .bg-forest h4,
-.bg-ink h2, .bg-ink h3, .bg-ink h4 { color: var(--paper); }
-.bg-forest p, .bg-ink p { color: rgba(246,241,226,0.78); }
-.bg-forest .lede, .bg-ink .lede { color: rgba(246,241,226,0.78); }
+.bg-ink h2, .bg-ink h3, .bg-ink h4 { color: var(--legacy-paper); }
+.bg-forest p, .bg-ink p { color: var(--legacy-cream-78); }
+.bg-forest .lede, .bg-ink .lede { color: var(--legacy-cream-78); }
 
 /* halftone seam along the top edge of dark sections */
 .bg-forest::before, .bg-ink::before {
@@ -332,6 +509,19 @@ section.tight { padding: var(--sp-56) 0; }
 /* ==========================================================================
    PROBLEM STATEMENT
    ========================================================================== */
+/* Micro-language (DESIGN-BRIEF §5/§8): the problem section head carries the
+   locked ochre status-dot marker instead of the green diamond. Scoped with
+   :has() to the section that owns the problem grid, so no other section's
+   eyebrow changes. The eyebrow copy itself keeps the existing wide-tracked
+   small-caps pattern (.eyebrow: 12px/700/0.18em/uppercase). */
+.section-head:has(+ .problem-grid) .eyebrow::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ochre);
+  transform: none;
+}
+
 .problem-grid {
   display: grid;
   /* Deliberately unequal. The first problem is the one that matters most;
@@ -339,14 +529,14 @@ section.tight { padding: var(--sp-56) 0; }
   grid-template-columns: 1.5fr 1fr 1fr;
   gap: 0;
   margin-top: var(--sp-40);
-  border-top: 2px solid var(--ink);
-  border-left: 2px solid var(--ink);
+  border-top: 2px solid var(--legacy-ink);
+  border-left: 2px solid var(--legacy-ink);
 }
 
 .problem-card {
-  background: var(--paper);
-  border-right: 2px solid var(--ink);
-  border-bottom: 2px solid var(--ink);
+  background: var(--legacy-paper);
+  border-right: 2px solid var(--legacy-ink);
+  border-bottom: 2px solid var(--legacy-ink);
   padding: var(--sp-32) var(--sp-28);
 }
 
@@ -379,19 +569,19 @@ section.tight { padding: var(--sp-56) 0; }
 }
 
 .persona-card {
-  background: var(--paper);
-  border: 2px solid var(--ink);
+  background: var(--legacy-paper);
+  border: 2px solid var(--legacy-ink);
   padding: var(--sp-32) var(--sp-28);
   position: relative;
   transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
 }
-.persona-card:hover { transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--ink); }
+.persona-card:hover { transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--legacy-ink); }
 
 .persona-icon {
   width: 42px;
   height: 42px;
   background: var(--green);
-  border: 2px solid var(--ink);
+  border: 2px solid var(--legacy-ink);
   transform: rotate(45deg);
   display: flex;
   align-items: center;
@@ -412,7 +602,7 @@ section.tight { padding: var(--sp-56) 0; }
 .process-list {
   display: grid;
   margin-top: var(--sp-40);
-  border-top: 2px solid var(--ink);
+  border-top: 2px solid var(--legacy-ink);
 }
 
 .process-item {
@@ -420,21 +610,120 @@ section.tight { padding: var(--sp-56) 0; }
   grid-template-columns: 110px 1fr;
   gap: var(--sp-24);
   padding: var(--sp-32) 0;
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 2px solid var(--legacy-ink);
   align-items: start;
 }
 
 .process-item .step-num {
   font-family: var(--font-display);
   font-size: var(--fs-1000);
-  color: var(--green);
-  -webkit-text-stroke: 1.5px var(--ink);
+  /* --green is only 2.29-2.53:1 on the light surfaces this numeral sits on
+     (cream / cream-dim), below the 3:1 AA minimum for large text. --green-dark
+     keeps the accent and passes (>=4.6:1), as it does for the eyebrows. */
+  color: var(--green-dark);
+  -webkit-text-stroke: 1.5px var(--legacy-ink);
 }
 
 .process-item h3 { font-size: var(--fs-600); margin-bottom: var(--sp-40); text-transform: none; }
 .process-item p { color: var(--muted); font-size: var(--fs-400); max-width: 600px; }
+/* Parenthetical meta line on process/team headings (was repeated inline). */
+.process-period { font-weight: 400; color: var(--muted); font-size: var(--fs-400); }
+/* Legal pages: English-only note under the German-authoritative text. */
+.legal-lang-note { margin-top: var(--sp-16); }
 
 @media (max-width: 640px) { .process-item { grid-template-columns: 1fr; gap: var(--sp-40); } }
+
+/* ==========================================================================
+   MEDIA CARDS — 4:3 brand visuals in light content sections (DESIGN-BRIEF §7/§9)
+   Two-up bordered cards, square corners, no motion, no backdrop-filter. The
+   images are decorative (alt=""); the fixed aspect-ratio plus explicit
+   width/height attributes keep the grid at zero layout shift. Unlike the
+   full-bleed bands, cards get no grain overlay.
+   ========================================================================== */
+.media-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-24);
+  margin-top: var(--sp-48);
+}
+.media-card {
+  margin: 0;
+  background: var(--legacy-paper);
+  border: 2px solid var(--legacy-ink);
+  overflow: hidden;
+}
+.media-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+@media (max-width: 700px) { .media-card-grid { grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   IMAGE BANDS — clean full-width visuals with no overlaid copy (§7/§9)
+   The <picture> stays in normal flow and the <img> carries explicit
+   width/height, so the band reserves its aspect ratio before the image
+   decodes and contributes zero layout shift. No scrim and no grain: nothing
+   is overlaid on these masters, so the "dark band" grain rule does not apply.
+   ========================================================================== */
+.band {
+  padding: 0;
+  border-bottom: 2px solid var(--legacy-ink);
+  background: var(--green-deep);
+}
+.band picture, .band img { display: block; width: 100%; height: auto; }
+
+/* ==========================================================================
+   BAND TEXT CARDS — split-band treatment (§7/§8)
+   The band image stays full-bleed and decorative; a paper card sits over the
+   calm side of each master. Square corners, 2 px ink hairline, the established
+   hero-card shadow language; no blur, no glass, no full-band scrim. On desktop
+   the card is absolutely positioned, so it adds zero layout shift; on mobile
+   (<= 900 px) it collapses beneath the image as a band-over-copy block.
+   The eyebrow reuses the locked ochre status-dot micro-detail from §8.
+   ========================================================================== */
+.band { position: relative; }
+.band-card {
+  position: absolute;
+  bottom: var(--sp-40);
+  width: 420px;
+  max-width: calc(100% - var(--sp-64));
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  padding: var(--sp-24) var(--sp-28);
+  z-index: 2;
+}
+.band-card--left { left: var(--sp-40); }
+.band-card--right { right: var(--sp-40); }
+.band-card .eyebrow::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ochre);
+  transform: none;
+}
+.band-card-line {
+  font-family: var(--font-display);
+  font-size: var(--fs-700);
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .band-card {
+    position: static;
+    width: auto;
+    max-width: none;
+    box-shadow: none;
+    border: 0;
+    border-top: 2px solid var(--ink);
+    padding: var(--sp-24) var(--sp-32);
+  }
+  .band-card--left, .band-card--right { left: auto; right: auto; }
+}
 
 /* ==========================================================================
    PRINCIPLES (kept for compatibility, restyled)
@@ -443,13 +732,13 @@ section.tight { padding: var(--sp-56) 0; }
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--sp-16);
-  background: var(--ink);
+  background: var(--legacy-ink);
   margin-top: var(--sp-40);
-  border: 2px solid var(--ink);
+  border: 2px solid var(--legacy-ink);
 }
-.principle { background: var(--ink); padding: var(--sp-32) var(--sp-28); }
+.principle { background: var(--legacy-ink); padding: var(--sp-32) var(--sp-28); }
 .principle .roman { font-family: var(--font-display); font-size: var(--fs-700); color: var(--green); margin-bottom: var(--sp-12); display: block; }
-.principle h3 { font-size: var(--fs-500); margin-bottom: var(--sp-40); color: var(--paper); text-transform: none; }
+.principle h3 { font-size: var(--fs-500); margin-bottom: var(--sp-40); color: var(--legacy-paper); text-transform: none; }
 .principle p { font-size: var(--fs-400); }
 @media (max-width: 760px) { .principles-grid { grid-template-columns: 1fr; } }
 
@@ -462,19 +751,19 @@ section.tight { padding: var(--sp-56) 0; }
   font-style: italic;
   font-size: var(--fs-900);
   line-height: 1.5;
-  color: var(--paper);
+  color: var(--legacy-paper);
   font-weight: 500;
 }
 .pull-quote cite { display: block; margin-top: var(--sp-20); font-style: normal; font-size: var(--fs-300); letter-spacing: 0.06em; text-transform: uppercase; color: var(--green); }
-.bg-forest .pull-quote blockquote, .bg-ink .pull-quote blockquote { color: var(--paper); }
+.bg-forest .pull-quote blockquote, .bg-ink .pull-quote blockquote { color: var(--legacy-paper); }
 
 /* ==========================================================================
    TEAM
    ========================================================================== */
-.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-16); background: var(--ink); border: 2px solid var(--ink); }
-.team-card { background: var(--paper); }
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-16); background: var(--legacy-ink); border: 2px solid var(--legacy-ink); }
+.team-card { background: var(--legacy-paper); }
 .team-card .portrait { width: 100%; aspect-ratio: 5/6; object-fit: cover; background: var(--cream-dim); filter: grayscale(100%) contrast(1.05); }
-.team-card .team-body { padding: var(--sp-24) var(--sp-24) var(--sp-24); border-top: 2px solid var(--ink); }
+.team-card .team-body { padding: var(--sp-24) var(--sp-24) var(--sp-24); border-top: 2px solid var(--legacy-ink); }
 .team-card h3 { font-size: var(--fs-600); margin-bottom: var(--sp-16); text-transform: none; }
 .team-card .role { font-size: var(--fs-100); color: var(--green-dark); font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: var(--sp-16); display: block; }
 .team-card p { font-size: var(--fs-300); color: var(--muted); }
@@ -482,9 +771,9 @@ section.tight { padding: var(--sp-56) 0; }
 @media (max-width: 900px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .team-grid { grid-template-columns: 1fr; } }
 
-.advisor-list { margin-top: var(--sp-52); border-top: 2px solid var(--ink); padding-top: 36px; }
+.advisor-list { margin-top: var(--sp-52); border-top: 2px solid var(--legacy-ink); padding-top: 36px; }
 .advisor-row { display: grid; grid-template-columns: 260px 1fr; gap: var(--sp-24); padding: var(--sp-16) 0; border-bottom: 1.5px solid var(--line-soft); }
-.advisor-row .advisor-name { font-weight: 800; color: var(--ink); }
+.advisor-row .advisor-name { font-weight: 800; color: var(--legacy-ink); }
 .advisor-row .advisor-role { font-size: var(--fs-400); color: var(--muted); }
 @media (max-width: 640px) { .advisor-row { grid-template-columns: 1fr; gap: var(--sp-16); } }
 
@@ -496,13 +785,13 @@ section.tight { padding: var(--sp-56) 0; }
   align-items: center;
   gap: var(--sp-16);
   background: var(--blush);
-  border: 2px solid var(--ink);
-  color: var(--ink);
+  border: 2px solid var(--legacy-ink);
+  color: var(--legacy-ink);
   padding: var(--sp-16) var(--sp-24);
   font-size: var(--fs-400);
   margin-bottom: var(--sp-44);
 }
-.status-banner strong { color: var(--ink); }
+.status-banner strong { color: var(--legacy-ink); }
 
 .status-tag {
   display: inline-block;
@@ -510,14 +799,14 @@ section.tight { padding: var(--sp-56) 0; }
   font-weight: 800;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  padding: var(--sp-16) var(--sp-40);
-  border: 1.5px solid var(--ink);
+  padding: var(--sp-16) var(--sp-20);
+  border: 1.5px solid var(--legacy-ink);
 }
-.status-tag.done { background: var(--green); color: var(--ink); }
-.status-tag.progress { background: var(--blush); color: var(--ink); }
-.status-tag.next { background: var(--paper); color: var(--muted); }
+.status-tag.done { background: var(--green); color: var(--legacy-ink); }
+.status-tag.progress { background: var(--blush); color: var(--legacy-ink); }
+.status-tag.next { background: var(--legacy-paper); color: var(--muted); }
 
-.timeline { border-left: 2px solid var(--ink); margin-top: var(--sp-40); padding-left: 34px; position: relative; }
+.timeline { border-left: 2px solid var(--legacy-ink); margin-top: var(--sp-40); padding-left: 34px; position: relative; }
 .timeline-item { position: relative; padding-bottom: 40px; }
 .timeline-item:last-child { padding-bottom: 0; }
 .timeline-item::before {
@@ -526,32 +815,70 @@ section.tight { padding: var(--sp-56) 0; }
   left: -41px; top: 3px;
   width: 14px; height: 14px;
   background: var(--green);
-  border: 2px solid var(--ink);
+  border: 2px solid var(--legacy-ink);
   transform: rotate(45deg);
 }
 .timeline-item .phase-period { font-size: var(--fs-200); color: var(--muted); margin-bottom: var(--sp-40); text-transform: uppercase; letter-spacing: 0.04em; }
 .timeline-item h3 { font-size: var(--fs-600); margin-bottom: var(--sp-40); text-transform: none; }
 .timeline-item p { color: var(--muted); font-size: var(--fs-400); }
 
-.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-16); margin-top: var(--sp-40); background: var(--ink); border: 2px solid var(--ink); }
-.kpi-card { background: var(--paper); padding: var(--sp-24) var(--sp-20); text-align: center; }
-.kpi-card .kpi-value { font-family: var(--font-display); font-size: var(--fs-800); color: var(--ink); }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-16); margin-top: var(--sp-40); background: var(--legacy-ink); border: 2px solid var(--legacy-ink); }
+.kpi-card { background: var(--legacy-paper); padding: var(--sp-24) var(--sp-20); text-align: center; }
+.kpi-card .kpi-value { font-family: var(--font-display); font-size: var(--fs-800); color: var(--legacy-ink); }
 .kpi-card .kpi-label { font-size: var(--fs-100); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: var(--sp-40); }
 
 @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
 
+/* Status-page inline visuals: a small framed coverage/region plate (dach-map)
+   with a parchment caption, and a small loop card (C04). Square corners, ink
+   borders, no motion; the explicit width/height plus fixed aspect-ratio keep
+   both at zero CLS. Both are anchored to the section's left column so they
+   read as editorial plates rather than floats in open cream. */
+.region-graphic {
+  margin: var(--sp-48) 0 0;
+  max-width: 320px;
+  background: var(--legacy-paper);
+  border: 2px solid var(--legacy-ink);
+}
+.region-graphic img { display: block; width: 100%; height: auto; }
+.region-graphic figcaption {
+  border-top: 2px solid var(--legacy-ink);
+  background: var(--parchment);
+  color: var(--legacy-ink);
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--sp-8) var(--sp-12);
+}
+
+.loop-card {
+  margin-top: var(--sp-48);
+  max-width: 360px;
+  background: var(--legacy-paper);
+  border: 2px solid var(--legacy-ink);
+  /* No caption line exists for this visual, so the plate closes with the
+     8 px ink baseline bar instead of small-caps copy. */
+  border-bottom-width: 8px;
+  overflow: hidden;
+}
+.loop-card img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+@media (max-width: 700px) {
+  .region-graphic, .loop-card { max-width: none; }
+}
+
 /* ==========================================================================
    PHILOSOPHY — long-form prose
    ========================================================================== */
-.philosophy-toc { background: var(--paper); border: 2px solid var(--ink); padding: var(--sp-28) var(--sp-32); margin-bottom: var(--sp-12); position: relative; }
+.philosophy-toc { background: var(--legacy-paper); border: 2px solid var(--legacy-ink); padding: var(--sp-28) var(--sp-32); margin-bottom: var(--sp-12); position: relative; }
 .philosophy-toc h4 { font-size: var(--fs-200); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: var(--sp-16); font-family: var(--font-body); font-weight: 800; }
 .philosophy-toc ol { list-style: none; display: grid; gap: var(--sp-40); }
-.philosophy-toc a { font-size: var(--fs-400); color: var(--ink); font-weight: 600; }
+.philosophy-toc a { font-size: var(--fs-400); color: var(--legacy-ink); font-weight: 600; }
 .philosophy-toc a:hover { color: var(--green-dark); }
 .philosophy-toc .toc-num { color: var(--green-dark); font-weight: 800; margin-right: 8px; font-family: var(--font-display); }
 
 .prose { max-width: 740px; }
-.prose h2 { font-size: var(--fs-800); margin-top: var(--sp-60); margin-bottom: var(--sp-40); scroll-margin-top: var(--sp-100); border-bottom: 3px solid var(--ink); padding-bottom: 14px; }
+.prose h2 { font-size: var(--fs-800); margin-top: var(--sp-60); margin-bottom: var(--sp-40); scroll-margin-top: var(--sp-100); border-bottom: 3px solid var(--legacy-ink); padding-bottom: 14px; }
 .prose .section-kicker { display: block; font-size: var(--fs-200); font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green-dark); margin-bottom: var(--sp-40); margin-top: var(--sp-20); }
 .prose p { margin-bottom: var(--sp-20); font-size: var(--fs-500); color: var(--ink-soft); }
 .prose blockquote {
@@ -561,7 +888,7 @@ section.tight { padding: var(--sp-56) 0; }
   font-family: var(--font-italic);
   font-style: italic;
   font-size: var(--fs-600);
-  color: var(--ink);
+  color: var(--legacy-ink);
   background: var(--cream-dim);
 }
 .prose ul { margin: 0 0 20px 22px; color: var(--ink-soft); }
@@ -571,11 +898,11 @@ section.tight { padding: var(--sp-56) 0; }
 /* ==========================================================================
    FAQ / ACCORDION
    ========================================================================== */
-.accordion-item { border-bottom: 2px solid var(--ink); }
+.accordion-item { border-bottom: 2px solid var(--legacy-ink); }
 .accordion-trigger {
   width: 100%; display: flex; justify-content: space-between; align-items: center;
   background: none; border: none; text-align: left; padding: var(--sp-20) 0;
-  font-size: var(--fs-500); font-weight: 800; color: var(--ink); cursor: pointer;
+  font-size: var(--fs-500); font-weight: 800; color: var(--legacy-ink); cursor: pointer;
 }
 .accordion-trigger .plus { font-size: var(--fs-700); color: var(--green-dark); transition: transform var(--dur-base) var(--ease); }
 .accordion-item.open .plus { transform: rotate(45deg); }
@@ -596,26 +923,26 @@ section.tight { padding: var(--sp-56) 0; }
   margin-top: var(--sp-40);
 }
 .cta-frame-inner {
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid var(--legacy-ink);
   padding: var(--sp-24) var(--sp-32);
-  background: var(--paper);
+  background: var(--legacy-paper);
 }
 
 /* ==========================================================================
    PARTNER TICKER
    ========================================================================== */
-.ticker-section { background: var(--ink); padding: var(--sp-56) 0 var(--sp-56); overflow: hidden; position: relative; }
+.ticker-section { background: var(--legacy-ink); padding: var(--sp-56) 0 var(--sp-56); overflow: hidden; position: relative; }
 .ticker-label { text-align: center; font-size: var(--fs-100); font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: var(--sp-28); position: relative; z-index: 1; }
 .ticker-viewport { overflow: hidden; width: 100%; position: relative; z-index: 1; }
 .ticker-viewport::before, .ticker-viewport::after { content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none; }
-.ticker-viewport::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
-.ticker-viewport::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+.ticker-viewport::before { left: 0; background: linear-gradient(90deg, var(--legacy-ink), transparent); }
+.ticker-viewport::after { right: 0; background: linear-gradient(-90deg, var(--legacy-ink), transparent); }
 .ticker-track { display: flex; gap: var(--sp-20); width: max-content; animation: ticker-scroll 34s linear infinite; }
 .ticker-logo {
   flex-shrink: 0;
   width: 210px;
   height: 92px;
-  background: #FFFFFF;
+  background: var(--legacy-white);
   border: 2px solid var(--green);
   display: flex;
   align-items: center;
@@ -623,29 +950,30 @@ section.tight { padding: var(--sp-56) 0; }
   padding: var(--sp-16) var(--sp-20);
 }
 .ticker-logo img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; filter: none; }
+.ticker-logo:empty { display: none; }
 @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
 
 /* ==========================================================================
    FOOTER
    ========================================================================== */
-.site-footer { background: var(--ink); color: rgba(246,241,226,0.75); padding: var(--sp-52) 0 var(--sp-32); border-top: 3px solid var(--green); }
-.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: var(--sp-40); padding-bottom: 40px; }
-.footer-brand { font-family: var(--font-display); font-size: var(--fs-700); color: var(--paper); margin-bottom: var(--sp-12); text-transform: uppercase; }
-.footer-tag { font-size: var(--fs-400); max-width: 320px; color: var(--paper); }
+.site-footer { background: var(--legacy-ink); color: var(--legacy-cream-75); padding: var(--sp-52) 0 var(--sp-32); border-top: 3px solid var(--green); }
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--sp-40); padding-bottom: 40px; }
+.footer-brand { font-family: var(--font-display); font-size: var(--fs-700); color: var(--legacy-paper); margin-bottom: var(--sp-12); text-transform: uppercase; }
+.footer-tag { font-size: var(--fs-400); max-width: 320px; color: var(--legacy-paper); }
 .footer-col h4 { color: var(--green); font-size: var(--fs-200); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--sp-16); font-family: var(--font-body); }
-.footer-col a { display: block; font-size: var(--fs-400); margin-bottom: var(--sp-40); color: rgba(246,241,226,0.75); }
+.footer-col a { display: block; font-size: var(--fs-400); margin-bottom: var(--sp-12); color: var(--legacy-cream-75); }
 .footer-col a:hover { color: var(--green); }
-.footer-bottom { border-top: 1px solid rgba(246,241,226,0.2); padding-top: 22px; display: flex; justify-content: space-between; font-size: var(--fs-200); color: rgba(246,241,226,0.5); flex-wrap: wrap; gap: var(--sp-12); }
+.footer-bottom { border-top: 1px solid var(--legacy-cream-20); padding-top: 22px; display: flex; justify-content: space-between; font-size: var(--fs-200); color: var(--legacy-cream-50); flex-wrap: wrap; gap: var(--sp-12); }
 @media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr; } }
 
 /* ==========================================================================
    MISC
    ========================================================================== */
 .badge-row { display: flex; gap: var(--sp-40); flex-wrap: wrap; margin-top: var(--sp-16); }
-.badge { font-size: var(--fs-100); font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; padding: var(--sp-40) var(--sp-12); background: var(--paper); color: var(--ink); border: 1.5px solid var(--ink); }
+.badge { font-size: var(--fs-100); font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; padding: var(--sp-8) var(--sp-12); background: var(--legacy-paper); color: var(--legacy-ink); border: 1.5px solid var(--legacy-ink); }
 
-.page-hero { padding: var(--sp-64) 0 var(--sp-48); border-bottom: 2px solid var(--ink); background: var(--cream-dim); position: relative; overflow: hidden; }
+.page-hero { padding: var(--sp-64) 0 var(--sp-48); border-bottom: 2px solid var(--legacy-ink); background: var(--cream-dim); position: relative; overflow: hidden; }
 .page-hero::after {
   content: '';
   position: absolute;
@@ -660,7 +988,15 @@ section.tight { padding: var(--sp-56) 0; }
 .page-hero h1 { font-size: var(--fs-1000); margin-bottom: var(--sp-16); position: relative; z-index: 1; }
 .page-hero .eyebrow, .page-hero .lede { position: relative; z-index: 1; }
 
-*:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+/* Focus ring. `--green` (#4FAC4E) was only 2.53:1 on `--cream`, below the
+   3:1 WCAG non-text minimum. Use existing ink on light surfaces and
+   parchment on the dark surfaces; both clear 3:1 on their backgrounds. */
+*:focus-visible { outline: 3px solid var(--legacy-ink); outline-offset: 2px; }
+.bg-ink *:focus-visible,
+.bg-forest *:focus-visible,
+.site-footer *:focus-visible,
+.hero-panel *:focus-visible,
+.ticker-section *:focus-visible { outline-color: var(--legacy-paper); }
 
 /* Diamond accent used near select headlines */
 .diamond-accent {
@@ -716,8 +1052,8 @@ html:not(.pre-en) body:not(.lang-de):not(.lang-en) [data-lang="en"] { display: n
 
 .lang-switch {
   display: inline-flex;
-  border: 2px solid var(--ink);
-  background: var(--paper);
+  border: 2px solid var(--legacy-ink);
+  background: var(--legacy-paper);
   margin-left: var(--sp-8);
   flex: none;
 }
@@ -733,10 +1069,255 @@ html:not(.pre-en) body:not(.lang-de):not(.lang-en) [data-lang="en"] { display: n
   cursor: pointer;
   transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
-.lang-switch button + button { border-left: 2px solid var(--ink); }
-.lang-switch button:hover { color: var(--ink); }
-.lang-switch button[aria-pressed="true"] { background: var(--ink); color: var(--cream); }
+.lang-switch button + button { border-left: 2px solid var(--legacy-ink); }
+.lang-switch button:hover { color: var(--legacy-ink); }
+.lang-switch button[aria-pressed="true"] { background: var(--legacy-ink); color: var(--cream); }
+
+@media (max-width: 1080px) {
+  .lang-switch { margin-left: 0; margin-top: var(--sp-12); }
+}
+
+/* ==========================================================================
+   320PX CONTAINMENT — long compounds & intrinsic min-content
+   Long, unbreakable words (mostly German compounds, e.g. in display headings)
+   and flex/grid children floored at `min-width: auto` could push the document
+   wider than the viewport. These rules only take effect when a word cannot fit
+   its line box or a track is narrower than its min-content; no copy is changed.
+   Hyphenation is confined to narrow viewports so wide-screen line breaks stay
+   identical. `:lang(de)` is set on <html> by site.js, so German only.
+   ========================================================================== */
+h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
+
+/* Grid tracks default to minmax(auto, 1fr); (0, 1fr) lets them shrink below
+   the card's min-content instead of overflowing the grid. */
+.kpi-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.kpi-card { min-width: 0; }
+.kpi-card .kpi-value, .kpi-card .kpi-label { overflow-wrap: break-word; }
+
+/* #index CTA frame is a column-flex item, so min-width:auto floors it at its
+   own min-content. Let it shrink and let the framed buttons wrap instead. */
+.cta-frame { min-width: 0; max-width: 100%; }
+.cta-frame .btn-primary, .cta-frame .btn-secondary { min-width: 0; max-width: 100%; overflow-wrap: break-word; }
 
 @media (max-width: 900px) {
-  .lang-switch { margin-left: 0; margin-top: var(--sp-12); }
+  .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 480px) {
+  :lang(de) h1, :lang(de) h2, :lang(de) h3 { hyphens: auto; -webkit-hyphens: auto; }
+  :lang(de) .kpi-card .kpi-value, :lang(de) .kpi-card .kpi-label,
+  :lang(de) .cta-frame .btn-primary, :lang(de) .cta-frame .btn-secondary { hyphens: auto; -webkit-hyphens: auto; }
+
+  .cta-frame { padding: var(--sp-20); }
+  .cta-frame-inner { padding: var(--sp-16) var(--sp-12); }
+  .cta-frame .btn-primary, .cta-frame .btn-secondary { padding-left: var(--sp-12); padding-right: var(--sp-12); }
+
+  .hero .hero-panel .stat-row { flex-wrap: wrap; font-size: var(--fs-500); }
+  .hero .hero-panel .stat-value { text-align: left; }
+  .hero { --hero-band: 280px; }
+  .hero h1 { font-size: var(--fs-1000); }
+  .hero .glass-testimonial blockquote { font-size: var(--fs-600); }
+}
+
+/* ==========================================================================
+   CTA BAND — Phase 4 image-pipeline proof (DESIGN-BRIEF Section 9)
+   Full-bleed background served via <picture> (AVIF -> WebP -> master PNG),
+   a scrim tuned for WCAG AA overlaid copy, and a ~5% film-grain overlay.
+   Every added layer is absolutely positioned, so the section keeps its
+   content-driven height and the image contributes zero layout shift.
+   The LQIP (24 px WebP from scripts/optimize_images.py) is the section's
+   background placeholder until the real image decodes.
+   ========================================================================== */
+.cta-band:has(.cta-band-bg) {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: var(--legacy-ink);
+  background-image: url("data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADwAwCdASoYAA0APu1iqU2ppaQiMAgBMB2JQBOgBDvfvf76KPeMq8rAAP6FkHt+hK0r11JDt31/CvlXkJa4caGWbWgx4t/h5MIBI0A0epYrfzjaCy2fgWzo50qTwQqvGUL95fi2Iru+DtQ7aZTYroUxIOCAAA==");
+  background-size: cover;
+  background-position: center;
+}
+.cta-band-bg { position: absolute; inset: 0; z-index: 0; }
+.cta-band-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cta-band:has(.cta-band-bg)::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 1;
+  background: rgba(18, 51, 41, 0.87); /* --green-deep @ 87% */
+}
+.cta-band:has(.cta-band-bg)::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+}
+.cta-band:has(.cta-band-bg) .wrap { position: relative; z-index: 3; }
+/* Overlaid copy switches to light values so it clears AA on the dark scrim. */
+.cta-band:has(.cta-band-bg) .eyebrow { color: var(--parchment); }
+/* Consistency sweep after the problem-section commit: the cta-band eyebrow
+   marker uses the locked ochre status dot, not the green diamond. Scoped to
+   the imaged band so status.html's plain .cta-band is untouched. */
+.cta-band:has(.cta-band-bg) .eyebrow::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ochre);
+  transform: none;
+}
+.cta-band:has(.cta-band-bg) h2 { color: var(--legacy-paper); }
+.cta-band:has(.cta-band-bg) .lede { color: var(--legacy-paper); }
+
+/* ==========================================================================
+   CORRIDOR INTERSTITIAL — Phase 5 dark interstitial (DESIGN-BRIEF §7)
+   Full-bleed key visual served via <picture> (AVIF -> WebP -> master PNG),
+   a strong left-weighted scrim so the copy clears AA while the stag and lit
+   doorway stay readable, and a ~5% film-grain overlay. Every added layer is
+   absolutely positioned, so the section keeps its content-driven height and
+   the picture contributes zero layout shift. The copy is the existing
+   .pull-quote text (blockquote + cite), set in the Newsreader roman display
+   serif per §6. Scoped with :has(.corridor-bg).
+   ========================================================================== */
+.corridor {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: var(--green-deep);
+}
+.corridor-bg {
+  position: absolute; inset: 0; z-index: 0; display: block;
+  /* LQIP: 24x18 WebP from scripts/optimize_images.py, shown until the AVIF decodes. */
+  background-image: url("data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAABwBACdASoYABIAPu1osFAppaSiqAqpMB2JZQCdM0xBqfdkylo+wzpadwdHAAD+iVRlVf2W3zEPcmFdbrYx9k4yO5b34egGXFL8lSa4xffHcZnY+pt9pfw4oKNo7r1tGoWe9drP2R+AHcagAAA=");
+  background-size: cover;
+  background-position: 50% 50%;
+}
+.corridor-bg img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  display: block;
+}
+.corridor .wrap {
+  position: relative;
+  z-index: 3;
+  padding-top: var(--sp-84);
+  padding-bottom: var(--sp-84);
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Strong scrim, weighted toward the copy side (left); the lit doorway and the
+   stag sit to its right and stay visible. Values are --green-deep (#123329). */
+.corridor:has(.corridor-bg)::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(18, 51, 41, 0.90) 0%, rgba(18, 51, 41, 0.70) 45%, rgba(18, 51, 41, 0.32) 100%),
+    linear-gradient(180deg, rgba(18, 51, 41, 0.12) 0%, rgba(18, 51, 41, 0.34) 100%);
+}
+/* Film grain (~5%), same pattern as the hero / cta-band. */
+.corridor:has(.corridor-bg)::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+/* Quote: Newsreader roman on the dark surface (§6 pairing); copy left, away
+   from the centred stag. */
+.corridor .corridor-quote {
+  max-width: 560px;
+  margin: 0;
+  text-align: left;
+}
+.corridor .corridor-quote blockquote {
+  font-family: 'Newsreader', Georgia, serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: var(--fs-900);
+  line-height: 1.35;
+  color: var(--legacy-paper);
+}
+.corridor .corridor-quote cite {
+  display: block;
+  margin-top: var(--sp-24);
+  color: var(--parchment);
+}
+
+@media (max-width: 900px) {
+  /* Hero art-direction pattern: clean full-width image band, copy beneath on
+     the flat dark surface (avoids AA risk and keeps the stag uncovered). */
+  .corridor { --corridor-band: 300px; }
+  .corridor:has(.corridor-bg)::before { display: none; }
+  .corridor-bg { height: var(--corridor-band); bottom: auto; }
+  .corridor .wrap {
+    min-height: 0;
+    padding-top: calc(var(--sp-56) + var(--corridor-band));
+    padding-bottom: var(--sp-56);
+  }
+  .corridor .corridor-quote blockquote { font-size: var(--fs-700); }
+}
+
+/* ==========================================================================
+   BETA PLACEHOLDER HERO — one-screen C08 heron band (DESIGN-BRIEF §7/§13)
+   The key visual is absolutely positioned behind a one-screen-high section,
+   so it contributes zero layout shift. A soft cream scrim on the left keeps
+   the dark copy AA-safe while the sun, heron and ground band stay visible.
+   Scope: only beta.html uses .beta-hero. The page's DE/EN wording is a
+   minimal placeholder pending review.
+   ========================================================================== */
+.beta-hero {
+  position: relative;
+  min-height: min(86vh, 760px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--cream);
+  border-bottom: 2px solid var(--legacy-ink);
+}
+.beta-hero-bg { position: absolute; inset: 0; z-index: 0; display: block; }
+.beta-hero-bg img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%; /* keep the sun (~y30%) and the ground band (~y88%) */
+  display: block;
+}
+.beta-hero::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 1;
+  pointer-events: none;
+  /* Minimal scrim: a soft cream bed behind the left-hand copy only. The copy
+     sits over the master's own cream field, so this is polish, not a rescue;
+     it stops before the sun (~x50%) so the navy disc and green ground band
+     stay saturated. */
+  background: linear-gradient(90deg, rgba(246,241,226,0.72) 0%, rgba(246,241,226,0.28) 38%, rgba(246,241,226,0) 60%);
+}
+.beta-hero .wrap { position: relative; z-index: 3; width: 100%; }
+.beta-hero h1 {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 500;
+  font-size: var(--fs-1100);
+  text-transform: none;
+  letter-spacing: -0.012em;
+  line-height: 1.02;
+  color: var(--legacy-ink);
+  margin-bottom: var(--sp-16);
+  max-width: 460px;
+}
+.beta-hero .eyebrow { color: var(--green-dark); }
+.beta-hero .lede { color: var(--ink-soft); max-width: 440px; }
+
+@media (max-width: 900px) {
+  /* Art-directed mobile: clean image band on top, copy beneath on flat cream
+     so no scrim is required once the copy leaves the image. */
+  .beta-hero { min-height: 0; display: block; }
+  .beta-hero-bg { position: relative; height: 260px; }
+  .beta-hero::before { display: none; }
+  .beta-hero .wrap { padding: var(--sp-48) var(--sp-32); }
+  .beta-hero h1 { font-size: var(--fs-900); }
 }

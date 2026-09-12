@@ -1,13 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Disce's current development status, milestones, and roadmap.">
+<meta name="description" content="Der aktuelle Entwicklungsstand von Disce: Meilensteine, Roadmap und der Stand auf dem Weg zur Gründung.">
 <title data-title-de="Entwicklungsstand — Disce" data-title-en="Development Status — Disce">Entwicklungsstand — Disce</title>
 <script>try{if(localStorage.getItem('disce-lang')==='en'){document.documentElement.className+=' pre-en';document.documentElement.lang='en';}}catch(e){}</script>
 <link rel="stylesheet" href="css/experimental.css">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="images/derived/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="canonical" href="https://weltvorstellung.de/status.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Disce">
+<meta property="og:locale" content="de_DE">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:title" content="Entwicklungsstand — Disce">
+<meta property="og:description" content="Der aktuelle Entwicklungsstand von Disce: Meilensteine, Roadmap und der Stand auf dem Weg zur Gründung.">
+<meta property="og:url" content="https://weltvorstellung.de/status.html">
+<meta property="og:image" content="https://weltvorstellung.de/images/derived/og-disce-1200x630.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Entwicklungsstand — Disce">
+<meta name="twitter:description" content="Der aktuelle Entwicklungsstand von Disce: Meilensteine, Roadmap und der Stand auf dem Weg zur Gründung.">
+<meta name="twitter:image" content="https://weltvorstellung.de/images/derived/og-disce-1200x630.jpg">
 </head>
 <body>
 
@@ -17,12 +36,12 @@
       <img class="brand-mark" src="images/antlers-green.png" alt="" aria-hidden="true">
       DISCE
     </a>
-    <button class="nav-toggle" aria-label="Navigation / Menu">☰</button>
-    <nav class="nav-links">
+    <button class="nav-toggle" aria-label="Navigation / Menu" aria-expanded="false" aria-controls="site-nav">☰</button>
+    <nav class="nav-links" id="site-nav">
       <a href="index.html"><span data-lang="de">Start</span><span data-lang="en">Home</span></a>
       <a href="philosophy.html"><span data-lang="de">Philosophie</span><span data-lang="en">Philosophy</span></a>
       <a href="team.html"><span data-lang="de">Team</span><span data-lang="en">Our Team</span></a>
-      <a href="status.html" class="active"><span data-lang="de">Entwicklungsstand</span><span data-lang="en">Development Status</span></a>
+      <a href="status.html" class="active" aria-current="page"><span data-lang="de">Entwicklungsstand</span><span data-lang="en">Development Status</span></a>
       <a href="waitlist.html" class="nav-cta"><span data-lang="de">Auf die Warteliste</span><span data-lang="en">Join the Waitlist</span></a>
       <div class="lang-switch" role="group" aria-label="Sprache / Language">
         <button type="button" data-set-lang="de" aria-pressed="true">DE</button>
@@ -99,6 +118,18 @@
         <p><span data-lang="de">Öffentlicher Start über App Store und Web; Skalierung auf 500 bis 1.000 Nutzende; Abschlussbewertung der Förderphase und Vorbereitung der Anschlussfinanzierung.</span><span data-lang="en">Public launch across App Store and web; scale to 500–1,000 users; conduct end-of-funding review and prepare follow-on financing.</span></p>
       </div>
     </div>
+    <!-- Small "in progress / loop" visual (C04) for the ongoing phase.
+         Decorative (alt=""), card-class derivative, printed paper mat removed
+         with a 5% pipeline inset. No copy is added. -->
+    <figure class="loop-card">
+      <picture>
+        <source type="image/avif" sizes="(max-width: 700px) 100vw, 360px"
+          srcset="images/derived/DISCE_C04_r1_loop-train-violet-768.avif 768w, images/derived/DISCE_C04_r1_loop-train-violet-1200.avif 1200w, images/derived/DISCE_C04_r1_loop-train-violet-1238.avif 1238w">
+        <img src="images/derived/DISCE_C04_r1_loop-train-violet-1238.webp" sizes="(max-width: 700px) 100vw, 360px"
+          srcset="images/derived/DISCE_C04_r1_loop-train-violet-768.webp 768w, images/derived/DISCE_C04_r1_loop-train-violet-1200.webp 1200w, images/derived/DISCE_C04_r1_loop-train-violet-1238.webp 1238w"
+          alt="" width="1238" height="922" loading="lazy" decoding="async">
+      </picture>
+    </figure>
   </div>
 </section>
 
@@ -115,32 +146,45 @@
       <div class="process-item">
         <div class="step-num">I</div>
         <div>
-          <h3><span data-lang="de">Fundament &amp; Markteintritt</span><span data-lang="en">Foundation &amp; Market Entry</span> <span style="font-weight:400; color:var(--muted); font-size:14px;"><span data-lang="de">· Jahre 1–2</span><span data-lang="en">· Years 1–2</span></span></h3>
+          <h3><span data-lang="de">Fundament &amp; Markteintritt</span><span data-lang="en">Foundation &amp; Market Entry</span> <span class="process-period"><span data-lang="de">· Jahre 1–2</span><span data-lang="en">· Years 1–2</span></span></h3>
           <p><span data-lang="de">Kernmodule des MVP (tägliche Wortentdeckung, Karteikarten mit verteilter Wiederholung, visuelle Fortschrittsanzeige), erste Abo-Stufen und eine früh engagierte Community.</span><span data-lang="en">Core MVP modules (daily word discovery, spaced-repetition flashcards, visual progress tracking), first subscription tiers, and an early, engaged community.</span></p>
         </div>
       </div>
       <div class="process-item">
         <div class="step-num">II</div>
         <div>
-          <h3><span data-lang="de">Kultur- &amp; Lernplattform</span><span data-lang="en">Culture &amp; Learning Platform</span> <span style="font-weight:400; color:var(--muted); font-size:14px;"><span data-lang="de">· Jahre 2–3</span><span data-lang="en">· Years 2–3</span></span></h3>
+          <h3><span data-lang="de">Kultur- &amp; Lernplattform</span><span data-lang="en">Culture &amp; Learning Platform</span> <span class="process-period"><span data-lang="de">· Jahre 2–3</span><span data-lang="en">· Years 2–3</span></span></h3>
           <p><span data-lang="de">Eine interaktive Karte für Sprach- und Kulturrouten, erweiterte Lernspiele, ein Community-Marktplatz und adaptive, KI-gestützte Lernalgorithmen.</span><span data-lang="en">An interactive map for language and cultural journeys, expanded learning games, a community marketplace, and adaptive AI-driven learning algorithms.</span></p>
         </div>
       </div>
       <div class="process-item">
         <div class="step-num">III</div>
         <div>
-          <h3><span data-lang="de">Premium, KI &amp; Forschung</span><span data-lang="en">Premium, AI &amp; Research</span> <span style="font-weight:400; color:var(--muted); font-size:14px;"><span data-lang="de">· Jahre 3–4</span><span data-lang="en">· Years 3–4</span></span></h3>
+          <h3><span data-lang="de">Premium, KI &amp; Forschung</span><span data-lang="en">Premium, AI &amp; Research</span> <span class="process-period"><span data-lang="de">· Jahre 3–4</span><span data-lang="en">· Years 3–4</span></span></h3>
           <p><span data-lang="de">Premium-Module, eine Creator-Ökonomie für eigene Inhalte, ein Live-KI-Tutor für Aussprache und Stil sowie vertiefte Forschungspartnerschaften.</span><span data-lang="en">Premium modules, a creator economy for original content, a live AI tutor for pronunciation and style, and deepened research partnerships.</span></p>
         </div>
       </div>
       <div class="process-item">
         <div class="step-num">IV</div>
         <div>
-          <h3><span data-lang="de">KI-Infrastruktur &amp; globale Skalierung</span><span data-lang="en">AI Infrastructure &amp; Global Scale</span> <span style="font-weight:400; color:var(--muted); font-size:14px;"><span data-lang="de">· ab Jahr 4</span><span data-lang="en">· Year 4+</span></span></h3>
+          <h3><span data-lang="de">KI-Infrastruktur &amp; globale Skalierung</span><span data-lang="en">AI Infrastructure &amp; Global Scale</span> <span class="process-period"><span data-lang="de">· ab Jahr 4</span><span data-lang="en">· Year 4+</span></span></h3>
           <p><span data-lang="de">Eigene europäische Recheninfrastruktur, ein übertragbares Plattformmodell für weitere Sprachen und Disce als internationales Zentrum für Sprachforschung.</span><span data-lang="en">Proprietary European compute infrastructure, an exportable platform model for additional languages, and Disce as an international center for language research.</span></p>
         </div>
       </div>
     </div>
+    <!-- Coverage / region graphic (dach-map), inline and modest, matching the
+         "language and cultural journeys" map in the long-range list above.
+         Decorative (alt=""), paper-flattened line art, card-class derivative. -->
+    <figure class="region-graphic">
+      <picture>
+        <source type="image/avif" sizes="(max-width: 700px) 100vw, 320px"
+          srcset="images/derived/dach-map-512.avif 512w, images/derived/dach-map-768.avif 768w, images/derived/dach-map-1024.avif 1024w">
+        <img src="images/derived/dach-map-1024.webp" sizes="(max-width: 700px) 100vw, 320px"
+          srcset="images/derived/dach-map-512.webp 512w, images/derived/dach-map-768.webp 768w, images/derived/dach-map-1024.webp 1024w"
+          alt="" width="1024" height="1024" loading="lazy" decoding="async">
+      </picture>
+      <figcaption><span data-lang="de">Primärmarkt: DACH</span><span data-lang="en">Primary market: DACH</span></figcaption>
+    </figure>
   </div>
 </section>
 
