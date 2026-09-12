@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -453,7 +453,7 @@
 <body>
 
   <!-- Language Toggle -->
-  <button class="language-toggle" id="langToggle" aria-label="Switch language" title="Switch language">
+  <button class="language-toggle" id="langToggle" aria-label="Switch to English / Auf Englisch umschalten" aria-pressed="false" title="Switch language">
     <span data-lang="de">EN</span>
     <span data-lang="en">DE</span>
   </button>
@@ -766,23 +766,25 @@
       const body   = document.body;
 
       // German is the default site-wide; only a stored choice overrides it.
-      const saved = localStorage.getItem('disce-lang');
-      if (saved === 'en') {
-        body.classList.add('lang-en');
+      // Keep <html lang>, the toggle's pressed state and its accessible name
+      // in sync so assistive tech always matches the rendered language.
+      function applyLang(isEn) {
+        body.classList.toggle('lang-en', isEn);
+        document.documentElement.lang = isEn ? 'en' : 'de';
+        toggle.setAttribute('aria-pressed', isEn ? 'true' : 'false');
+        toggle.setAttribute('aria-label', isEn
+          ? 'Switch to German / Auf Deutsch umschalten'
+          : 'Switch to English / Auf Englisch umschalten');
+        const sel = document.getElementById('german_level');
+        if (sel) sel.options[0].text = isEn ? '— Please select —' : '— Bitte wählen —';
       }
 
-      // Update select placeholder per language
-      function updateSelectPlaceholder() {
-        const sel = document.getElementById('german_level');
-        const isEn = body.classList.contains('lang-en');
-        sel.options[0].text = isEn ? '— Please select —' : '— Bitte wählen —';
-      }
-      updateSelectPlaceholder();
+      applyLang(localStorage.getItem('disce-lang') === 'en');
 
       toggle.addEventListener('click', function () {
-        body.classList.toggle('lang-en');
-        localStorage.setItem('disce-lang', body.classList.contains('lang-en') ? 'en' : 'de');
-        updateSelectPlaceholder();
+        const isEn = !body.classList.contains('lang-en');
+        applyLang(isEn);
+        localStorage.setItem('disce-lang', isEn ? 'en' : 'de');
       });
 
       toggle.addEventListener('keydown', function (e) {
