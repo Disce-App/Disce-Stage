@@ -42,9 +42,12 @@
 </section>
 
 <!-- ============================= VISION BAND (C03) ============================= -->
-<!-- About/vision banner (§7). Calm 21:9 crop, no overlay copy: the page's
-     prose follows beneath on flat --cream. C03 is cropped in the pipeline
-     (box 0,120,1376,590) so the master stays untouched. -->
+<!-- About/vision banner (§7). Calm 21:9 crop carrying a paper text card over
+     the lower-left sky (the only uncluttered zone of this master; verified by
+     edge/lightness analysis), so the band reads as an editorial plate instead
+     of a flat slab. The image stays decorative (alt=""); the card carries the
+     approved copy. C03 is cropped in the pipeline (box 0,120,1376,590) so the
+     master stays untouched. -->
 <section class="band">
   <picture>
     <source type="image/avif" sizes="100vw"
@@ -53,6 +56,10 @@
       srcset="images/derived/DISCE_C03_r1_zeppelin-forest-768.webp 768w, images/derived/DISCE_C03_r1_zeppelin-forest-1280.webp 1280w, images/derived/DISCE_C03_r1_zeppelin-forest-1376.webp 1376w"
       alt="" width="1376" height="590" loading="lazy" decoding="async">
   </picture>
+  <div class="band-card band-card--left">
+    <span class="eyebrow"><span data-lang="de">WARUM WIR BAUEN</span><span data-lang="en">WHY WE BUILD</span></span>
+    <p class="band-card-line"><span data-lang="de">Sprache ist kein Fach. Sie ist der Raum, in dem Expertise sichtbar wird.</span><span data-lang="en">Language is not a subject. It is the room where expertise becomes visible.</span></p>
+  </div>
 </section>
 
 <section class="tight">
@@ -242,9 +249,9 @@
 </section>
 
 <!-- ============================= "WRONG SEA" BAND (A08) ============================= -->
-<!-- Closing visual break (§7): the billboard reading stays purely visual, no
-     overlay copy. A08's printed paper mat is removed with a 5% pipeline
-     inset; copy (none added) would sit on flat --cream beneath. -->
+<!-- Closing visual break (§7) carrying a paper text card on the right field,
+     clear of the billboard (master checked). A08's printed paper mat is removed
+     with a 5% pipeline inset; the image stays decorative (alt=""). -->
 <section class="band">
   <picture>
     <source type="image/avif" sizes="100vw"
@@ -253,6 +260,10 @@
       srcset="images/derived/DISCE_A08_r4_billboard-wrong-sea-768.webp 768w, images/derived/DISCE_A08_r4_billboard-wrong-sea-1280.webp 1280w, images/derived/DISCE_A08_r4_billboard-wrong-sea-1642.webp 1642w"
       alt="" width="1642" height="922" loading="lazy" decoding="async">
   </picture>
+  <div class="band-card band-card--right">
+    <span class="eyebrow"><span data-lang="de">ANNAHMEN, GEPRÜFT</span><span data-lang="en">ASSUMPTIONS, TESTED</span></span>
+    <p class="band-card-line"><span data-lang="de">Kursfortschritt ≠ Lebensfortschritt.</span><span data-lang="en">Course progress ≠ life progress.</span></p>
+  </div>
 </section>
 
 <footer class="site-footer">

@@ -669,6 +669,56 @@ section.tight { padding: var(--sp-56) 0; }
 .band picture, .band img { display: block; width: 100%; height: auto; }
 
 /* ==========================================================================
+   BAND TEXT CARDS — split-band treatment (§7/§8)
+   The band image stays full-bleed and decorative; a paper card sits over the
+   calm side of each master. Square corners, 2 px ink hairline, the established
+   hero-card shadow language; no blur, no glass, no full-band scrim. On desktop
+   the card is absolutely positioned, so it adds zero layout shift; on mobile
+   (<= 900 px) it collapses beneath the image as a band-over-copy block.
+   The eyebrow reuses the locked ochre status-dot micro-detail from §8.
+   ========================================================================== */
+.band { position: relative; }
+.band-card {
+  position: absolute;
+  bottom: var(--sp-40);
+  width: 420px;
+  max-width: calc(100% - var(--sp-64));
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  padding: var(--sp-24) var(--sp-28);
+  z-index: 2;
+}
+.band-card--left { left: var(--sp-40); }
+.band-card--right { right: var(--sp-40); }
+.band-card .eyebrow::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ochre);
+  transform: none;
+}
+.band-card-line {
+  font-family: var(--font-display);
+  font-size: var(--fs-700);
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .band-card {
+    position: static;
+    width: auto;
+    max-width: none;
+    box-shadow: none;
+    border: 0;
+    border-top: 2px solid var(--ink);
+    padding: var(--sp-24) var(--sp-32);
+  }
+  .band-card--left, .band-card--right { left: auto; right: auto; }
+}
+
+/* ==========================================================================
    PRINCIPLES (kept for compatibility, restyled)
    ========================================================================== */
 .principles-grid {
