@@ -617,7 +617,10 @@ section.tight { padding: var(--sp-56) 0; }
 .process-item .step-num {
   font-family: var(--font-display);
   font-size: var(--fs-1000);
-  color: var(--green);
+  /* --green is only 2.29-2.53:1 on the light surfaces this numeral sits on
+     (cream / cream-dim), below the 3:1 AA minimum for large text. --green-dark
+     keeps the accent and passes (>=4.6:1), as it does for the eyebrows. */
+  color: var(--green-dark);
   -webkit-text-stroke: 1.5px var(--legacy-ink);
 }
 
