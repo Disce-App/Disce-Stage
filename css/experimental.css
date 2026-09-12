@@ -626,6 +626,10 @@ section.tight { padding: var(--sp-56) 0; }
 
 .process-item h3 { font-size: var(--fs-600); margin-bottom: var(--sp-40); text-transform: none; }
 .process-item p { color: var(--muted); font-size: var(--fs-400); max-width: 600px; }
+/* Parenthetical meta line on process/team headings (was repeated inline). */
+.process-period { font-weight: 400; color: var(--muted); font-size: var(--fs-400); }
+/* Legal pages: English-only note under the German-authoritative text. */
+.legal-lang-note { margin-top: var(--sp-16); }
 
 @media (max-width: 640px) { .process-item { grid-template-columns: 1fr; gap: var(--sp-40); } }
 
