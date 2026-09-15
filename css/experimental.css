@@ -725,6 +725,19 @@ section.tight { padding: var(--sp-56) 0; }
   .band-card--left, .band-card--right { left: auto; right: auto; }
 }
 
+/* Image-less band variant (Philosophy, after the motif rollout): the picture is
+   gone, so the pull-quote card flows in the band instead of floating over an
+   image, and the band keeps its dark counterpoint surface. Scoped so the
+   image-bearing .band on Team is untouched. */
+.band--text { padding: var(--sp-40) var(--sp-32); }
+.band--text .band-card {
+  position: static;
+  width: auto;
+  max-width: 720px;
+  margin: 0 auto;
+  box-shadow: none;
+}
+
 /* ==========================================================================
    PRINCIPLES (kept for compatibility, restyled)
    ========================================================================== */
