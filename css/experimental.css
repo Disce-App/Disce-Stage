@@ -472,7 +472,7 @@ body::before {
 }
 
 /* ==========================================================================
-   SECTION SCAFFOLDING
+   SECTION RHYTHM
    ========================================================================== */
 section { padding: var(--sp-84) 0; }
 section.tight { padding: var(--sp-56) 0; }
@@ -801,7 +801,7 @@ section.tight { padding: var(--sp-56) 0; }
    four identical tiles, a vertical progress rail in place of the loose
    timeline, and a dark long-range counterpoint whose DACH map is a masked
    watermark. The legal pages use the untouched .status-banner base above.
-   Batch 2 removed the placeholder notice that used to sit above the ledger.
+   Batch 2 removed the interim notice that used to sit above the ledger.
    ========================================================================== */
 
 /* Status ledger: current phase anchors the row; the three dated facts read as
@@ -1327,8 +1327,8 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
    a scrim tuned for WCAG AA overlaid copy, and a ~5% film-grain overlay.
    Every added layer is absolutely positioned, so the section keeps its
    content-driven height and the image contributes zero layout shift.
-   The LQIP (24 px WebP from scripts/optimize_images.py) is the section's
-   background placeholder until the real image decodes.
+   The LQIP (24 px WebP from scripts/optimize_images.py) stands in as the
+   section background until the real image decodes.
    ========================================================================== */
 .cta-band:has(.cta-band-bg) {
   position: relative;
@@ -1465,12 +1465,12 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
 }
 
 /* ==========================================================================
-   BETA PLACEHOLDER HERO — one-screen C08 heron band (DESIGN-BRIEF §7/§13)
+   BETA HERO — one-screen C08 heron band (DESIGN-BRIEF §7/§13)
    The key visual is absolutely positioned behind a one-screen-high section,
    so it contributes zero layout shift. A soft cream scrim on the left keeps
    the dark copy AA-safe while the sun, heron and ground band stay visible.
    Scope: only beta.html uses .beta-hero. The page's DE/EN wording is a
-   minimal placeholder pending review.
+   minimal draft pending review.
    ========================================================================== */
 .beta-hero {
   position: relative;

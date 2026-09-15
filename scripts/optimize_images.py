@@ -4,7 +4,7 @@
 Reads a master image from ``images/`` (masters are never modified) and writes
 AVIF (primary) + WebP (fallback) derivatives into ``images/derived/`` at a set
 of target widths, capped by the master's real pixel width so nothing is ever
-upscaled. It also emits a <= 1 KB WebP LQIP placeholder (about 24 px wide) and
+upscaled. It also emits a <= 1 KB WebP LQIP (about 24 px wide) and
 a JSON manifest on stdout.
 
 Runtime dependencies (NOT vendored into the repo; install outside the tree):
