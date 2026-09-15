@@ -64,7 +64,7 @@
   <div class="wrap">
     <!-- Status ledger: the current project anchors the row, the three dated
          facts read as secondary columns. Re-anchored from "Validierung" to
-         Kernel v0 (Batch 3); no funding-phase wording remains. -->
+         Kernel v0 (Batch 3). -->
     <div class="status-ledger">
       <div class="status-anchor">
         <div class="status-anchor-value"><span data-lang="de">Kernel v0 — in Entwicklung</span><span data-lang="en">Kernel v0 — in development</span></div>
@@ -85,70 +85,92 @@
         </div>
       </div>
     </div>
-
-    <!-- KERNEL FRAMING. The internal umbrella and core-construct names are not
-         exposed; only the public kernel description remains. -->
-    <p class="status-ledger-note"><span data-lang="de">Im Zentrum steht der Disce-Kernel: das dauerhafte Grundsystem, das bewusst langsam, sicher und iterativ von der Meta-Ebene zur Umsetzung entwickelt wird. Der V0-Prototyp ist seine erste praktische Ausprägung.</span><span data-lang="en">At the core is the Disce Kernel: the durable system, developed deliberately, slowly and iteratively, from the meta-level toward implementation. The V0 prototype is its first practical embodiment.</span></p>
   </div>
 </section>
 
 <section class="status-projects">
   <div class="wrap">
     <div class="section-head">
+      <span class="eyebrow"><span data-lang="de">Entwicklung</span><span data-lang="en">Development</span></span>
       <h2><span data-lang="de">Projekte</span><span data-lang="en">Projects</span></h2>
       <p class="lede"><span data-lang="de">Der Entwicklungsstand von Disce gliedert sich in Projekte. Jedes Projekt hat einen klar definierten Auftrag; der Stand wird fortgeschrieben, sobald sich ein Status ändert.</span><span data-lang="en">The state of Disce's development is organized in projects. Each project has a clearly defined mandate; the status is updated as it changes.</span></p>
     </div>
 
-    <!-- PROJECT VIEW (Batch 3) replaces the former roadmap. Cervus / Midgard /
-         Asgard are confirmed public project names (.codename retained per the
-         naming decision). Order: complete -> in progress -> planned. -->
-    <div class="project-list">
-      <div class="project-item is-done">
-        <span class="project-node" aria-hidden="true"></span>
-        <div class="project-meta">
+    <!-- PROJECT CARDS (Batch 4). The detail layer reveals on hover (pointer) or
+         via the toggle button, which carries aria-expanded and serves keyboard
+         and touch. The detail keeps its space in flow (visibility, not height),
+         so neither hover nor tap shifts surrounding content. The Batch 3
+         spine/nodes are dropped: the card borders carry the structure. Order:
+         complete -> in progress -> planned. -->
+    <div class="project-cards">
+      <article class="project-card is-done">
+        <div class="project-card-head">
+          <h3>Cervus</h3>
           <span class="status-tag done"><span data-lang="de">Abgeschlossen</span><span data-lang="en">Complete</span></span>
-          <span class="project-sep" aria-hidden="true">·</span>
-          <span class="project-period"><span data-lang="de">Mai – August 2026</span><span data-lang="en">May – August 2026</span></span>
         </div>
-        <h3><span class="codename">Cervus</span></h3>
-        <p><span data-lang="de">Forschungssandbox zur abgeschlossenen Masterarbeit; liefert den methodischen Rahmen der Validierung.</span><span data-lang="en">Research sandbox tied to the completed master's research; provides the methodological frame for validation.</span></p>
-      </div>
-      <div class="project-item is-progress">
-        <span class="project-node" aria-hidden="true"></span>
-        <div class="project-meta">
+        <span class="project-period"><span data-lang="de">Mai – August 2026</span><span data-lang="en">May – August 2026</span></span>
+        <p class="project-summary"><span data-lang="de">Forschungssandbox zur abgeschlossenen Masterarbeit; liefert den methodischen Rahmen der Validierung.</span><span data-lang="en">Research sandbox tied to the completed master's research; provides the methodological frame for validation.</span></p>
+        <div class="project-detail" id="project-cervus-detail">
+          <p><span data-lang="de">Eine empirische Studie zu KI-gestütztem Sprachenlernen auf hohem Niveau, begleitend zur abgeschlossenen Masterarbeit. Methodik und Ergebnisse bilden den Ausgangspunkt der Validierungslinie; ein Folgeprojekt im Rahmen eines weiteren Masterstudiums setzt sie fort.</span><span data-lang="en">An empirical study of AI-supported language learning at an advanced level, accompanying the completed master's thesis. Its methodology and findings form the starting point of the validation line; a follow-up project within a second master's programme continues it.</span></p>
+        </div>
+        <button class="project-toggle" type="button" aria-expanded="false" aria-controls="project-cervus-detail">
+          <span data-lang="de">Mehr</span><span data-lang="en">More</span>
+          <span class="project-chevron" aria-hidden="true"></span>
+        </button>
+      </article>
+      <article class="project-card is-progress">
+        <div class="project-card-head">
+          <h3>Kernel v0</h3>
           <span class="status-tag progress"><span data-lang="de">In Entwicklung</span><span data-lang="en">In Progress</span></span>
-          <span class="project-sep" aria-hidden="true">·</span>
-          <span class="project-period"><span data-lang="de">seit September 2026</span><span data-lang="en">since September 2026</span></span>
         </div>
-        <h3>Kernel v0</h3>
-        <p><span data-lang="de">Das dauerhafte Grundsystem, bewusst langsam, sicher und iterativ von der Meta-Ebene zur Umsetzung entwickelt. Der V0-Prototyp ist seine erste praktische Ausprägung.</span><span data-lang="en">The durable core system, developed deliberately, slowly and iteratively, from the meta-level toward implementation. The V0 prototype is its first practical embodiment.</span></p>
-      </div>
-      <div class="project-item is-planned">
-        <span class="project-node" aria-hidden="true"></span>
-        <div class="project-meta">
+        <span class="project-period"><span data-lang="de">seit September 2026</span><span data-lang="en">since September 2026</span></span>
+        <p class="project-summary"><span data-lang="de">Das dauerhafte Grundsystem, bewusst langsam, sicher und iterativ von der Meta-Ebene zur Umsetzung entwickelt. Der V0-Prototyp ist seine erste praktische Ausprägung.</span><span data-lang="en">The durable core system, developed deliberately, slowly and iteratively, from the meta-level toward implementation. The V0 prototype is its first practical embodiment.</span></p>
+        <div class="project-detail" id="project-kernel-detail">
+          <p><span data-lang="de">Der Kernel wird entlang eines kanonischen Regelwerks entwickelt — Axiome, ein zweistufiges Glossar der Grundbegriffe und eine Produktspezifikation für V0. V0 ist zugleich Prüfstand: Jede darin verbaute Annahme muss prüfbar sein.</span><span data-lang="en">The Kernel is developed along a canonical rulebook — axioms, a two-tier glossary of core concepts, and a product specification for V0. V0 doubles as a proving ground: every assumption built into it must be testable.</span></p>
+        </div>
+        <button class="project-toggle" type="button" aria-expanded="false" aria-controls="project-kernel-detail">
+          <span data-lang="de">Mehr</span><span data-lang="en">More</span>
+          <span class="project-chevron" aria-hidden="true"></span>
+        </button>
+      </article>
+      <article class="project-card is-planned">
+        <div class="project-card-head">
+          <h3>Midgard</h3>
           <span class="status-tag planned"><span data-lang="de">Geplant</span><span data-lang="en">Planned</span></span>
         </div>
-        <h3><span class="codename">Midgard</span></h3>
-        <p><span data-lang="de">Zweite Stufe der Forschungslinie; erhebt und bündelt die Validierungsnachweise.</span><span data-lang="en">Second stage of the research line; gathers and consolidates the validation evidence.</span></p>
-      </div>
-      <div class="project-item is-planned">
-        <span class="project-node" aria-hidden="true"></span>
-        <div class="project-meta">
+        <p class="project-summary"><span data-lang="de">Zweite Stufe der Forschungslinie; erhebt und bündelt die Validierungsnachweise.</span><span data-lang="en">Second stage of the research line; gathers and consolidates the validation evidence.</span></p>
+        <div class="project-detail" id="project-midgard-detail">
+          <p><span data-lang="de">Ein Tutor-System, das die Kernel-Ansätze in realer Nutzung erprobt. Es erhebt die Validierungsnachweise aus dem Praxisbetrieb und bündelt sie für die Weiterentwicklung.</span><span data-lang="en">A tutor system that trials the kernel approaches in real use. It gathers validation evidence from live operation and consolidates it for further development.</span></p>
+        </div>
+        <button class="project-toggle" type="button" aria-expanded="false" aria-controls="project-midgard-detail">
+          <span data-lang="de">Mehr</span><span data-lang="en">More</span>
+          <span class="project-chevron" aria-hidden="true"></span>
+        </button>
+      </article>
+      <article class="project-card is-planned">
+        <div class="project-card-head">
+          <h3>Asgard</h3>
           <span class="status-tag planned"><span data-lang="de">Geplant</span><span data-lang="en">Planned</span></span>
         </div>
-        <h3><span class="codename">Asgard</span></h3>
-        <p><span data-lang="de">Dritte Stufe der Forschungslinie; schließt die Nachweisführung ab.</span><span data-lang="en">Third stage of the research line; completes the evidence base.</span></p>
-      </div>
+        <p class="project-summary"><span data-lang="de">Dritte Stufe der Forschungslinie; schließt die Nachweisführung ab.</span><span data-lang="en">Third stage of the research line; completes the evidence base.</span></p>
+        <div class="project-detail" id="project-asgard-detail">
+          <p><span data-lang="de">Dritte Stufe der Forschungslinie; schließt die Nachweisführung ab und bereitet den Übergang in die Betaphase vor.</span><span data-lang="en">Third stage of the research line; completes the evidence base and prepares the transition into the beta phase.</span></p>
+        </div>
+        <button class="project-toggle" type="button" aria-expanded="false" aria-controls="project-asgard-detail">
+          <span data-lang="de">Mehr</span><span data-lang="en">More</span>
+          <span class="project-chevron" aria-hidden="true"></span>
+        </button>
+      </article>
       <!-- OPTIONAL PROJECT — Beta (Batch 3 §3). Not rendered by default; enable by
-           removing this comment wrapper if the beta item is to ship.
-      <div class="project-item is-planned">
-        <span class="project-node" aria-hidden="true"></span>
-        <div class="project-meta">
+           removing this comment wrapper. Convert to .project-card and add a detail
+           paragraph when owner copy exists.
+      <article class="project-card is-planned">
+        <div class="project-card-head">
+          <h3>Beta</h3>
           <span class="status-tag planned"><span data-lang="de">Geplant</span><span data-lang="en">Planned</span></span>
         </div>
-        <h3>Beta</h3>
-        <p><span data-lang="de">Betaphase mit Pilotpartnerinnen und Pilotpartnern nach Abschluss der Nachweisführung.</span><span data-lang="en">Beta phase with pilot partners, following completion of the evidence base.</span></p>
-      </div>
+        <p class="project-summary"><span data-lang="de">Betaphase mit Pilotpartnerinnen und Pilotpartnern nach Abschluss der Nachweisführung.</span><span data-lang="en">Beta phase with pilot partners, following completion of the evidence base.</span></p>
+      </article>
       -->
     </div>
   </div>
@@ -165,7 +187,7 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow"><span data-lang="de">Langfristige Perspektive</span><span data-lang="en">Long-Range Vision</span></span>
-      <h2><span data-lang="de">Vom MVP zur sprachkulturellen Infrastruktur.</span><span data-lang="en">From MVP to language-culture infrastructure.</span></h2>
+      <h2><span data-lang="de">Vom Kernel zur sprachkulturellen Infrastruktur.</span><span data-lang="en">From the Kernel to language-culture infrastructure.</span></h2>
       <p class="lede"><span data-lang="de">Über die aktuelle Entwicklung hinaus skizziert unsere interne Roadmap vier längere Abschnitte. Sie geben eine Richtung an, keine verbindlichen Termine, und stehen hier, um Partnern und möglichen Mitarbeitenden Anspruch und Reihenfolge zu vermitteln.</span><span data-lang="en">Beyond current development, our internal roadmap sketches four longer epochs. These are directional, not committed timelines, and are included here to give partners and prospective hires a sense of ambition and sequencing.</span></p>
     </div>
     <div class="process-list">
@@ -173,7 +195,7 @@
         <div class="step-num">I</div>
         <div>
           <h3><span data-lang="de">Fundament &amp; Markteintritt</span><span data-lang="en">Foundation &amp; Market Entry</span> <span class="process-period"><span data-lang="de">· Jahre 1–2</span><span data-lang="en">· Years 1–2</span></span></h3>
-          <p><span data-lang="de">Kernmodule des MVP (tägliche Wortentdeckung, Karteikarten mit verteilter Wiederholung, visuelle Fortschrittsanzeige), erste Abo-Stufen und eine früh engagierte Community.</span><span data-lang="en">Core MVP modules (daily word discovery, spaced-repetition flashcards, visual progress tracking), first subscription tiers, and an early, engaged community.</span></p>
+          <p><span data-lang="de">Kernmodule des Kernels (tägliche Wortentdeckung, Karteikarten mit verteilter Wiederholung, visuelle Fortschrittsanzeige), seine erste produktive Nutzung und eine früh engagierte Community.</span><span data-lang="en">Core Kernel modules (daily word discovery, spaced-repetition flashcards, visual progress tracking), its first productive use, and an early, engaged community.</span></p>
         </div>
       </div>
       <div class="process-item">

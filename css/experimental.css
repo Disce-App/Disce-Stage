@@ -881,56 +881,115 @@ section.tight { padding: var(--sp-56) 0; }
   .status-fact:first-child { border-top: 0; }
 }
 
-/* Kernel framing line under the ledger. .codename is intentionally unstyled:
-   it only marks the three confirmed-public project names in the project view. */
-.status-ledger-note {
-  margin-top: var(--sp-16);
-  max-width: 820px;
-  font-size: var(--fs-400);
-  color: var(--muted);
-}
-
-/* Project view (Batch 3). Reuses the ledger/progress-rail visual language: a
-   hairline spine with diamond nodes, status tags, hairline meta row. Replaces
-   the former roadmap section and carries no image. */
+/* Project cards (Batch 4). Cards replace the Batch 3 spine/nodes and carry the
+   structure themselves. Detail layer is reserved in flow (visibility, not
+   height), so revealing it never shifts surrounding content. Revealed on hover
+   (pointer) or .is-open (the toggle, for keyboard and touch). */
 .status-projects { padding-top: var(--sp-56); }
-.project-list {
-  position: relative;
+.project-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-24);
   margin-top: var(--sp-40);
-  border-left: 2px solid var(--legacy-ink);
-  padding-left: 40px;
+  align-items: start;
 }
-.project-item { position: relative; padding-bottom: var(--sp-40); }
-.project-item:last-child { padding-bottom: 0; }
-.project-node {
-  position: absolute;
-  left: -49px;
-  top: 4px;
-  width: 16px;
-  height: 16px;
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   background: var(--legacy-paper);
   border: 2px solid var(--legacy-ink);
-  transform: rotate(45deg);
+  padding: var(--sp-28) var(--sp-28) var(--sp-20);
+  cursor: pointer;
+  transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
 }
-.project-item.is-done .project-node { background: var(--legacy-ink); }
-.project-item.is-progress .project-node { background: var(--ochre); }
-.project-meta {
+.project-card-head {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: var(--sp-8);
-  margin-bottom: var(--sp-12);
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-12);
+  margin-bottom: var(--sp-8);
 }
+.project-card-head h3 { font-size: var(--fs-700); text-transform: none; margin: 0; }
 .project-period {
+  display: block;
   font-size: var(--fs-200);
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--green-dark);
+  margin-bottom: var(--sp-16);
 }
-.project-sep { color: var(--line-soft); }
-.project-item h3 { font-size: var(--fs-600); margin-bottom: var(--sp-12); text-transform: none; }
-.project-item p { color: var(--muted); font-size: var(--fs-400); max-width: 760px; }
+.project-summary {
+  font-size: var(--fs-400);
+  color: var(--muted);
+  max-width: 640px;
+}
+.project-detail {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease);
+}
+.project-detail p {
+  font-size: var(--fs-400);
+  color: var(--ink-soft);
+  max-width: 640px;
+  border-top: 1px solid var(--line-soft);
+  margin-top: var(--sp-16);
+  padding-top: var(--sp-16);
+}
+.project-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-8);
+  align-self: flex-start;
+  margin-top: var(--sp-16);
+  padding: var(--sp-4) 0;
+  background: none;
+  border: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-dark);
+  cursor: pointer;
+}
+.project-chevron {
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--dur-base) var(--ease);
+}
+/* Reveal states: the toggle (keyboard + touch) and pointer hover. Deliberately
+   not revealed by focus alone: a disclosure has to collapse with the same
+   control that opened it, and focus would keep overriding the closed state. */
+.project-card.is-open .project-detail { visibility: visible; opacity: 1; }
+.project-card.is-open .project-chevron { transform: rotate(-135deg); }
+
+@media (hover: hover) {
+  .project-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 5px 5px 0 var(--legacy-ink);
+  }
+  .project-card:hover .project-detail { visibility: visible; opacity: 1; }
+  .project-card:hover .project-chevron { transform: rotate(-135deg); }
+}
+
+@media (max-width: 760px) {
+  .project-cards { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card { transition: none; }
+  .project-detail { transition: none; }
+  .project-chevron { transition: none; }
+  .project-card:hover { transform: none; box-shadow: none; }
+}
 
 .status-tag {
   display: inline-flex;
@@ -960,11 +1019,6 @@ section.tight { padding: var(--sp-56) 0; }
 .status-tag.planned::before {
   background: transparent;
   box-shadow: inset 0 0 0 1.5px var(--muted);
-}
-
-@media (max-width: 560px) {
-  .project-list { padding-left: var(--sp-28); }
-  .project-node { left: -37px; }
 }
 
 /* Long-range dark counterpoint. The DACH map is a large, low-opacity
