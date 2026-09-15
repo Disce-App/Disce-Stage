@@ -82,3 +82,16 @@ Preserve keyboard access, visible focus states, and WCAG AA contrast.
 
 Ask before making assumptions that affect product behavior, content,
 legal/privacy, or deployment.
+
+## Generative web visuals
+
+Before planning, implementing, refactoring, or reviewing any Canvas, SVG
+motion, CSS animation, WebGL, shader, particle, procedural, or scroll-linked
+visual, read `GENERATIVE_WEB_VISUALS_COMPETENCY.md` and
+`docs/generative-visuals/implementation-plan.md`.
+
+A generative visual is an optional enhancement. It must be deletable without
+the page losing meaning, its static/no-JS fallback is the current look of the
+section, and it uses only existing CSS design tokens. State its user/product
+purpose first; if none exists, propose a static or CSS/SVG alternative. Do not
+add dependencies or a build step.
