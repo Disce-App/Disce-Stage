@@ -173,6 +173,30 @@
       </article>
       -->
     </div>
+
+    <!-- GENERATIVE VISUAL — kernel working loop (Batch 1). Hidden in markup and
+         revealed only when js/generative mounts it, so the no-JS render is
+         unchanged. Informative: the SVG is aria-hidden; the stage labels, the
+         sr-only description and the visible caption carry the meaning. Caption
+         and stage labels are owner-approved copy. -->
+    <figure class="gen-plate" data-gen="kernel-loop" data-seed="kernel-loop-01" hidden>
+      <div class="gen-plate-stage">
+        <div class="gen-plate-canvas" aria-hidden="true"></div>
+        <ol class="gen-stages">
+          <li class="gen-stage"><span class="gen-stage-label"><span data-lang="de">Entwurf</span><span data-lang="en">Draft</span></span></li>
+          <li class="gen-stage"><span class="gen-stage-label"><span data-lang="de">Prüfung</span><span data-lang="en">Test</span></span></li>
+          <li class="gen-stage"><span class="gen-stage-label"><span data-lang="de">Entscheidung</span><span data-lang="en">Decide</span></span></li>
+          <li class="gen-stage"><span class="gen-stage-label"><span data-lang="de">Behalten oder verwerfen</span><span data-lang="en">Keep or discard</span></span></li>
+        </ol>
+      </div>
+      <figcaption class="gen-plate-caption"><span data-lang="de">Der Kernel wächst in Schleifen: entwerfen, prüfen, behalten oder verwerfen.</span><span data-lang="en">The Kernel grows in loops: draft, test, keep or discard.</span></figcaption>
+      <p class="gen-plate-desc"><span data-lang="de">Der Kernel durchläuft vier Schritte in einer Schleife: entwerfen, prüfen, entscheiden und behalten oder verwerfen; anschließend beginnt der nächste Durchlauf.</span><span data-lang="en">The Kernel moves through four steps in a loop: draft, test, decide, and keep or discard; the next pass then begins.</span></p>
+      <div class="gen-plate-foot">
+        <button class="gen-plate-pause" type="button" aria-pressed="false">
+          <span data-lang="de">Bewegung pausieren</span><span data-lang="en">Pause motion</span>
+        </button>
+      </div>
+    </figure>
   </div>
 </section>
 
