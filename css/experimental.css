@@ -991,6 +991,18 @@ section.tight { padding: var(--sp-56) 0; }
   .project-card:hover { transform: none; box-shadow: none; }
 }
 
+/* --------------------------------------------------------------------------
+   Generative visual — seeded section motif (Batch 2, Philosophy). One system
+   reused across the essay headings: a bandwidth of contour hairlines whose
+   count, undulation and ochre accent derive from base seed + section id. The
+   plate ships hidden and is mounted by JS, aria-hidden and text-free, so the
+   no-JS render is unchanged. Static for now — motion is a later batch.
+   -------------------------------------------------------------------------- */
+.gen-motif { margin: 0 0 var(--sp-8); }
+.gen-motif-svg { display: block; width: 100%; height: auto; }
+.gen-motif-line { fill: none; stroke: var(--muted); stroke-opacity: 0.45; stroke-width: 1.1; }
+.gen-motif-accent { fill: none; stroke: var(--ochre); stroke-width: 1.8; }
+
 .status-tag {
   display: inline-flex;
   align-items: center;
