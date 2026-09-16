@@ -63,19 +63,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Status page project cards: the detail layer is revealed by the card's
-  // toggle. The listener sits on the card so the whole surface is tappable,
-  // while the button inside carries the expanded state for assistive tech.
-  document.querySelectorAll('.project-card').forEach(function (card) {
-    var projectToggle = card.querySelector('.project-toggle');
-    if (!projectToggle) return;
-    card.addEventListener('click', function () {
-      var open = !card.classList.contains('is-open');
-      card.classList.toggle('is-open', open);
-      projectToggle.setAttribute('aria-expanded', String(open));
-    });
-  });
-
   // Language. German is the default; a stored choice wins over it.
   // No browser sniffing: a first-time visitor always gets German.
   var LANG_KEY = 'disce-lang';

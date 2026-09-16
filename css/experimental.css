@@ -894,38 +894,36 @@ section.tight { padding: var(--sp-56) 0; }
   .status-fact:first-child { border-top: 0; }
 }
 
-/* Project cards (Batch 4). Cards replace the Batch 3 spine/nodes and carry the
-   structure themselves. Detail layer is reserved in flow (visibility, not
-   height), so revealing it never shifts surrounding content. Revealed on hover
-   (pointer) or .is-open (the toggle, for keyboard and touch). */
+/* Project spine (structural overhaul, 2026-09-15). The four projects are one
+   sequence read top-to-bottom — complete -> in progress -> planned. Each entry
+   shows its full detail; the former hover/click disclosure, its reserved blank
+   space and the "Mehr" toggles are gone. The active Kernel v0 entry carries the
+   dark spotlight that will host the ouroboros plate. */
 .status-projects { padding-top: var(--sp-56); }
-.project-cards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--sp-24);
+.project-spine {
   margin-top: var(--sp-40);
-  align-items: start;
+  border-top: 2px solid var(--legacy-ink);
 }
-.project-card {
-  position: relative;
+.project-entry {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  grid-template-areas:
+    "meta name"
+    "meta body";
+  column-gap: var(--sp-32);
+  row-gap: var(--sp-12);
+  padding: var(--sp-32) 0;
+  border-bottom: 2px solid var(--legacy-ink);
+}
+.project-meta {
+  grid-area: meta;
   display: flex;
   flex-direction: column;
-  min-width: 0;
-  background: var(--legacy-paper);
-  border: 2px solid var(--legacy-ink);
-  padding: var(--sp-28) var(--sp-28) var(--sp-20);
-  cursor: pointer;
-  transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
-}
-.project-card-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
+  align-items: flex-start;
   gap: var(--sp-12);
-  margin-bottom: var(--sp-8);
 }
-.project-card-head h3 { font-size: var(--fs-700); text-transform: none; margin: 0; }
+.project-name { grid-area: name; font-size: var(--fs-700); text-transform: none; margin: 0; }
+.project-body { grid-area: body; min-width: 0; }
 .project-period {
   display: block;
   font-size: var(--fs-200);
@@ -933,75 +931,48 @@ section.tight { padding: var(--sp-56) 0; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--green-dark);
-  margin-bottom: var(--sp-16);
 }
 .project-summary {
-  font-size: var(--fs-400);
-  color: var(--muted);
-  max-width: 640px;
-}
-.project-detail {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity var(--dur-base) var(--ease);
+  font-size: var(--fs-500);
+  color: var(--ink-soft);
+  max-width: 680px;
 }
 .project-detail p {
   font-size: var(--fs-400);
-  color: var(--ink-soft);
-  max-width: 640px;
+  color: var(--muted);
+  max-width: 680px;
   border-top: 1px solid var(--line-soft);
   margin-top: var(--sp-16);
   padding-top: var(--sp-16);
 }
-.project-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-8);
-  align-self: flex-start;
-  margin-top: var(--sp-16);
-  padding: var(--sp-4) 0;
-  background: none;
-  border: 0;
-  font-family: var(--font-body);
-  font-size: var(--fs-100);
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--green-dark);
-  cursor: pointer;
-}
-.project-chevron {
-  width: 7px;
-  height: 7px;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  transform: rotate(45deg);
-  transition: transform var(--dur-base) var(--ease);
-}
-/* Reveal states: the toggle (keyboard + touch) and pointer hover. Deliberately
-   not revealed by focus alone: a disclosure has to collapse with the same
-   control that opened it, and focus would keep overriding the closed state. */
-.project-card.is-open .project-detail { visibility: visible; opacity: 1; }
-.project-card.is-open .project-chevron { transform: rotate(-135deg); }
 
-@media (hover: hover) {
-  .project-card:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: 5px 5px 0 var(--legacy-ink);
-  }
-  .project-card:hover .project-detail { visibility: visible; opacity: 1; }
-  .project-card:hover .project-chevron { transform: rotate(-135deg); }
+/* Spotlight — Kernel v0. The single dark counterpoint inside the light
+   sequence, bleeding to the wrap edges; the ouroboros plate mounts at its
+   centre once the master visual lands. */
+.project-entry.is-spotlight {
+  background: var(--green-forest);
+  margin: 0 calc(-1 * var(--sp-32));
+  padding: var(--sp-48) var(--sp-32);
 }
+.project-entry.is-spotlight h3 { color: var(--legacy-paper); font-size: var(--fs-800); }
+.project-entry.is-spotlight .project-summary { color: var(--legacy-cream-78); }
+.project-entry.is-spotlight .project-detail p {
+  color: var(--legacy-cream-75);
+  border-top-color: rgba(213, 192, 157, 0.28);
+}
+.project-entry.is-spotlight .project-period { color: var(--parchment); }
+.project-entry.is-spotlight .status-tag.progress { color: var(--parchment); }
+/* The dark spotlight bleeds wider than the content column, so a content-width
+   hairline above it would poke out at its corners. Drop that one rule; the
+   panel's own full-width bottom rule keeps the sequence separated. */
+.project-entry:has(+ .project-entry.is-spotlight) { border-bottom: 0; }
 
 @media (max-width: 760px) {
-  .project-cards { grid-template-columns: 1fr; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .project-card { transition: none; }
-  .project-detail { transition: none; }
-  .project-chevron { transition: none; }
-  .project-card:hover { transform: none; box-shadow: none; }
+  .project-entry {
+    grid-template-columns: 1fr;
+    grid-template-areas: "name" "meta" "body";
+  }
+  .project-entry.is-spotlight { padding: var(--sp-32) var(--sp-32); }
 }
 
 /* --------------------------------------------------------------------------
