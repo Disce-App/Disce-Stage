@@ -80,6 +80,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     var t = document.querySelector('title[data-title-' + lang + ']');
     if (t) document.title = t.getAttribute('data-title-' + lang);
+    // Bilingual alt text, mirroring the title's data-attribute pattern.
+    document.querySelectorAll('img[data-alt-de][data-alt-en]').forEach(function (img) {
+      var a = img.getAttribute('data-alt-' + lang);
+      if (a) img.alt = a;
+    });
   }
   applyLang(readLang());
   document.querySelectorAll('.lang-switch button').forEach(function (b) {

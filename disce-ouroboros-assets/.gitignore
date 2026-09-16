@@ -1,0 +1,7 @@
+# Only the selected source master (and its documentation) is versioned.
+# The remaining files are local Recraft exploration / rejected candidates and
+# are intentionally not committed. See README.md.
+*
+!N3.svg
+!README.md
+!.gitignore

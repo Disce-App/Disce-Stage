@@ -967,6 +967,66 @@ section.tight { padding: var(--sp-56) 0; }
    panel's own full-width bottom rule keeps the sequence separated. */
 .project-entry:has(+ .project-entry.is-spotlight) { border-bottom: 0; }
 
+/* Kernel ouroboros — free engraved artefact (asset class D, R2 forest variant).
+   No frame, no cream canvas, transparent ground, so the engraving merges into
+   the --green-forest spotlight field. Square reserved area (aspect-ratio +
+   explicit img dimensions) keeps CLS at zero; object-fit: contain never crops
+   or stretches, so the preserveAspectRatio="none" SVG is never distorted. */
+.kernel-ouroboros {
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 1 / 1;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+.kernel-ouroboros img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+/* Desktop: copy left, the artefact large on the right, deliberately lower.
+   The second column may shrink (min 0) so the layout can never overflow. */
+.project-entry.is-spotlight .project-body {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(0, clamp(400px, 38vw, 547px));
+  gap: var(--sp-40);
+  align-items: start;
+}
+.project-entry.is-spotlight .kernel-ouroboros {
+  justify-self: end;
+  margin-top: var(--sp-32);
+}
+/* Wide desktop: pull the artefact flush to the spotlight's right boundary and
+   a touch lower, so it reads as settled into the field rather than centred in
+   a column. It is never cropped and never clipped. */
+@media (min-width: 1101px) {
+  .project-entry.is-spotlight .kernel-ouroboros {
+    position: relative;
+    right: calc(-1 * var(--sp-32));
+    top: var(--sp-16);
+  }
+}
+
+/* Below the split the artefact drops beneath the copy, uncropped and centred,
+   at ~84% of the content width; it stays >=260px while the viewport allows. */
+@media (max-width: 1100px) {
+  .project-entry.is-spotlight .project-body { grid-template-columns: 1fr; }
+  .project-entry.is-spotlight .kernel-ouroboros {
+    justify-self: center;
+    width: 84%;
+    max-width: 480px;
+    min-width: min(260px, 100%);
+    margin: var(--sp-40) auto var(--sp-16);
+  }
+}
+@media (max-width: 760px) {
+  .project-entry.is-spotlight .kernel-ouroboros { max-width: 360px; }
+}
+
 @media (max-width: 760px) {
   .project-entry {
     grid-template-columns: 1fr;
