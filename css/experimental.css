@@ -472,7 +472,7 @@ body::before {
 }
 
 /* ==========================================================================
-   SECTION SCAFFOLDING
+   SECTION RHYTHM
    ========================================================================== */
 section { padding: var(--sp-84) 0; }
 section.tight { padding: var(--sp-56) 0; }
@@ -725,6 +725,19 @@ section.tight { padding: var(--sp-56) 0; }
   .band-card--left, .band-card--right { left: auto; right: auto; }
 }
 
+/* Image-less band variant (Philosophy, after the motif rollout): the picture is
+   gone, so the pull-quote card flows in the band instead of floating over an
+   image, and the band keeps its dark counterpoint surface. Scoped so the
+   image-bearing .band on Team is untouched. */
+.band--text { padding: var(--sp-40) var(--sp-32); }
+.band--text .band-card {
+  position: static;
+  width: auto;
+  max-width: 720px;
+  margin: 0 auto;
+  box-shadow: none;
+}
+
 /* ==========================================================================
    PRINCIPLES (kept for compatibility, restyled)
    ========================================================================== */
@@ -778,7 +791,9 @@ section.tight { padding: var(--sp-56) 0; }
 @media (max-width: 640px) { .advisor-row { grid-template-columns: 1fr; gap: var(--sp-16); } }
 
 /* ==========================================================================
-   STATUS PAGE
+   STATUS BANNER (shared)
+   Used by the legal pages (impressum.html, datenschutz.html). This is the base
+   rule and is deliberately NOT scoped to body.page-status.
    ========================================================================== */
 .status-banner {
   display: flex;
@@ -793,78 +808,594 @@ section.tight { padding: var(--sp-56) 0; }
 }
 .status-banner strong { color: var(--legacy-ink); }
 
-.status-tag {
-  display: inline-block;
-  font-size: var(--fs-100);
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: var(--sp-16) var(--sp-20);
-  border: 1.5px solid var(--legacy-ink);
-}
-.status-tag.done { background: var(--green); color: var(--legacy-ink); }
-.status-tag.progress { background: var(--blush); color: var(--legacy-ink); }
-.status-tag.next { background: var(--legacy-paper); color: var(--muted); }
+/* ==========================================================================
+   STATUS PAGE (scoped under body.page-status)
+   Reworked onto the shared editorial language: a status ledger in place of
+   four identical tiles, a vertical progress rail in place of the loose
+   timeline, and a dark long-range counterpoint whose DACH map is a masked
+   watermark. The legal pages use the untouched .status-banner base above.
+   Batch 2 removed the interim notice that used to sit above the ledger.
+   ========================================================================== */
 
-.timeline { border-left: 2px solid var(--legacy-ink); margin-top: var(--sp-40); padding-left: 34px; position: relative; }
-.timeline-item { position: relative; padding-bottom: 40px; }
-.timeline-item:last-child { padding-bottom: 0; }
-.timeline-item::before {
+/* Status ledger: current phase anchors the row; the three dated facts read as
+   secondary columns. Bordered-panel language, not a spreadsheet of tiles. */
+.status-ledger {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr);
+  border: 2px solid var(--legacy-ink);
+  background: var(--legacy-paper);
+}
+.status-anchor {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--sp-8);
+  min-width: 0;
+  padding: var(--sp-28) var(--sp-24);
+  background: var(--paper-2);
+  border-right: 2px solid var(--legacy-ink);
+}
+/* Locked ochre status dot (DESIGN-BRIEF §8). */
+.status-anchor::before {
   content: '';
   position: absolute;
-  left: -41px; top: 3px;
-  width: 14px; height: 14px;
-  background: var(--green);
-  border: 2px solid var(--legacy-ink);
-  transform: rotate(45deg);
+  top: var(--sp-16);
+  right: var(--sp-16);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ochre);
 }
-.timeline-item .phase-period { font-size: var(--fs-200); color: var(--muted); margin-bottom: var(--sp-40); text-transform: uppercase; letter-spacing: 0.04em; }
-.timeline-item h3 { font-size: var(--fs-600); margin-bottom: var(--sp-40); text-transform: none; }
-.timeline-item p { color: var(--muted); font-size: var(--fs-400); }
-
-.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-16); margin-top: var(--sp-40); background: var(--legacy-ink); border: 2px solid var(--legacy-ink); }
-.kpi-card { background: var(--legacy-paper); padding: var(--sp-24) var(--sp-20); text-align: center; }
-.kpi-card .kpi-value { font-family: var(--font-display); font-size: var(--fs-800); color: var(--legacy-ink); }
-.kpi-card .kpi-label { font-size: var(--fs-100); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: var(--sp-40); }
-
-@media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
-
-/* Status-page inline visuals: a small framed coverage/region plate (dach-map)
-   with a parchment caption, and a small loop card (C04). Square corners, ink
-   borders, no motion; the explicit width/height plus fixed aspect-ratio keep
-   both at zero CLS. Both are anchored to the section's left column so they
-   read as editorial plates rather than floats in open cream. */
-.region-graphic {
-  margin: var(--sp-48) 0 0;
-  max-width: 320px;
-  background: var(--legacy-paper);
-  border: 2px solid var(--legacy-ink);
-}
-.region-graphic img { display: block; width: 100%; height: auto; }
-.region-graphic figcaption {
-  border-top: 2px solid var(--legacy-ink);
-  background: var(--parchment);
+.status-anchor-value {
+  font-family: var(--font-display);
+  font-size: var(--fs-800);
+  line-height: 1.1;
   color: var(--legacy-ink);
+  overflow-wrap: break-word;
+}
+.status-anchor-label,
+.status-fact-label {
   font-size: var(--fs-100);
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: var(--sp-8) var(--sp-12);
+  color: var(--muted);
+}
+.status-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.status-fact {
+  min-width: 0;
+  padding: var(--sp-28) var(--sp-24);
+  border-left: 1px solid var(--line-soft);
+}
+.status-fact:first-child { border-left: 0; }
+.status-fact-value {
+  font-family: var(--font-display);
+  font-size: var(--fs-700);
+  line-height: 1.15;
+  color: var(--legacy-ink);
+  overflow-wrap: break-word;
+}
+.status-fact-label { display: block; margin-top: var(--sp-8); }
+
+@media (max-width: 900px) {
+  .status-ledger { grid-template-columns: 1fr; }
+  .status-anchor { border-right: 0; border-bottom: 2px solid var(--legacy-ink); }
+  .status-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .status-fact { border-left: 1px solid var(--line-soft); border-top: 0; }
+  .status-fact:first-child { border-left: 0; }
+}
+@media (max-width: 620px) {
+  .status-facts { grid-template-columns: 1fr; }
+  .status-fact { border-left: 0; border-top: 1px solid var(--line-soft); }
+  .status-fact:first-child { border-top: 0; }
 }
 
-.loop-card {
-  margin-top: var(--sp-48);
-  max-width: 360px;
-  background: var(--legacy-paper);
-  border: 2px solid var(--legacy-ink);
-  /* No caption line exists for this visual, so the plate closes with the
-     8 px ink baseline bar instead of small-caps copy. */
-  border-bottom-width: 8px;
+/* Project spine (structural overhaul, 2026-09-15). The four projects are one
+   sequence read top-to-bottom — complete -> in progress -> planned. Each entry
+   shows its full detail; the former hover/click disclosure, its reserved blank
+   space and the "Mehr" toggles are gone. The active Kernel v0 entry carries the
+   dark spotlight that will host the ouroboros plate. */
+.status-projects {
+  padding-top: var(--sp-56);
+  /* Shared focus-field geometry + motion tokens (2026-09-16). One property
+     controls every field/rule bleed, so the green field and the separator
+     rules always share identical horizontal extents. */
+  --project-field-bleed: var(--sp-32);
+  --project-field-fade: 480ms;
+  --project-text-fade: 260ms;
+  --project-visual-fade: 480ms;
+  /* Local project marks exist only on their own focused forest-green field.
+     On paper they are fully hidden: the world tree is the only paper-state
+     motif, so the landscape never shows competing ghost icons. */
+  --project-visual-green: 0.23;
+  --project-visual-green-mark: 0.18;
+}
+.project-spine {
+  position: relative;
+  /* Contains the spine's own stacking order so the world-tree substrate (0),
+     the project landscape (1) and the text stay in one fixed hierarchy. */
+  isolation: isolate;
+  margin-top: var(--sp-40);
+}
+/* Top separator rule — same bleed as every field. Sits above the substrate. */
+.project-spine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: calc(-1 * var(--project-field-bleed));
+  right: calc(-1 * var(--project-field-bleed));
+  z-index: 2;
+  height: 2px;
+  background: var(--legacy-ink);
+  pointer-events: none;
+}
+/* --------------------------------------------------------------------------
+   WORLD-TREE SUBSTRATE (2026-09-16). One persistent decorative layer behind the
+   entire project spine: the larger world the projects take place in — not a
+   project mark, so it never answers to hover, focus, pointer or scroll. The
+   paper entries are transparent, so it stays visible through them; the opaque
+   green focus fields are painted above it, so a focused project covers it. The
+   layer is clipped to the spine's own box (plus the shared field bleed), so it
+   can never reach the section head above or the roadmap / CTA / footer below.
+   -------------------------------------------------------------------------- */
+.project-spine-tree {
+  position: absolute;
+  inset: 0 calc(-1 * var(--project-field-bleed));
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* object-fit: contain keeps the square source undistorted at every width; the
+   layer only ever clips the artwork's transparent canvas margin, never the
+   engraving itself. */
+.project-spine-tree img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 50%;
+  opacity: 0.055;
+}
+/* Wide layout only: the spine is wider than it is tall in proportion, so the
+   engraving can be scaled (uniformly — no distortion) until it spans
+   Cervus -> Asgard instead of sitting as a small centred stamp. The transform is
+   anchored off-centre to the right so the trunk sits clear of the reading
+   column and it never reads as a centred hero image. Static: no transition. */
+@media (min-width: 1200px) {
+  .project-spine-tree img {
+    transform: scale(1.55);
+    transform-origin: 40% 50%;
+  }
+}
+.project-entry {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  grid-template-areas:
+    "meta name"
+    "meta body";
+  column-gap: var(--sp-32);
+  row-gap: var(--sp-12);
+  /* All entries share one bleed, so the field and its separator rule line up
+     exactly. Bleeding via margin/padding (not pseudo insets) keeps the content
+     at the same x and changes no copy width. overflow clips the decorative
+     visual at the field boundary. */
+  margin: 0 calc(-1 * var(--project-field-bleed));
+  padding: var(--sp-32) var(--project-field-bleed);
   overflow: hidden;
 }
-.loop-card img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
-@media (max-width: 700px) {
-  .region-graphic, .loop-card { max-width: none; }
+.project-meta {
+  grid-area: meta;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-12);
+}
+.project-name { grid-area: name; font-size: var(--fs-700); text-transform: none; margin: 0; }
+.project-body { grid-area: body; min-width: 0; }
+.project-period {
+  display: block;
+  font-size: var(--fs-200);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-dark);
+}
+.project-summary {
+  font-size: var(--fs-500);
+  color: var(--ink-soft);
+  max-width: 680px;
+}
+.project-detail p {
+  font-size: var(--fs-400);
+  color: var(--muted);
+  max-width: 680px;
+  border-top: 1px solid var(--line-soft);
+  margin-top: var(--sp-16);
+  padding-top: var(--sp-16);
+}
+
+/* Spotlight — Kernel v0. The single dark counterpoint inside the light
+   sequence, bleeding to the wrap edges; the ouroboros plate mounts at its
+   centre once the master visual lands. */
+.project-entry.is-spotlight {
+  /* The green is painted by the shared ::before field layer (Project Focus
+     Fields) so focus changes never reflow; the element stays transparent.
+     Horizontal padding comes from the shared bleed in the base rule. */
+  background: transparent;
+  padding-top: var(--sp-48);
+  padding-bottom: var(--sp-48);
+}
+.project-entry.is-spotlight h3 { color: var(--legacy-paper); font-size: var(--fs-800); }
+.project-entry.is-spotlight .project-summary { color: var(--legacy-cream-78); }
+.project-entry.is-spotlight .project-detail p {
+  color: var(--legacy-cream-75);
+  border-top-color: rgba(213, 192, 157, 0.28);
+}
+.project-entry.is-spotlight .project-period { color: var(--parchment); }
+.project-entry.is-spotlight .status-tag.progress { color: var(--parchment); }
+/* The dark spotlight bleeds wider than the content column, so a content-width
+   hairline above it would poke out at its corners. Its separator now comes
+   from the shared full-bleed ::after rule, so no exception is needed. */
+
+/* Kernel ouroboros — free engraved artefact (asset class D, R2 forest variant).
+   No frame, no cream canvas, transparent ground, so the engraving merges into
+   the --green-forest spotlight field. Square reserved area (aspect-ratio +
+   explicit img dimensions) keeps CLS at zero; object-fit: contain never crops
+   or stretches the square source. */
+.kernel-ouroboros {
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 1 / 1;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  /* Kernel's decorative visual layer: edge-anchored like the antler / M / A
+     marks (clipped by the entry, which shares the field boundary). The
+     container only carries placement; the img's opacity swaps with the field,
+     so the engraving keeps one box, one scale and one offset in every state.
+     No layout change, so no reflow. */
+  position: relative;
+  z-index: 1;
+  right: calc(-1 * var(--sp-40));
+  bottom: calc(-1 * var(--sp-56));
+  pointer-events: none;
+}
+.kernel-ouroboros img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Latent on paper: the mark exists only on a green field. */
+  opacity: 0;
+  transition: opacity var(--project-visual-fade) var(--ease);
+}
+/* Desktop: copy left, the artefact large on the right, deliberately lower.
+   The second column may shrink (min 0) so the layout can never overflow. */
+.project-entry.is-spotlight .project-body {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(0, clamp(400px, 38vw, 547px));
+  gap: var(--sp-40);
+  align-items: start;
+}
+.project-entry.is-spotlight .kernel-ouroboros {
+  justify-self: end;
+  margin-top: var(--sp-32);
+}
+/* Below the split the artefact drops beneath the copy, uncropped and centred,
+   at ~84% of the content width; it stays >=260px while the viewport allows. */
+@media (max-width: 1100px) {
+  .project-entry.is-spotlight .project-body { grid-template-columns: 1fr; }
+  .project-entry.is-spotlight .kernel-ouroboros {
+    justify-self: center;
+    width: 84%;
+    max-width: 480px;
+    min-width: min(260px, 100%);
+    margin: var(--sp-40) auto var(--sp-16);
+    /* No edge offsets while stacked: the visual stays fully visible. */
+    right: 0;
+    bottom: 0;
+  }
+}
+@media (max-width: 760px) {
+  .project-entry.is-spotlight .kernel-ouroboros { max-width: 360px; }
+}
+
+@media (max-width: 760px) {
+  .project-entry {
+    grid-template-columns: 1fr;
+    grid-template-areas: "name" "meta" "body";
+  }
+  .project-entry.is-spotlight { padding: var(--sp-32) var(--sp-32); }
+}
+
+/* ==========================================================================
+   PROJECT FOCUS FIELDS (2026-09-16)
+   Forest green here means "currently in focus" — never "in development". The
+   actual status stays carried only by the existing status dot, label and date.
+   The field is painted by an absolutely positioned ::before layer, so switching
+   focus changes only background-color / color / opacity and never reflows. The
+   atmospheric visual lives in a separate .project-focus layer that fades in;
+   project copy, status and the Kernel ouroboros always stay fully opaque.
+   Fine-pointer only; touch, keyboard and reduced-motion keep the static default.
+   ========================================================================== */
+
+/* Field overlay (no layout impact): paper stays the base surface and the forest
+   colour fades in as an opacity overlay, so the field transition is gradual. */
+.project-entry::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--green-forest);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--project-field-fade) var(--ease);
+}
+/* Bottom separator rule — the entry box already carries the shared bleed, so
+   this rule and the field have identical left/right extents. */
+.project-entry::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--legacy-ink);
+  pointer-events: none;
+}
+/* Persistent default focus field (all devices). */
+.project-entry.is-spotlight::before { opacity: 1; }
+
+/* Copy, headings and metadata sit above both layers and stay fully opaque. */
+.project-meta,
+.project-name,
+.project-body { position: relative; z-index: 2; }
+/* Text / status colours settle faster than the field fade, so contrast is
+   valid by the time the forest overlay is visually dominant. */
+.project-name,
+.project-summary,
+.project-detail p,
+.project-period,
+.status-tag,
+.status-tag::before {
+  transition: color var(--project-text-fade) var(--ease),
+              background-color var(--project-text-fade) var(--ease),
+              border-color var(--project-text-fade) var(--ease),
+              box-shadow var(--project-text-fade) var(--ease);
+}
+
+/* Atmospheric visual layer — decorative, behind the copy, one shared system.
+   Fully hidden on paper; it fades in only with its own focused green field. */
+.project-focus {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--project-visual-fade) var(--ease);
+}
+.project-focus-visual {
+  display: none;
+  position: absolute;
+  right: calc(-1 * var(--sp-48));
+  bottom: calc(-1 * var(--sp-32));
+}
+/* Cervus: the existing Disce antler signet used as an alpha mask. It only ever
+   appears on the green field, so the fill is parchment, period — there is no
+   ink state to animate through. The source PNG is never modified, and no
+   filter, blend mode or gradient is used. */
+.project-focus-visual--antler {
+  width: clamp(200px, 20vw, 320px);
+  aspect-ratio: 468 / 411;
+  background-color: var(--parchment);
+  -webkit-mask-image: url('../images/antlers-green.png');
+  mask-image: url('../images/antlers-green.png');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+/* Midgard / Asgard: oversized chapter marks, display face. Green field only,
+   so the colour is parchment, period. */
+.project-focus-visual--letter {
+  font-family: var(--font-display);
+  font-size: clamp(180px, 20vw, 300px);
+  line-height: 0.78;
+  color: var(--parchment);
+}
+.project-focus--midgard,
+.project-focus--asgard { --project-focus-green: var(--project-visual-green-mark); }
+/* Only reveal the mark where there is room for it beside the copy. */
+@media (min-width: 1200px) {
+  .project-focus-visual { display: block; }
+}
+
+/* Green-state visual presence: the local mark fades in with its own field and
+   out again when that field returns to paper. Kernel's field is green by
+   default on every device (touch, keyboard, no-JS), so its emblem is visible
+   there by default and yields to nothing whenever the field yields to paper. */
+.project-entry.is-spotlight .kernel-ouroboros img { opacity: var(--project-visual-green); }
+
+/* Status markers on any green field: shape keeps the meaning, colour keeps the
+   contrast (complete = filled parchment, in progress = filled ochre,
+   planned = hollow parchment). */
+.project-entry.is-spotlight .status-tag { color: var(--parchment); }
+.project-entry.is-spotlight .status-tag.done::before { background: var(--parchment); }
+.project-entry.is-spotlight .status-tag.planned::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--parchment);
+}
+
+/* Fine-pointer interaction only. */
+@media (hover: hover) and (pointer: fine) {
+  /* The hovered entry's field fades in... */
+  .project-entry:hover::before { opacity: 1; }
+  .project-entry:hover .project-name { color: var(--legacy-paper); }
+  .project-entry:hover .project-summary { color: var(--legacy-cream-78); }
+  .project-entry:hover .project-detail p {
+    color: var(--legacy-cream-75);
+    border-top-color: rgba(213, 192, 157, 0.28);
+  }
+  .project-entry:hover .project-period { color: var(--parchment); }
+  .project-entry:hover .status-tag { color: var(--parchment); }
+  .project-entry:hover .status-tag.done::before { background: var(--parchment); }
+  .project-entry:hover .status-tag.progress::before { background: var(--ochre); }
+  .project-entry:hover .status-tag.planned::before {
+    background: transparent;
+    box-shadow: inset 0 0 0 1.5px var(--parchment);
+  }
+  /* ...and its visual is revealed to the green-state opacity. */
+  .project-entry:hover .project-focus { opacity: var(--project-focus-green, var(--project-visual-green)); }
+
+  /* Kernel yields while the pointer is elsewhere in the spine: the field fades
+     back to paper and its emblem fades out with it. */
+  .project-spine:hover .project-entry.is-spotlight:not(:hover)::before { opacity: 0; }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .project-name { color: var(--legacy-ink); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .project-summary { color: var(--ink-soft); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .project-detail p {
+    color: var(--muted);
+    border-top-color: var(--line-soft);
+  }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .project-period { color: var(--green-dark); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .status-tag { color: var(--muted); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .status-tag.progress { color: var(--legacy-ink); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .status-tag.done::before { background: var(--green-dark); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .status-tag.progress::before { background: var(--ochre); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .status-tag.planned::before {
+    background: transparent;
+    box-shadow: inset 0 0 0 1.5px var(--muted);
+  }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .kernel-ouroboros img { opacity: 0; }
+}
+
+/* Reduced motion: every focus change is immediate — no opacity animation. */
+@media (prefers-reduced-motion: reduce) {
+  .project-entry::before,
+  .project-focus,
+  .kernel-ouroboros img,
+  .project-name,
+  .project-summary,
+  .project-detail p,
+  .project-period,
+  .status-tag,
+  .status-tag::before { transition: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Generative visual — seeded section motif (Batch 2, Philosophy). One system
+   reused across the essay headings: a bandwidth of contour hairlines whose
+   count, undulation and ochre accent derive from base seed + section id. The
+   plate ships hidden and is mounted by JS, aria-hidden and text-free, so the
+   no-JS render is unchanged. Static for now — motion is a later batch.
+   -------------------------------------------------------------------------- */
+.gen-motif { margin: 0 0 var(--sp-8); }
+.gen-motif-svg { display: block; width: 100%; height: auto; }
+.gen-motif-line { fill: none; stroke: var(--muted); stroke-opacity: 0.45; stroke-width: 1.1; }
+.gen-motif-accent { fill: none; stroke: var(--ochre); stroke-width: 1.8; }
+
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-8);
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.status-tag::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex: none;
+}
+.status-tag.progress { color: var(--legacy-ink); }
+.status-tag.progress::before { background: var(--ochre); }
+.status-tag.done { color: var(--legacy-ink); }
+.status-tag.done::before { background: var(--green-dark); }
+/* Planned: hollow dot, i.e. nothing started yet (the current tag set only has
+   filled dots, so this state needs its own rule). */
+.status-tag.planned { color: var(--muted); }
+.status-tag.planned::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--muted);
+}
+
+/* Long-range dark counterpoint. The DACH map is a large, low-opacity
+   parchment watermark anchored right; because the derivative preserves alpha,
+   mask-image carries the silhouette with no paper box. */
+.long-range {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  /* Clear the 100px halftone seam that .bg-forest paints along its top edge,
+     so the eyebrow is never read through the dot pattern. */
+  padding-top: calc(var(--sp-100) + var(--sp-16));
+}
+.long-range .wrap { position: relative; z-index: 2; }
+.long-range-map {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(62%, 860px);
+  z-index: 1;
+  pointer-events: none;
+  background-color: var(--parchment);
+  opacity: 0.08;
+  -webkit-mask-image: url('../images/derived/dach-map-mask-1600.webp');
+  mask-image: url('../images/derived/dach-map-mask-1600.webp');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: right center;
+  mask-position: right center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+.bg-forest .process-list { border-top: 2px solid rgba(213, 192, 157, 0.35); }
+.bg-forest .process-item { border-bottom: 2px solid rgba(213, 192, 157, 0.35); }
+.bg-forest .process-item .step-num {
+  color: var(--ochre);
+  -webkit-text-stroke: 0;
+}
+.bg-forest .process-item h3 { margin-bottom: var(--sp-12); }
+.bg-forest .process-item p { color: var(--legacy-cream-78); }
+.bg-forest .process-period { color: rgba(213, 192, 157, 0.85); }
+.bg-forest .region-caption {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-12);
+  margin-top: var(--sp-48);
+  font-size: var(--fs-200);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--parchment);
+}
+.region-caption-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ochre);
+  flex: none;
 }
 
 /* ==========================================================================
@@ -1088,24 +1619,13 @@ html:not(.pre-en) body:not(.lang-de):not(.lang-en) [data-lang="en"] { display: n
    ========================================================================== */
 h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
 
-/* Grid tracks default to minmax(auto, 1fr); (0, 1fr) lets them shrink below
-   the card's min-content instead of overflowing the grid. */
-.kpi-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.kpi-card { min-width: 0; }
-.kpi-card .kpi-value, .kpi-card .kpi-label { overflow-wrap: break-word; }
-
 /* #index CTA frame is a column-flex item, so min-width:auto floors it at its
    own min-content. Let it shrink and let the framed buttons wrap instead. */
 .cta-frame { min-width: 0; max-width: 100%; }
 .cta-frame .btn-primary, .cta-frame .btn-secondary { min-width: 0; max-width: 100%; overflow-wrap: break-word; }
 
-@media (max-width: 900px) {
-  .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
 @media (max-width: 480px) {
   :lang(de) h1, :lang(de) h2, :lang(de) h3 { hyphens: auto; -webkit-hyphens: auto; }
-  :lang(de) .kpi-card .kpi-value, :lang(de) .kpi-card .kpi-label,
   :lang(de) .cta-frame .btn-primary, :lang(de) .cta-frame .btn-secondary { hyphens: auto; -webkit-hyphens: auto; }
 
   .cta-frame { padding: var(--sp-20); }
@@ -1125,8 +1645,8 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
    a scrim tuned for WCAG AA overlaid copy, and a ~5% film-grain overlay.
    Every added layer is absolutely positioned, so the section keeps its
    content-driven height and the image contributes zero layout shift.
-   The LQIP (24 px WebP from scripts/optimize_images.py) is the section's
-   background placeholder until the real image decodes.
+   The LQIP (24 px WebP from scripts/optimize_images.py) stands in as the
+   section background until the real image decodes.
    ========================================================================== */
 .cta-band:has(.cta-band-bg) {
   position: relative;
@@ -1263,12 +1783,12 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
 }
 
 /* ==========================================================================
-   BETA PLACEHOLDER HERO — one-screen C08 heron band (DESIGN-BRIEF §7/§13)
+   BETA HERO — one-screen C08 heron band (DESIGN-BRIEF §7/§13)
    The key visual is absolutely positioned behind a one-screen-high section,
    so it contributes zero layout shift. A soft cream scrim on the left keeps
    the dark copy AA-safe while the sun, heron and ground band stay visible.
    Scope: only beta.html uses .beta-hero. The page's DE/EN wording is a
-   minimal placeholder pending review.
+   minimal draft pending review.
    ========================================================================== */
 .beta-hero {
   position: relative;

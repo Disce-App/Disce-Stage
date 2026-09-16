@@ -4,7 +4,7 @@
 Reads a master image from ``images/`` (masters are never modified) and writes
 AVIF (primary) + WebP (fallback) derivatives into ``images/derived/`` at a set
 of target widths, capped by the master's real pixel width so nothing is ever
-upscaled. It also emits a <= 1 KB WebP LQIP placeholder (about 24 px wide) and
+upscaled. It also emits a <= 1 KB WebP LQIP (about 24 px wide) and
 a JSON manifest on stdout.
 
 Runtime dependencies (NOT vendored into the repo; install outside the tree):
@@ -23,6 +23,11 @@ Optional cropping (masters are never modified): ``--crop-inset 4`` removes a
 symmetric 4% paper-mat border, ``--crop-box 73,41,1256,942`` takes an explicit
 region, and ``--no-native`` skips the appended master width for oversized
 sources. Crops are applied before resizing, so derivatives inherit the crop.
+
+Alpha derivatives (for CSS masks etc.): ``--keep-alpha`` preserves the alpha
+channel instead of flattening over the paper background, ``--formats webp``
+restricts output to one format, and ``--suffix=-mask`` disambiguates the stem
+(e.g. ``dach-map-mask-1600.webp``).
 
 Budgets (Section 9): hero-class <= 250 KB AVIF at the largest width,
 card-class <= 120 KB. Quality starts at ~q50 and is stepped down until the
@@ -128,13 +133,19 @@ def make_lqip(image):
 
 
 def optimize(master, kind, out_dir, requested_widths, crop_inset=None, crop_box=None,
-             append_native=True, background=(251, 248, 239)):
+             append_native=True, background=(251, 248, 239), keep_alpha=False,
+             formats=("avif", "webp"), suffix=""):
     image = Image.open(master)
     image.load()
     image = apply_crop(image, crop_inset, crop_box)
-    image = flatten_alpha(image, background)
-    master_w, master_h = image.size
-    rgb = image.convert("RGB")
+    if not keep_alpha:
+        image = flatten_alpha(image, background)
+        rgb = image.convert("RGB")
+    else:
+        # Preserve the alpha channel so the derivative can be used as a CSS
+        # mask (e.g. the DACH map watermark). Still normalise to RGBA.
+        rgb = image.convert("RGBA") if image.mode != "RGBA" else image
+    master_w, master_h = rgb.size
 
     widths = target_widths(master_w, requested_widths, append_native)
     largest = widths[-1]
@@ -142,34 +153,37 @@ def optimize(master, kind, out_dir, requested_widths, crop_inset=None, crop_box=
     # Pick the highest AVIF quality whose largest-width output meets budget.
     quality = AVIF_QUALITY_START
     avif_sizes = {}
-    while True:
-        for width in widths:
-            height = scaled_height(width, master_w, master_h)
-            resized = rgb.resize((width, height), Image.LANCZOS)
-            avif_sizes[width] = encode_avif(resized, quality) if width == largest else None
-        if len(avif_sizes[largest]) <= BUDGETS[kind] or quality <= AVIF_QUALITY_FLOOR:
-            break
-        quality -= AVIF_QUALITY_STEP
+    if "avif" in formats:
+        while True:
+            for width in widths:
+                height = scaled_height(width, master_w, master_h)
+                resized = rgb.resize((width, height), Image.LANCZOS)
+                avif_sizes[width] = encode_avif(resized, quality) if width == largest else None
+            if len(avif_sizes[largest]) <= BUDGETS[kind] or quality <= AVIF_QUALITY_FLOOR:
+                break
+            quality -= AVIF_QUALITY_STEP
 
     os.makedirs(out_dir, exist_ok=True)
-    stem = os.path.splitext(os.path.basename(master))[0]
+    stem = os.path.splitext(os.path.basename(master))[0] + suffix
     derivatives = []
 
     for width in widths:
         height = scaled_height(width, master_w, master_h)
         resized = rgb.resize((width, height), Image.LANCZOS)
-        avif_data = encode_avif(resized, quality)
-        webp_data = encode_webp(resized)
-        avif_path = os.path.join(out_dir, f"{stem}-{width}.avif")
-        webp_path = os.path.join(out_dir, f"{stem}-{width}.webp")
-        with open(avif_path, "wb") as fh:
-            fh.write(avif_data)
-        with open(webp_path, "wb") as fh:
-            fh.write(webp_data)
-        derivatives.append({"format": "avif", "width": width, "height": height,
-                            "file": avif_path, "bytes": len(avif_data)})
-        derivatives.append({"format": "webp", "width": width, "height": height,
-                            "file": webp_path, "bytes": len(webp_data)})
+        if "avif" in formats:
+            avif_data = encode_avif(resized, quality)
+            avif_path = os.path.join(out_dir, f"{stem}-{width}.avif")
+            with open(avif_path, "wb") as fh:
+                fh.write(avif_data)
+            derivatives.append({"format": "avif", "width": width, "height": height,
+                                "file": avif_path, "bytes": len(avif_data)})
+        if "webp" in formats:
+            webp_data = encode_webp(resized)
+            webp_path = os.path.join(out_dir, f"{stem}-{width}.webp")
+            with open(webp_path, "wb") as fh:
+                fh.write(webp_data)
+            derivatives.append({"format": "webp", "width": width, "height": height,
+                                "file": webp_path, "bytes": len(webp_data)})
 
     lqip_img, lqip_data, lqip_quality = make_lqip(rgb)
     lqip_path = os.path.join(out_dir, f"{stem}-lqip.webp")
@@ -184,18 +198,20 @@ def optimize(master, kind, out_dir, requested_widths, crop_inset=None, crop_box=
         "data_uri": "data:image/webp;base64," + base64.b64encode(lqip_data).decode("ascii"),
     }
 
-    largest_avif = next(d for d in derivatives if d["format"] == "avif" and d["width"] == largest)
+    largest_avif = next((d for d in derivatives if d["format"] == "avif" and d["width"] == largest), None)
     return {
         "master": master,
         "kind": kind,
+        "suffix": suffix,
+        "alpha": keep_alpha,
         "crop": {"inset_percent": crop_inset, "box": list(crop_box) if crop_box else None},
         "master_width": master_w,
         "master_height": master_h,
         "max_width": largest,
         "upscaled": False,
         "budget_bytes": BUDGETS[kind],
-        "budget_ok": largest_avif["bytes"] <= BUDGETS[kind],
-        "quality": {"avif": quality, "webp": WEBP_QUALITY},
+        "budget_ok": (largest_avif["bytes"] <= BUDGETS[kind]) if largest_avif else None,
+        "quality": {"avif": quality if "avif" in formats else None, "webp": WEBP_QUALITY},
         "lqip": lqip,
         "derivatives": derivatives,
     }
@@ -215,6 +231,13 @@ def main(argv=None):
                         help="explicit 'left,top,width,height' crop in master pixels")
     parser.add_argument("--no-native", action="store_true",
                         help="do not append the master width (useful for oversized sources)")
+    parser.add_argument("--keep-alpha", action="store_true",
+                        help="preserve the alpha channel instead of flattening "
+                             "(for mask/drop-shadow derivatives)")
+    parser.add_argument("--formats", default="avif,webp",
+                        help="comma-separated output formats (default: avif,webp)")
+    parser.add_argument("--suffix", default="",
+                        help="string appended to the output stem, e.g. '-mask'")
     parser.add_argument("--background", default="#FBF8EF",
                         help="hex colour to flatten image transparency over (default: site paper)")
     args = parser.parse_args(argv)
@@ -232,9 +255,14 @@ def main(argv=None):
     if len(bg) != 6:
         sys.exit("--background must be a 6-digit hex colour, e.g. #FBF8EF")
     background = tuple(int(bg[i:i + 2], 16) for i in (0, 2, 4))
+    formats = tuple(f.strip() for f in args.formats.split(",") if f.strip())
+    for fmt in formats:
+        if fmt not in ("avif", "webp"):
+            sys.exit(f"unsupported format: {fmt}")
     manifest = optimize(args.master, args.kind, args.out, requested,
                         crop_inset=args.crop_inset, crop_box=crop_box,
-                        append_native=not args.no_native, background=background)
+                        append_native=not args.no_native, background=background,
+                        keep_alpha=args.keep_alpha, formats=formats, suffix=args.suffix)
     print(json.dumps(manifest, indent=2))
     return 0
 
