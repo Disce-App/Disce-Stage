@@ -1,0 +1,7 @@
+# Only the selected source master (and its documentation) is versioned.
+# Any further local exploration candidates are intentionally not committed.
+# See README.md.
+*
+!2.svg
+!README.md
+!.gitignore

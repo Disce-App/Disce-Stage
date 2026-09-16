@@ -899,12 +899,84 @@ section.tight { padding: var(--sp-56) 0; }
    shows its full detail; the former hover/click disclosure, its reserved blank
    space and the "Mehr" toggles are gone. The active Kernel v0 entry carries the
    dark spotlight that will host the ouroboros plate. */
-.status-projects { padding-top: var(--sp-56); }
+.status-projects {
+  padding-top: var(--sp-56);
+  /* Shared focus-field geometry + motion tokens (2026-09-16). One property
+     controls every field/rule bleed, so the green field and the separator
+     rules always share identical horizontal extents. */
+  --project-field-bleed: var(--sp-32);
+  --project-field-fade: 480ms;
+  --project-text-fade: 260ms;
+  --project-visual-fade: 480ms;
+  /* Local project marks exist only on their own focused forest-green field.
+     On paper they are fully hidden: the world tree is the only paper-state
+     motif, so the landscape never shows competing ghost icons. */
+  --project-visual-green: 0.23;
+  --project-visual-green-mark: 0.18;
+}
 .project-spine {
+  position: relative;
+  /* Contains the spine's own stacking order so the world-tree substrate (0),
+     the project landscape (1) and the text stay in one fixed hierarchy. */
+  isolation: isolate;
   margin-top: var(--sp-40);
-  border-top: 2px solid var(--legacy-ink);
+}
+/* Top separator rule — same bleed as every field. Sits above the substrate. */
+.project-spine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: calc(-1 * var(--project-field-bleed));
+  right: calc(-1 * var(--project-field-bleed));
+  z-index: 2;
+  height: 2px;
+  background: var(--legacy-ink);
+  pointer-events: none;
+}
+/* --------------------------------------------------------------------------
+   WORLD-TREE SUBSTRATE (2026-09-16). One persistent decorative layer behind the
+   entire project spine: the larger world the projects take place in — not a
+   project mark, so it never answers to hover, focus, pointer or scroll. The
+   paper entries are transparent, so it stays visible through them; the opaque
+   green focus fields are painted above it, so a focused project covers it. The
+   layer is clipped to the spine's own box (plus the shared field bleed), so it
+   can never reach the section head above or the roadmap / CTA / footer below.
+   -------------------------------------------------------------------------- */
+.project-spine-tree {
+  position: absolute;
+  inset: 0 calc(-1 * var(--project-field-bleed));
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* object-fit: contain keeps the square source undistorted at every width; the
+   layer only ever clips the artwork's transparent canvas margin, never the
+   engraving itself. */
+.project-spine-tree img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 50%;
+  opacity: 0.055;
+}
+/* Wide layout only: the spine is wider than it is tall in proportion, so the
+   engraving can be scaled (uniformly — no distortion) until it spans
+   Cervus -> Asgard instead of sitting as a small centred stamp. The transform is
+   anchored off-centre to the right so the trunk sits clear of the reading
+   column and it never reads as a centred hero image. Static: no transition. */
+@media (min-width: 1200px) {
+  .project-spine-tree img {
+    transform: scale(1.55);
+    transform-origin: 40% 50%;
+  }
 }
 .project-entry {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
   display: grid;
   grid-template-columns: 200px minmax(0, 1fr);
   grid-template-areas:
@@ -912,8 +984,13 @@ section.tight { padding: var(--sp-56) 0; }
     "meta body";
   column-gap: var(--sp-32);
   row-gap: var(--sp-12);
-  padding: var(--sp-32) 0;
-  border-bottom: 2px solid var(--legacy-ink);
+  /* All entries share one bleed, so the field and its separator rule line up
+     exactly. Bleeding via margin/padding (not pseudo insets) keeps the content
+     at the same x and changes no copy width. overflow clips the decorative
+     visual at the field boundary. */
+  margin: 0 calc(-1 * var(--project-field-bleed));
+  padding: var(--sp-32) var(--project-field-bleed);
+  overflow: hidden;
 }
 .project-meta {
   grid-area: meta;
@@ -950,9 +1027,12 @@ section.tight { padding: var(--sp-56) 0; }
    sequence, bleeding to the wrap edges; the ouroboros plate mounts at its
    centre once the master visual lands. */
 .project-entry.is-spotlight {
-  background: var(--green-forest);
-  margin: 0 calc(-1 * var(--sp-32));
-  padding: var(--sp-48) var(--sp-32);
+  /* The green is painted by the shared ::before field layer (Project Focus
+     Fields) so focus changes never reflow; the element stays transparent.
+     Horizontal padding comes from the shared bleed in the base rule. */
+  background: transparent;
+  padding-top: var(--sp-48);
+  padding-bottom: var(--sp-48);
 }
 .project-entry.is-spotlight h3 { color: var(--legacy-paper); font-size: var(--fs-800); }
 .project-entry.is-spotlight .project-summary { color: var(--legacy-cream-78); }
@@ -963,15 +1043,14 @@ section.tight { padding: var(--sp-56) 0; }
 .project-entry.is-spotlight .project-period { color: var(--parchment); }
 .project-entry.is-spotlight .status-tag.progress { color: var(--parchment); }
 /* The dark spotlight bleeds wider than the content column, so a content-width
-   hairline above it would poke out at its corners. Drop that one rule; the
-   panel's own full-width bottom rule keeps the sequence separated. */
-.project-entry:has(+ .project-entry.is-spotlight) { border-bottom: 0; }
+   hairline above it would poke out at its corners. Its separator now comes
+   from the shared full-bleed ::after rule, so no exception is needed. */
 
 /* Kernel ouroboros — free engraved artefact (asset class D, R2 forest variant).
    No frame, no cream canvas, transparent ground, so the engraving merges into
    the --green-forest spotlight field. Square reserved area (aspect-ratio +
    explicit img dimensions) keeps CLS at zero; object-fit: contain never crops
-   or stretches, so the preserveAspectRatio="none" SVG is never distorted. */
+   or stretches the square source. */
 .kernel-ouroboros {
   width: 100%;
   max-width: 560px;
@@ -981,12 +1060,27 @@ section.tight { padding: var(--sp-56) 0; }
   border-radius: 0;
   box-shadow: none;
   overflow: visible;
+  /* Kernel's decorative visual layer: edge-anchored like the antler / M / A
+     marks (clipped by the entry, which shares the field boundary). The
+     container only carries placement; the img's opacity swaps with the field,
+     so the engraving keeps one box, one scale and one offset in every state.
+     No layout change, so no reflow. */
+  position: relative;
+  z-index: 1;
+  right: calc(-1 * var(--sp-40));
+  bottom: calc(-1 * var(--sp-56));
+  pointer-events: none;
 }
 .kernel-ouroboros img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
+  /* Latent on paper: the mark exists only on a green field. */
+  opacity: 0;
+  transition: opacity var(--project-visual-fade) var(--ease);
 }
 /* Desktop: copy left, the artefact large on the right, deliberately lower.
    The second column may shrink (min 0) so the layout can never overflow. */
@@ -1000,17 +1094,6 @@ section.tight { padding: var(--sp-56) 0; }
   justify-self: end;
   margin-top: var(--sp-32);
 }
-/* Wide desktop: pull the artefact flush to the spotlight's right boundary and
-   a touch lower, so it reads as settled into the field rather than centred in
-   a column. It is never cropped and never clipped. */
-@media (min-width: 1101px) {
-  .project-entry.is-spotlight .kernel-ouroboros {
-    position: relative;
-    right: calc(-1 * var(--sp-32));
-    top: var(--sp-16);
-  }
-}
-
 /* Below the split the artefact drops beneath the copy, uncropped and centred,
    at ~84% of the content width; it stays >=260px while the viewport allows. */
 @media (max-width: 1100px) {
@@ -1021,6 +1104,9 @@ section.tight { padding: var(--sp-56) 0; }
     max-width: 480px;
     min-width: min(260px, 100%);
     margin: var(--sp-40) auto var(--sp-16);
+    /* No edge offsets while stacked: the visual stays fully visible. */
+    right: 0;
+    bottom: 0;
   }
 }
 @media (max-width: 760px) {
@@ -1033,6 +1119,182 @@ section.tight { padding: var(--sp-56) 0; }
     grid-template-areas: "name" "meta" "body";
   }
   .project-entry.is-spotlight { padding: var(--sp-32) var(--sp-32); }
+}
+
+/* ==========================================================================
+   PROJECT FOCUS FIELDS (2026-09-16)
+   Forest green here means "currently in focus" — never "in development". The
+   actual status stays carried only by the existing status dot, label and date.
+   The field is painted by an absolutely positioned ::before layer, so switching
+   focus changes only background-color / color / opacity and never reflows. The
+   atmospheric visual lives in a separate .project-focus layer that fades in;
+   project copy, status and the Kernel ouroboros always stay fully opaque.
+   Fine-pointer only; touch, keyboard and reduced-motion keep the static default.
+   ========================================================================== */
+
+/* Field overlay (no layout impact): paper stays the base surface and the forest
+   colour fades in as an opacity overlay, so the field transition is gradual. */
+.project-entry::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--green-forest);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--project-field-fade) var(--ease);
+}
+/* Bottom separator rule — the entry box already carries the shared bleed, so
+   this rule and the field have identical left/right extents. */
+.project-entry::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--legacy-ink);
+  pointer-events: none;
+}
+/* Persistent default focus field (all devices). */
+.project-entry.is-spotlight::before { opacity: 1; }
+
+/* Copy, headings and metadata sit above both layers and stay fully opaque. */
+.project-meta,
+.project-name,
+.project-body { position: relative; z-index: 2; }
+/* Text / status colours settle faster than the field fade, so contrast is
+   valid by the time the forest overlay is visually dominant. */
+.project-name,
+.project-summary,
+.project-detail p,
+.project-period,
+.status-tag,
+.status-tag::before {
+  transition: color var(--project-text-fade) var(--ease),
+              background-color var(--project-text-fade) var(--ease),
+              border-color var(--project-text-fade) var(--ease),
+              box-shadow var(--project-text-fade) var(--ease);
+}
+
+/* Atmospheric visual layer — decorative, behind the copy, one shared system.
+   Fully hidden on paper; it fades in only with its own focused green field. */
+.project-focus {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--project-visual-fade) var(--ease);
+}
+.project-focus-visual {
+  display: none;
+  position: absolute;
+  right: calc(-1 * var(--sp-48));
+  bottom: calc(-1 * var(--sp-32));
+}
+/* Cervus: the existing Disce antler signet used as an alpha mask. It only ever
+   appears on the green field, so the fill is parchment, period — there is no
+   ink state to animate through. The source PNG is never modified, and no
+   filter, blend mode or gradient is used. */
+.project-focus-visual--antler {
+  width: clamp(200px, 20vw, 320px);
+  aspect-ratio: 468 / 411;
+  background-color: var(--parchment);
+  -webkit-mask-image: url('../images/antlers-green.png');
+  mask-image: url('../images/antlers-green.png');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+/* Midgard / Asgard: oversized chapter marks, display face. Green field only,
+   so the colour is parchment, period. */
+.project-focus-visual--letter {
+  font-family: var(--font-display);
+  font-size: clamp(180px, 20vw, 300px);
+  line-height: 0.78;
+  color: var(--parchment);
+}
+.project-focus--midgard,
+.project-focus--asgard { --project-focus-green: var(--project-visual-green-mark); }
+/* Only reveal the mark where there is room for it beside the copy. */
+@media (min-width: 1200px) {
+  .project-focus-visual { display: block; }
+}
+
+/* Green-state visual presence: the local mark fades in with its own field and
+   out again when that field returns to paper. Kernel's field is green by
+   default on every device (touch, keyboard, no-JS), so its emblem is visible
+   there by default and yields to nothing whenever the field yields to paper. */
+.project-entry.is-spotlight .kernel-ouroboros img { opacity: var(--project-visual-green); }
+
+/* Status markers on any green field: shape keeps the meaning, colour keeps the
+   contrast (complete = filled parchment, in progress = filled ochre,
+   planned = hollow parchment). */
+.project-entry.is-spotlight .status-tag { color: var(--parchment); }
+.project-entry.is-spotlight .status-tag.done::before { background: var(--parchment); }
+.project-entry.is-spotlight .status-tag.planned::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--parchment);
+}
+
+/* Fine-pointer interaction only. */
+@media (hover: hover) and (pointer: fine) {
+  /* The hovered entry's field fades in... */
+  .project-entry:hover::before { opacity: 1; }
+  .project-entry:hover .project-name { color: var(--legacy-paper); }
+  .project-entry:hover .project-summary { color: var(--legacy-cream-78); }
+  .project-entry:hover .project-detail p {
+    color: var(--legacy-cream-75);
+    border-top-color: rgba(213, 192, 157, 0.28);
+  }
+  .project-entry:hover .project-period { color: var(--parchment); }
+  .project-entry:hover .status-tag { color: var(--parchment); }
+  .project-entry:hover .status-tag.done::before { background: var(--parchment); }
+  .project-entry:hover .status-tag.progress::before { background: var(--ochre); }
+  .project-entry:hover .status-tag.planned::before {
+    background: transparent;
+    box-shadow: inset 0 0 0 1.5px var(--parchment);
+  }
+  /* ...and its visual is revealed to the green-state opacity. */
+  .project-entry:hover .project-focus { opacity: var(--project-focus-green, var(--project-visual-green)); }
+
+  /* Kernel yields while the pointer is elsewhere in the spine: the field fades
+     back to paper and its emblem fades out with it. */
+  .project-spine:hover .project-entry.is-spotlight:not(:hover)::before { opacity: 0; }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .project-name { color: var(--legacy-ink); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .project-summary { color: var(--ink-soft); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .project-detail p {
+    color: var(--muted);
+    border-top-color: var(--line-soft);
+  }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .project-period { color: var(--green-dark); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .status-tag { color: var(--muted); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .status-tag.progress { color: var(--legacy-ink); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .status-tag.done::before { background: var(--green-dark); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .status-tag.progress::before { background: var(--ochre); }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .status-tag.planned::before {
+    background: transparent;
+    box-shadow: inset 0 0 0 1.5px var(--muted);
+  }
+  .project-spine:hover .project-entry.is-spotlight:not(:hover) .kernel-ouroboros img { opacity: 0; }
+}
+
+/* Reduced motion: every focus change is immediate — no opacity animation. */
+@media (prefers-reduced-motion: reduce) {
+  .project-entry::before,
+  .project-focus,
+  .kernel-ouroboros img,
+  .project-name,
+  .project-summary,
+  .project-detail p,
+  .project-period,
+  .status-tag,
+  .status-tag::before { transition: none; }
 }
 
 /* --------------------------------------------------------------------------
