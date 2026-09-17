@@ -30,6 +30,21 @@
 </head>
 <body>
 
+<!-- Philosophy ambient pane (DESIGN-BRIEF §7). One fixed, desktop-only image
+     beside the prose (hidden below 1120px); decorative, so aria-hidden and an
+     empty alt. The master keeps its printed paper mat — the crop to 470x2006
+     lives in the pipeline:
+       scripts/optimize_images.py images/PHIL_amb_arches-doors-stag.png \
+         --kind hero --widths 512 --crop-box 20,22,470,2006
+     Deferred: re-render this composition at higher native resolution before
+     production release (DESIGN-BRIEF §13). -->
+<div class="phil-ambient" aria-hidden="true">
+  <picture>
+    <source type="image/avif" srcset="images/derived/PHIL_amb_arches-doors-stag-470.avif">
+    <img src="images/derived/PHIL_amb_arches-doors-stag-470.webp" alt="" width="470" height="2006" decoding="async">
+  </picture>
+</div>
+
 <header class="site-header">
   <div class="wrap nav">
     <a href="index.html" class="brand">
