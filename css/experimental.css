@@ -2429,3 +2429,60 @@ body.page-kernel .k-watermark {
   user-select: none;
   z-index: 0;
 }
+
+/* ==========================================================================
+   KERNEL PAGE — EDITORIAL BAND (body.page-kernel)
+   Full-bleed panorama between the Foundation and the Cycle. The <picture> is
+   absolutely positioned so the band keeps a fixed 45-60vh height with no
+   layout shift; object-position is biased right so the archway stays in frame
+   at 1440/768/375. A pergament/forest grade plus the Block A grain pull the
+   image into the page palette. Decorative (alt="").
+   ========================================================================== */
+body.page-kernel .k-band {
+  position: relative;
+  height: 52vh;
+  min-height: 320px;
+  max-height: 640px;
+  margin: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border-bottom: 2px solid var(--legacy-ink);
+  background-color: var(--green-deep);
+  /* LQIP (24x10 WebP from scripts/optimize_images.py) until the AVIF decodes. */
+  background-image: url("data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAAAQBACdASoYAAoAPu1kqk4ppaQiMAgBMB2JQBOmUAFI0toHe3PZ2x+DgAD++LE3zcqdZIQ5IhD9faem4T4DsA64145jmAro2oDin45onSPiHyakt9qFA4lYAAA=");
+  background-size: cover;
+  background-position: 80% 50%;
+}
+body.page-kernel .k-band-bg { position: absolute; inset: 0; z-index: 0; display: block; }
+body.page-kernel .k-band-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 80% 50%;
+  display: block;
+}
+/* Token grade: forest vignette (left/bottom) + pergament warmth, multiplied. */
+body.page-kernel .k-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    linear-gradient(90deg, rgba(18, 51, 41, 0.42) 0%, rgba(18, 51, 41, 0) 46%),
+    linear-gradient(0deg, rgba(18, 51, 41, 0.20) 0%, rgba(18, 51, 41, 0) 38%);
+  background-color: rgba(213, 192, 157, 0.16);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+/* Block A grain, repeated for this image band. */
+body.page-kernel .k-band::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image: var(--k-grain);
+  background-size: var(--k-grain-size);
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
