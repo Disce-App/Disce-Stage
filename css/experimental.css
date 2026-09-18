@@ -2345,3 +2345,57 @@ body.page-kernel section.tight { padding: var(--sp-56) 0; }
 body.page-kernel .section-head { margin-bottom: var(--k-head-gap); }
 body.page-kernel .section-head h2 { margin-bottom: var(--sp-16); }
 body.page-kernel .section-head .lede { margin-bottom: 0; }
+
+/* ==========================================================================
+   KERNEL PAGE — PAPER GRAIN (body.page-kernel)
+   Additive "depth layer", base pass. Procedural inline-SVG feTurbulence
+   (the same 140 px noise tile the dark bands already use), tiled, static,
+   pointer-events: none, multiplied at 3–3.5%. It is decor: it is a blend
+   layer, not a background fill, so every token pairing keeps its computed
+   contrast; the perceived delta stays far inside AA tolerance.
+
+   Scoped to the LIGHT surfaces only (default cream sections, the .bg-sage
+   band and the paper cards). The dark hero, the runtime plate and the shared
+   CTA band keep their current rendering untouched.
+
+   Candidate for a future site-wide texture system (the "flyer" metaphor
+   already started by body::before); deliberately NOT applied site-wide yet.
+   ========================================================================== */
+body.page-kernel {
+  /* Dedicated procedural paper-grain tile: fractal-noise turbulence, desaturated
+     and forced opaque, so that at a 4% multiply it reads as a fine print grain.
+     (The dark hero/CTA keep their own brighter halftone-grain tile.) */
+  --k-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0' intercept='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  --k-grain-size: 180px 180px;
+}
+body.page-kernel section:not(.kernel-hero):not(.cta-band) { position: relative; }
+body.page-kernel section:not(.kernel-hero):not(.cta-band)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--k-grain);
+  background-size: var(--k-grain-size);
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+/* Content sits above the section grain (the plate, cards and copy are opaque). */
+body.page-kernel section:not(.kernel-hero):not(.cta-band) > .wrap { position: relative; z-index: 1; }
+/* Paper cards carry the same grain so the texture reads across the cards too.
+   z-index:-1 paints it above the card fill but BELOW the card's text, so the
+   copy stays crisp; isolation keeps the multiply confined to the card fill. */
+body.page-kernel .problem-card,
+body.page-kernel .persona-card { position: relative; isolation: isolate; }
+body.page-kernel .problem-card::before,
+body.page-kernel .persona-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--k-grain);
+  background-size: var(--k-grain-size);
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
