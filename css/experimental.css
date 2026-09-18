@@ -2328,3 +2328,20 @@ body.page-kernel .kernel-hero .btn-secondary:hover {
   background: var(--parchment);
   color: var(--legacy-ink);
 }
+
+/* ==========================================================================
+   KERNEL PAGE — SECTION RHYTHM (body.page-kernel)
+   One separation principle: generous, uniform vertical whitespace on the 4px
+   token grid, plus a single intentional background shift (the Foundation
+   band, already delimited by its 2px rules) and one divider before the
+   closing chapter. Section padding and the headline -> lead -> content gap
+   are pinned so every section repeats the same pattern.
+   ========================================================================== */
+body.page-kernel { --k-section-y: var(--sp-84); --k-head-gap: var(--sp-48); }
+/* Content sections only: the hero and the shared CTA band keep their own
+   padding (the CTA band is a shared template and is out of scope this pass). */
+body.page-kernel section:not(.kernel-hero):not(.cta-band):not(.tight) { padding: var(--k-section-y) 0; }
+body.page-kernel section.tight { padding: var(--sp-56) 0; }
+body.page-kernel .section-head { margin-bottom: var(--k-head-gap); }
+body.page-kernel .section-head h2 { margin-bottom: var(--sp-16); }
+body.page-kernel .section-head .lede { margin-bottom: 0; }
