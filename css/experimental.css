@@ -2060,13 +2060,12 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
 
 /* ==========================================================================
    KERNEL PAGE — hero (body.page-kernel)
-   The Kernel page carries the emblem already established on the status page:
-   the parchment / ochre ouroboros SVG on the --green-forest field (its
-   #1E4B3A fills blend into that exact field). It is an SVG, so it is
-   resolution-independent and no raster upscaling is involved. Copy left,
-   emblem right; stacked and centred on narrow viewports. The rest of the page
-   reuses the shared .problem-grid, .process-list, .persona-grid and .cta-band
-   unchanged, so no other page is affected.
+   Copy left, portrait plate right. The plate is the mist tower with the
+   burgundy-sphere instrument, framed with the page's card language (2px ink
+   border, hard offset shadow, square corners) and served as a self-hosted
+   <picture>. The hero keeps the --green-forest field and the Newsreader h1;
+   the rest of the page reuses the shared .problem-grid, .process-list,
+   .persona-grid and .cta-band unchanged, so no other page is affected.
    ========================================================================== */
 body.page-kernel .kernel-hero {
   position: relative;
@@ -2114,14 +2113,25 @@ body.page-kernel .kernel-hero h1 {
   max-width: 560px;
 }
 body.page-kernel .kernel-hero .lede { color: var(--legacy-paper); max-width: 600px; }
-body.page-kernel .kernel-hero-mark {
+body.page-kernel .kernel-hero-plate {
   justify-self: center;
   width: 100%;
-  max-width: 440px;
-  aspect-ratio: 1 / 1;
-  pointer-events: none;
+  max-width: 460px;
+  aspect-ratio: 4 / 5; /* matches the 1122x1402 master so nothing is cropped */
+  margin: 0;
+  position: relative;
+  border: 2px solid var(--legacy-ink);
+  box-shadow: 10px 10px 0 var(--legacy-ink);
+  background-color: var(--legacy-paper);
+  /* LQIP (24x30 WebP from scripts/optimize_images.py) until the AVIF decodes. */
+  background-image: url("data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAABQBQCdASoYAB4APt1co02opSMiN/qoARAbiWUAyJgheRs8HMs3yLXCSVHl0i0jJVlDjoAA/tMYvftLHNBrJkwLOSequMOng0nIuViLdebv8VpEHiSPHy82u3stxxLcHsdBCNTkWGP52sUWs3bqIv5UX9ZsxvO7jdzkLPrP0zDBSwMlhg/mFIAA");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
 }
-body.page-kernel .kernel-hero-mark img { width: 100%; height: 100%; object-fit: contain; }
+body.page-kernel .kernel-hero-plate picture,
+body.page-kernel .kernel-hero-plate img { display: block; width: 100%; height: 100%; }
+body.page-kernel .kernel-hero-plate img { object-fit: cover; object-position: 50% 50%; }
 /* Dark-surface button and focus treatment, matching the homepage hero. */
 body.page-kernel .kernel-hero .btn-primary:hover { background: var(--parchment); color: var(--legacy-ink); }
 body.page-kernel .kernel-hero .btn-secondary { color: var(--legacy-paper); border-color: rgba(213, 192, 157, 0.6); }
@@ -2137,7 +2147,7 @@ body.page-kernel .kernel-hero *:focus-visible { outline-color: var(--legacy-pape
   }
   body.page-kernel .kernel-hero h1 { font-size: var(--fs-1000); }
   body.page-kernel .kernel-hero .lede { max-width: none; }
-  body.page-kernel .kernel-hero-mark { max-width: 320px; }
+  body.page-kernel .kernel-hero-plate { max-width: 360px; }
 }
 
 /* ==========================================================================
@@ -2398,4 +2408,24 @@ body.page-kernel .persona-card::before {
   opacity: 0.04;
   mix-blend-mode: multiply;
   pointer-events: none;
+}
+
+/* ==========================================================================
+   KERNEL PAGE — EMBLEM WATERMARK (body.page-kernel)
+   The ouroboros emblem relocated from the hero into a single decorative
+   watermark behind the Definition section ("A system, not content") at 8%
+   opacity. It reuses the existing external SVG (also served on status.html, so
+   it stays cached rather than being duplicated into the document); alt="" +
+   aria-hidden because it is purely ornamental.
+   ========================================================================== */
+body.page-kernel .k-watermark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(680px, 72vw);
+  height: auto;
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
 }

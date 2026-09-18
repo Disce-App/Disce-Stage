@@ -54,10 +54,14 @@
 </header>
 
 <!-- ============================= HERO =============================
-     The Kernel carries the emblem already established on the status page:
-     the parchment/ochre ouroboros on the --green-forest field. It is an SVG,
-     so it is resolution-independent and no raster upscaling is involved.
-     Copy left, emblem right; stacked and centred on narrow viewports. -->
+     Copy left; a portrait "silent-film still" right. The mist tower crowned by
+     the circular instrument with the burgundy sphere is framed with the page's
+     card language (2px ink border, hard offset shadow, square corners), served
+     as a self-hosted <picture> (AVIF -> WebP -> master PNG). Its burgundy
+     sphere is the page's single non-palette accent: the frame contains it, and
+     the image is never placed behind live text. The ouroboros emblem previously
+     shown here is relocated as a watermark in the Definition section.
+     Stacked and centred on narrow viewports. -->
 <section class="kernel-hero">
   <div class="wrap">
     <div class="kernel-hero-copy">
@@ -69,17 +73,29 @@
         <a href="mailto:bjarne.dudzus@disce.de" class="btn-secondary"><span data-lang="de">Kontakt aufnehmen</span><span data-lang="en">Get in Touch</span></a>
       </div>
     </div>
-    <div class="kernel-hero-mark" aria-hidden="true">
-      <img src="images/DISCE_D01_r2_ouroboros-branching-forest.svg"
-           alt="" width="2048" height="2048" decoding="async">
-    </div>
+    <figure class="kernel-hero-plate">
+      <picture>
+        <source type="image/avif" sizes="(max-width: 900px) 360px, 480px"
+          srcset="images/derived/DISCE_K01_r1_tower-red-instrument-560.avif 560w, images/derived/DISCE_K01_r1_tower-red-instrument-768.avif 768w, images/derived/DISCE_K01_r1_tower-red-instrument-1122.avif 1122w">
+        <source type="image/webp" sizes="(max-width: 900px) 360px, 480px"
+          srcset="images/derived/DISCE_K01_r1_tower-red-instrument-560.webp 560w, images/derived/DISCE_K01_r1_tower-red-instrument-768.webp 768w, images/derived/DISCE_K01_r1_tower-red-instrument-1122.webp 1122w">
+        <img src="images/DISCE_K01_r1_tower-red-instrument.png"
+             alt="Tower in mist crowned by a circular instrument with a red sphere, a white stag on its balcony"
+             width="1122" height="1402" fetchpriority="high" decoding="async">
+      </picture>
+    </figure>
   </div>
 </section>
 
 <!-- ============================= DEFINITION =============================
      What the Kernel is, set against what it is not. The "is not" cards follow
      the homepage's problem-grid pattern (first card weighted larger). -->
-<section>
+<section class="k-definition">
+  <!-- Decorative watermark: the ouroboros emblem relocated from the hero, one
+       occurrence at 8% behind the cream section. alt="" + aria-hidden: purely
+       ornamental. -->
+  <img class="k-watermark" src="images/DISCE_D01_r2_ouroboros-branching-forest.svg"
+       alt="" aria-hidden="true" width="2048" height="2048" decoding="async" loading="lazy">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow"><span data-lang="de">Die Definition</span><span data-lang="en">The Definition</span></span>
