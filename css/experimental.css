@@ -2522,17 +2522,57 @@ body.page-kernel .k-band::before {
   mix-blend-mode: multiply;
   pointer-events: none;
 }
-/* Block A grain, repeated for this image band. */
+/* Block A grain, repeated for this image band (over the scrim). */
 body.page-kernel .k-band::after {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 3;
   background-image: var(--k-grain);
   background-size: var(--k-grain-size);
   opacity: 0.04;
   mix-blend-mode: multiply;
   pointer-events: none;
+}
+/* Text-side scrim: a flat gradient in the band's own mist tone (#DBD1B1,
+   sampled from the master); the arch stays clear on the right. */
+body.page-kernel .k-band-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image: linear-gradient(90deg,
+    rgba(219, 209, 177, 0.94) 0%,
+    rgba(219, 209, 177, 0.9) 42%,
+    rgba(219, 209, 177, 0.45) 56%,
+    rgba(219, 209, 177, 0) 68%);
+  pointer-events: none;
+}
+body.page-kernel .k-band .wrap {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+/* The relocated statement: serif display, short measure, ink for AA. */
+body.page-kernel .k-band-copy {
+  font-family: var(--font-italic);
+  font-size: var(--k-fs-key); /* 36px */
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  color: var(--legacy-ink);
+  max-width: 560px;
+}
+@media (max-width: 768px) {
+  body.page-kernel .k-band { height: auto; min-height: 0; max-height: none; }
+  body.page-kernel .k-band .wrap { padding-top: var(--sp-40); padding-bottom: var(--sp-40); }
+  body.page-kernel .k-band-scrim {
+    background-image: linear-gradient(180deg,
+      rgba(219, 209, 177, 0.95) 0%,
+      rgba(219, 209, 177, 0.9) 55%,
+      rgba(219, 209, 177, 0.6) 100%);
+  }
+  body.page-kernel .k-band-copy { font-size: var(--fs-900); max-width: none; }
 }
 
 /* ==========================================================================
@@ -2575,4 +2615,14 @@ body.page-kernel[data-ghost="A"] .k-ghost--cycle { display: block; }
 body.page-kernel[data-ghost="B"] .k-ghost--data { display: block; }
 @media (max-width: 900px) {
   body.page-kernel .k-ghost { display: none !important; }
+}
+
+/* ==========================================================================
+   KERNEL PAGE — BAND SEAM (body.page-kernel)
+   Pull the band up against the card grid above so it reads as a true
+   full-bleed divider, not a section with padding. High specificity so it
+   overrides the section-rhythm rule.
+   ========================================================================== */
+body.page-kernel section.bg-sage:not(.kernel-hero):not(.cta-band):not(.tight) {
+  padding-bottom: var(--sp-40);
 }
