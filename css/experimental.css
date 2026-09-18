@@ -2091,6 +2091,24 @@ body.page-kernel .kernel-hero-bg img {
   object-position: 78% 50%;
   display: block;
 }
+/* Scrim: a flat, square-language gradient in the panorama's OWN paper tone
+   (#E2CDAD, sampled from the left of the master) so text and image read as one
+   continuous sheet. Opaque from the left, fully transparent by ~62% of the
+   viewport; a gentle bottom lift lightens the lower-left. Not a panel. */
+body.page-kernel .kernel-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    linear-gradient(90deg,
+      rgba(226, 205, 173, 0.9) 0%,
+      rgba(226, 205, 173, 0.88) 42%,
+      rgba(226, 205, 173, 0.42) 53%,
+      rgba(226, 205, 173, 0) 62%),
+    linear-gradient(0deg, rgba(226, 205, 173, 0.34) 0%, rgba(226, 205, 173, 0) 26%);
+  pointer-events: none;
+}
 /* The same paper grain as the light page, over the image surface, for
    world-unity. It sits below .wrap, so the copy panel and its type stay crisp. */
 body.page-kernel .kernel-hero::after {
@@ -2127,17 +2145,14 @@ body.page-kernel .kernel-hero h1 {
   max-width: 560px;
 }
 body.page-kernel .kernel-hero .lede { color: var(--legacy-ink); max-width: 620px; }
-/* Copy panel: a flat parchment gradient (square, no glass) behind the copy
-   column so the AA pairings hold over the image. */
-body.page-kernel .kernel-hero-copy { position: relative; max-width: 640px; }
-body.page-kernel .kernel-hero-copy::before {
-  content: '';
-  position: absolute;
-  inset: -24px;
-  z-index: -1;
-  background: linear-gradient(180deg, rgba(246, 241, 226, 0.94) 0%, rgba(213, 192, 157, 0.9) 100%);
-  pointer-events: none;
-}
+/* The eyebrow keeps the light-surface green diamond marker, but its text uses
+   --green-forest rather than --green-dark: on the sampled paper tone
+   (#E2CDAD) green-dark measures only ~3.3:1, while green-forest is ~5.8:1
+   (AA). Documented deviation, AA-driven. */
+body.page-kernel .kernel-hero .eyebrow { color: var(--green-forest); }
+/* No box: the copy sits directly on the panorama. Legibility comes from the
+   scrim below — a flat gradient in the image's own paper tone, not a panel. */
+body.page-kernel .kernel-hero-copy { position: relative; max-width: 680px; }
 /* Light-surface buttons: the global defaults apply (ink-filled primary, ink
    outline secondary); the previous dark-surface overrides are removed. */
 
@@ -2150,6 +2165,42 @@ body.page-kernel .kernel-hero-copy::before {
   body.page-kernel .kernel-hero h1 { font-size: var(--fs-1000); }
   body.page-kernel .kernel-hero .lede { max-width: none; }
   body.page-kernel .kernel-hero-copy { max-width: none; }
+}
+/* Tablet (769-1200): the text column is a larger share of the width, so the
+   scrim fade is pushed later to keep the column covered while the arch on the
+   right stays clear. */
+@media (min-width: 769px) and (max-width: 1200px) {
+  body.page-kernel .kernel-hero::before {
+    background-image:
+      linear-gradient(90deg,
+        rgba(226, 205, 173, 0.92) 0%,
+        rgba(226, 205, 173, 0.9) 60%,
+        rgba(226, 205, 173, 0.5) 76%,
+        rgba(226, 205, 173, 0) 92%),
+      linear-gradient(0deg, rgba(226, 205, 173, 0.34) 0%, rgba(226, 205, 173, 0) 26%);
+  }
+}
+/* Mobile (<=768): the horizontal scrim cannot cover a full-width text column
+   while keeping the arch visible, so we use the documented fallback — the text
+   block sits on the panorama's own paper tone, above a shortened image band
+   that keeps the arch. Rendered and measured. */
+@media (max-width: 768px) {
+  body.page-kernel .kernel-hero {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background-color: #E2CDAD;
+    background-image: none;
+  }
+  body.page-kernel .kernel-hero::before { content: none; }
+  body.page-kernel .kernel-hero .wrap { order: 1; }
+  body.page-kernel .kernel-hero-bg {
+    position: relative;
+    inset: auto;
+    order: 2;
+    width: 100%;
+    height: 240px;
+  }
 }
 
 /* ==========================================================================
