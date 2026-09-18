@@ -2308,3 +2308,23 @@ body.page-kernel .bg-sage .section-head h2,
 body.page-kernel .cta-band h2 { font-size: var(--k-fs-key); }
 /* List body copy matches card body copy (16px / 1.6). */
 body.page-kernel .process-item p { font-size: var(--k-fs-body); line-height: 1.6; }
+
+/* ==========================================================================
+   KERNEL PAGE — CONTRAST HARDENING (body.page-kernel)
+   The hero's secondary action becomes a filled parchment button with dark
+   text (--legacy-ink on --legacy-paper = 17.35:1) instead of the 0.6-opacity
+   outline, which passed 3:1 as a UI border but read weak on the dark green.
+   The primary action is unchanged.
+
+   Audit note: bright --green (#4FAC4E) is used for text only on --legacy-ink
+   (6.44:1); the failing 2.53:1 light pairing does not occur. No remap needed.
+   ========================================================================== */
+body.page-kernel .kernel-hero .btn-secondary {
+  background: var(--legacy-paper);
+  color: var(--legacy-ink);
+  border-color: var(--legacy-ink);
+}
+body.page-kernel .kernel-hero .btn-secondary:hover {
+  background: var(--parchment);
+  color: var(--legacy-ink);
+}
