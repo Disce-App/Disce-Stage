@@ -2358,25 +2358,29 @@ body.page-kernel .section-head .lede { margin-bottom: 0; }
 
 /* ==========================================================================
    KERNEL PAGE — PAPER GRAIN (body.page-kernel)
-   Additive "depth layer", base pass. Procedural inline-SVG feTurbulence
-   (the same 140 px noise tile the dark bands already use), tiled, static,
-   pointer-events: none, multiplied at 3–3.5%. It is decor: it is a blend
-   layer, not a background fill, so every token pairing keeps its computed
-   contrast; the perceived delta stays far inside AA tolerance.
+   Additive "depth layer". Two procedural inline-SVG feTurbulence tiles,
+   static, pointer-events: none:
+     · a fine warm grain (baseFrequency 0.9) — the tooth of the paper
+     · a sparse larger fibre fleck (baseFrequency 0.11, thresholded) — the
+       irregular specks that read as paper rather than film noise
+   Both are tinted warm (R > G > B) so the multiply darkens toward a brown
+   fleck rather than neutral grey. Combined effective darkening on cream is
+   ~6-7%: visible at 100% in a full-page screenshot, still reading as paper.
 
-   Scoped to the LIGHT surfaces only (default cream sections, the .bg-sage
-   band and the paper cards). The dark hero, the runtime plate and the shared
-   CTA band keep their current rendering untouched.
+   Applied BEHIND the content (section ::before under .wrap; card ::before at
+   z-index: -1), so glyph rendering is untouched. Scoped to the light surfaces
+   (default cream sections, the .bg-sage band, the paper cards); the dark hero
+   and the shared CTA band are excluded.
 
    Candidate for a future site-wide texture system (the "flyer" metaphor
    already started by body::before); deliberately NOT applied site-wide yet.
    ========================================================================== */
 body.page-kernel {
-  /* Dedicated procedural paper-grain tile: fractal-noise turbulence, desaturated
-     and forced opaque, so that at a 4% multiply it reads as a fine print grain.
-     (The dark hero/CTA keep their own brighter halftone-grain tile.) */
-  --k-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0' intercept='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
-  --k-grain-size: 180px 180px;
+  --k-grain-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2' intercept='-1.15'/%3E%3CfeFuncG type='linear' slope='2' intercept='-1.15'/%3E%3CfeFuncB type='linear' slope='2' intercept='-1.15'/%3E%3C/feComponentTransfer%3E%3CfeColorMatrix type='matrix' values='0.97 0 0 0 0.04 0 0.9 0 0 0.02 0 0 0.75 0 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  --k-grain-fibre: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='v'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.085' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='1.15' intercept='-0.42'/%3E%3CfeFuncG type='linear' slope='1.15' intercept='-0.42'/%3E%3CfeFuncB type='linear' slope='1.15' intercept='-0.42'/%3E%3C/feComponentTransfer%3E%3CfeColorMatrix type='matrix' values='0.97 0 0 0 0.04 0 0.9 0 0 0.02 0 0 0.75 0 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23v)'/%3E%3C/svg%3E");
+  --k-grain: var(--k-grain-fine), var(--k-grain-fibre);
+  --k-grain-size: 150px 150px, 260px 260px;
+  --k-grain-opacity: 0.08;
 }
 body.page-kernel section:not(.kernel-hero):not(.cta-band) { position: relative; }
 body.page-kernel section:not(.kernel-hero):not(.cta-band)::before {
@@ -2386,7 +2390,7 @@ body.page-kernel section:not(.kernel-hero):not(.cta-band)::before {
   z-index: 0;
   background-image: var(--k-grain);
   background-size: var(--k-grain-size);
-  opacity: 0.04;
+  opacity: var(--k-grain-opacity);
   mix-blend-mode: multiply;
   pointer-events: none;
 }
@@ -2405,7 +2409,7 @@ body.page-kernel .persona-card::before {
   z-index: -1;
   background-image: var(--k-grain);
   background-size: var(--k-grain-size);
-  opacity: 0.04;
+  opacity: var(--k-grain-opacity);
   mix-blend-mode: multiply;
   pointer-events: none;
 }
