@@ -54,15 +54,22 @@
 </header>
 
 <!-- ============================= HERO =============================
-     Copy left; a portrait "silent-film still" right. The mist tower crowned by
-     the circular instrument with the burgundy sphere is framed with the page's
-     card language (2px ink border, hard offset shadow, square corners), served
-     as a self-hosted <picture> (AVIF -> WebP -> master PNG). Its burgundy
-     sphere is the page's single non-palette accent: the frame contains it, and
-     the image is never placed behind live text. The ouroboros emblem previously
-     shown here is relocated as a watermark in the Definition section.
-     Stacked and centred on narrow viewports. -->
+     Full-bleed panorama: the golden archway on the plain, the ouroboros above
+     it and the stag in the doorway. It is the page's LCP image (self-hosted
+     <picture>, AVIF -> WebP -> master PNG, fetchpriority=high, no lazy). The
+     copy sits on a flat parchment panel (square language, no glassmorphism)
+     tuned for AA, and the hero carries the same paper grain as the light page
+     so image and paper read as one world. The arch stays anchored right at
+     every width (strong crop at 375 is accepted). -->
 <section class="kernel-hero">
+  <picture class="kernel-hero-bg">
+    <source type="image/avif" sizes="100vw"
+      srcset="images/derived/DISCE_K02_r1_archway-golden-plain-768.avif 768w, images/derived/DISCE_K02_r1_archway-golden-plain-1280.avif 1280w, images/derived/DISCE_K02_r1_archway-golden-plain-1824.avif 1824w, images/derived/DISCE_K02_r1_archway-golden-plain-1983.avif 1983w">
+    <source type="image/webp" sizes="100vw"
+      srcset="images/derived/DISCE_K02_r1_archway-golden-plain-768.webp 768w, images/derived/DISCE_K02_r1_archway-golden-plain-1280.webp 1280w, images/derived/DISCE_K02_r1_archway-golden-plain-1824.webp 1824w, images/derived/DISCE_K02_r1_archway-golden-plain-1983.webp 1983w">
+    <img src="images/DISCE_K02_r1_archway-golden-plain.png"
+         alt="" width="1983" height="793" fetchpriority="high" decoding="async">
+  </picture>
   <div class="wrap">
     <div class="kernel-hero-copy">
       <span class="eyebrow"><span data-lang="de">Disce Kernel</span><span data-lang="en">Disce Kernel</span></span>
@@ -73,17 +80,6 @@
         <a href="mailto:bjarne.dudzus@disce.de" class="btn-secondary"><span data-lang="de">Kontakt aufnehmen</span><span data-lang="en">Get in Touch</span></a>
       </div>
     </div>
-    <figure class="kernel-hero-plate">
-      <picture>
-        <source type="image/avif" sizes="(max-width: 900px) 360px, 480px"
-          srcset="images/derived/DISCE_K01_r1_tower-red-instrument-560.avif 560w, images/derived/DISCE_K01_r1_tower-red-instrument-768.avif 768w, images/derived/DISCE_K01_r1_tower-red-instrument-1122.avif 1122w">
-        <source type="image/webp" sizes="(max-width: 900px) 360px, 480px"
-          srcset="images/derived/DISCE_K01_r1_tower-red-instrument-560.webp 560w, images/derived/DISCE_K01_r1_tower-red-instrument-768.webp 768w, images/derived/DISCE_K01_r1_tower-red-instrument-1122.webp 1122w">
-        <img src="images/DISCE_K01_r1_tower-red-instrument.png"
-             alt="Tower in mist crowned by a circular instrument with a red sphere, a white stag on its balcony"
-             width="1122" height="1402" fetchpriority="high" decoding="async">
-      </picture>
-    </figure>
   </div>
 </section>
 
@@ -251,11 +247,11 @@
 <figure class="k-band">
   <picture class="k-band-bg">
     <source type="image/avif" sizes="100vw"
-      srcset="images/derived/DISCE_K02_r1_archway-golden-plain-768.avif 768w, images/derived/DISCE_K02_r1_archway-golden-plain-1280.avif 1280w, images/derived/DISCE_K02_r1_archway-golden-plain-1824.avif 1824w, images/derived/DISCE_K02_r1_archway-golden-plain-1983.avif 1983w">
+      srcset="images/derived/DISCE_K03_r1_ouroboros-city-stag-768.avif 768w, images/derived/DISCE_K03_r1_ouroboros-city-stag-1280.avif 1280w, images/derived/DISCE_K03_r1_ouroboros-city-stag-1672.avif 1672w">
     <source type="image/webp" sizes="100vw"
-      srcset="images/derived/DISCE_K02_r1_archway-golden-plain-768.webp 768w, images/derived/DISCE_K02_r1_archway-golden-plain-1280.webp 1280w, images/derived/DISCE_K02_r1_archway-golden-plain-1824.webp 1824w, images/derived/DISCE_K02_r1_archway-golden-plain-1983.webp 1983w">
-    <img src="images/DISCE_K02_r1_archway-golden-plain.png"
-         alt="" width="1983" height="793" loading="lazy" decoding="async">
+      srcset="images/derived/DISCE_K03_r1_ouroboros-city-stag-768.webp 768w, images/derived/DISCE_K03_r1_ouroboros-city-stag-1280.webp 1280w, images/derived/DISCE_K03_r1_ouroboros-city-stag-1672.webp 1672w">
+    <img src="images/DISCE_K03_r1_ouroboros-city-stag.png"
+         alt="" width="1672" height="940" loading="lazy" decoding="async">
   </picture>
 </figure>
 

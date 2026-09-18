@@ -2060,47 +2060,61 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
 
 /* ==========================================================================
    KERNEL PAGE — hero (body.page-kernel)
-   Copy left, portrait plate right. The plate is the mist tower with the
-   burgundy-sphere instrument, framed with the page's card language (2px ink
-   border, hard offset shadow, square corners) and served as a self-hosted
-   <picture>. The hero keeps the --green-forest field and the Newsreader h1;
-   the rest of the page reuses the shared .problem-grid, .process-list,
-   .persona-grid and .cta-band unchanged, so no other page is affected.
+   Full-bleed panorama (the golden archway) as the hero surface, with the copy
+   on a flat parchment panel. Light-surface text values, the documented light
+   eyebrow variant, the default light buttons, and the same paper grain as the
+   page so image and paper read as one world. The rest of the page reuses the
+   shared .problem-grid, .process-list, .persona-grid and .cta-band unchanged,
+   so no other page is affected.
    ========================================================================== */
 body.page-kernel .kernel-hero {
   position: relative;
   padding: 0; /* override the global section padding; the .wrap supplies it */
-  background: var(--green-forest);
-  color: var(--legacy-paper);
+  display: flex;
+  align-items: center;
+  min-height: min(78vh, 720px);
+  color: var(--legacy-ink);
   border-bottom: 2px solid var(--legacy-ink);
   overflow: hidden;
   isolation: isolate;
+  background-color: var(--parchment);
+  /* LQIP (24x10 WebP from scripts/optimize_images.py) until the AVIF decodes. */
+  background-image: url("data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAAAQBACdASoYAAoAPu1kqk4ppaQiMAgBMB2JQBOmUAFI0toHe3PZ2x+DgAD++LE3zcqdZIQ5IhD9faem4T4DsA64145jmAro2oDin45onSPiHyakt9qFA4lYAAA=");
+  background-size: cover;
+  background-position: 78% 50%;
 }
-/* Film grain (~5%), same pattern as the other dark surfaces. */
+body.page-kernel .kernel-hero-bg { position: absolute; inset: 0; z-index: 0; display: block; }
+body.page-kernel .kernel-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 78% 50%;
+  display: block;
+}
+/* The same paper grain as the light page, over the image surface, for
+   world-unity. It sits below .wrap, so the copy panel and its type stay crisp. */
 body.page-kernel .kernel-hero::after {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 1;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.05;
+  z-index: 2;
+  background-image: var(--k-grain);
+  background-size: var(--k-grain-size);
+  opacity: var(--k-grain-opacity);
+  mix-blend-mode: multiply;
   pointer-events: none;
 }
 body.page-kernel .kernel-hero .wrap {
   position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  gap: var(--sp-48);
-  align-items: center;
-  padding-top: var(--sp-72);
-  padding-bottom: var(--sp-72);
+  z-index: 3;
+  width: 100%;
+  padding-top: var(--sp-84);
+  padding-bottom: var(--sp-84);
 }
-/* Parchment copy and ochre marker on the dark field (DESIGN-BRIEF §5/§8). */
-body.page-kernel .kernel-hero .eyebrow { color: var(--parchment); }
-body.page-kernel .kernel-hero .eyebrow::before { background: var(--ochre); }
-/* Newsreader roman display serif on the dark hero, as on the homepage hero
-   and the Philosophy page hero (DESIGN-BRIEF §6). */
+/* The eyebrow uses the documented light-surface variant (green diamond,
+   green-dark text); the previous dark-surface overrides are removed. The
+   headline keeps the Newsreader display serif (DESIGN-BRIEF §6) and flips to
+   legacy ink, as does the lede. */
 body.page-kernel .kernel-hero h1 {
   font-family: 'Newsreader', Georgia, serif;
   font-weight: 500;
@@ -2108,46 +2122,34 @@ body.page-kernel .kernel-hero h1 {
   text-transform: none;
   letter-spacing: -0.012em;
   line-height: 1.02;
-  color: var(--parchment);
+  color: var(--legacy-ink);
   margin-bottom: var(--sp-24);
   max-width: 560px;
 }
-body.page-kernel .kernel-hero .lede { color: var(--legacy-paper); max-width: 600px; }
-body.page-kernel .kernel-hero-plate {
-  justify-self: center;
-  width: 100%;
-  max-width: 460px;
-  aspect-ratio: 4 / 5; /* matches the 1122x1402 master so nothing is cropped */
-  margin: 0;
-  position: relative;
-  border: 2px solid var(--legacy-ink);
-  box-shadow: 10px 10px 0 var(--legacy-ink);
-  background-color: var(--legacy-paper);
-  /* LQIP (24x30 WebP from scripts/optimize_images.py) until the AVIF decodes. */
-  background-image: url("data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAABQBQCdASoYAB4APt1co02opSMiN/qoARAbiWUAyJgheRs8HMs3yLXCSVHl0i0jJVlDjoAA/tMYvftLHNBrJkwLOSequMOng0nIuViLdebv8VpEHiSPHy82u3stxxLcHsdBCNTkWGP52sUWs3bqIv5UX9ZsxvO7jdzkLPrP0zDBSwMlhg/mFIAA");
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
+body.page-kernel .kernel-hero .lede { color: var(--legacy-ink); max-width: 620px; }
+/* Copy panel: a flat parchment gradient (square, no glass) behind the copy
+   column so the AA pairings hold over the image. */
+body.page-kernel .kernel-hero-copy { position: relative; max-width: 640px; }
+body.page-kernel .kernel-hero-copy::before {
+  content: '';
+  position: absolute;
+  inset: -24px;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(246, 241, 226, 0.94) 0%, rgba(213, 192, 157, 0.9) 100%);
+  pointer-events: none;
 }
-body.page-kernel .kernel-hero-plate picture,
-body.page-kernel .kernel-hero-plate img { display: block; width: 100%; height: 100%; }
-body.page-kernel .kernel-hero-plate img { object-fit: cover; object-position: 50% 50%; }
-/* Dark-surface button and focus treatment, matching the homepage hero. */
-body.page-kernel .kernel-hero .btn-primary:hover { background: var(--parchment); color: var(--legacy-ink); }
-body.page-kernel .kernel-hero .btn-secondary { color: var(--legacy-paper); border-color: rgba(213, 192, 157, 0.6); }
-body.page-kernel .kernel-hero .btn-secondary:hover { background: var(--legacy-paper); color: var(--legacy-ink); }
-body.page-kernel .kernel-hero *:focus-visible { outline-color: var(--legacy-paper); }
+/* Light-surface buttons: the global defaults apply (ink-filled primary, ink
+   outline secondary); the previous dark-surface overrides are removed. */
 
 @media (max-width: 900px) {
+  body.page-kernel .kernel-hero { min-height: min(72vh, 620px); }
   body.page-kernel .kernel-hero .wrap {
-    grid-template-columns: 1fr;
-    gap: var(--sp-40);
     padding-top: var(--sp-56);
     padding-bottom: var(--sp-56);
   }
   body.page-kernel .kernel-hero h1 { font-size: var(--fs-1000); }
   body.page-kernel .kernel-hero .lede { max-width: none; }
-  body.page-kernel .kernel-hero-plate { max-width: 360px; }
+  body.page-kernel .kernel-hero-copy { max-width: none; }
 }
 
 /* ==========================================================================
@@ -2320,24 +2322,15 @@ body.page-kernel .cta-band h2 { font-size: var(--k-fs-key); }
 body.page-kernel .process-item p { font-size: var(--k-fs-body); line-height: 1.6; }
 
 /* ==========================================================================
-   KERNEL PAGE — CONTRAST HARDENING (body.page-kernel)
-   The hero's secondary action becomes a filled parchment button with dark
-   text (--legacy-ink on --legacy-paper = 17.35:1) instead of the 0.6-opacity
-   outline, which passed 3:1 as a UI border but read weak on the dark green.
-   The primary action is unchanged.
+   KERNEL PAGE — HERO SURFACE CONTRAST (body.page-kernel)
+   v2: the hero is a light surface (panorama + parchment copy panel), so the
+   previous dark-hero button hardening is gone and the global light-surface
+   rules apply (--legacy-ink secondary outline, ink-filled primary). The
+   measured hero pairings at 375/768/1440 are reported with the commit.
 
    Audit note: bright --green (#4FAC4E) is used for text only on --legacy-ink
    (6.44:1); the failing 2.53:1 light pairing does not occur. No remap needed.
    ========================================================================== */
-body.page-kernel .kernel-hero .btn-secondary {
-  background: var(--legacy-paper);
-  color: var(--legacy-ink);
-  border-color: var(--legacy-ink);
-}
-body.page-kernel .kernel-hero .btn-secondary:hover {
-  background: var(--parchment);
-  color: var(--legacy-ink);
-}
 
 /* ==========================================================================
    KERNEL PAGE — SECTION RHYTHM (body.page-kernel)
@@ -2453,16 +2446,16 @@ body.page-kernel .k-band {
   border-bottom: 2px solid var(--legacy-ink);
   background-color: var(--green-deep);
   /* LQIP (24x10 WebP from scripts/optimize_images.py) until the AVIF decodes. */
-  background-image: url("data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAAAQBACdASoYAAoAPu1kqk4ppaQiMAgBMB2JQBOmUAFI0toHe3PZ2x+DgAD++LE3zcqdZIQ5IhD9faem4T4DsA64145jmAro2oDin45onSPiHyakt9qFA4lYAAA=");
+  background-image: url("data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAADwAwCdASoYAA0APu1qrU8ppiQiMAgBMB2JYwCdAGle6tcAOZeo6LgAAP74sq5EjY2LzsB34ab9uv0fcm904y7zyXVxz9fHh3c3XrT7CGu/hGBZUxOOm0si3pbOP4xeYF3Os5TEuNNgAAAA");
   background-size: cover;
-  background-position: 80% 50%;
+  background-position: 74% 50%;
 }
 body.page-kernel .k-band-bg { position: absolute; inset: 0; z-index: 0; display: block; }
 body.page-kernel .k-band-bg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 80% 50%;
+  object-position: 74% 50%;
   display: block;
 }
 /* Token grade: forest vignette (left/bottom) + pergament warmth, multiplied. */
