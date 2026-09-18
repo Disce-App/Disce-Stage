@@ -1588,6 +1588,148 @@ section.tight { padding: var(--sp-56) 0; }
 .page-hero h1 { font-size: var(--fs-1000); margin-bottom: var(--sp-16); position: relative; z-index: 1; }
 .page-hero .eyebrow, .page-hero .lede { position: relative; z-index: 1; }
 
+/* ==========================================================================
+   PHILOSOPHY HERO — FULL-WIDTH ART (DESIGN-BRIEF §6/§7)
+   The Philosophy hero opens on a full-bleed plate from the same artwork family
+   as the homepage hero (images/PHIL_hero_stag-moon-skyline, 2048x512, 4:1):
+   a left-weighted --green-deep scrim, Newsreader display copy in parchment, and
+   ~5% grain. The artwork is masked at its bottom edge so its last 150px fade to
+   transparent and dissolve into the following vision band's solid --green-deep
+   — a mask on the image layer, not a gradient on any background container.
+
+   The markup ships statically in philosophy.html (.page-hero--art); the
+   halftone dots it replaces are retired. The hero has no box border, so the
+   artwork and the ribbon read as one surface.
+   ========================================================================== */
+.page-hero--art {
+  background-color: var(--green-deep);
+  border-bottom: 0;   /* no black bar between the artwork and the green ribbon */
+  overflow: visible;  /* let the artwork bleed into the ribbon below */
+}
+/* The artwork layer is taller than the hero (-120px) so it reaches into the
+   ribbon. It paints above the band's solid --green-deep fill (z-index 1) but
+   below the pull-quote card (z-index 3). */
+.page-hero--art .page-hero-full {
+  display: block;
+  position: absolute;
+  inset: 0 0 -120px 0;
+  z-index: 1;
+  overflow: hidden;
+}
+.page-hero--art .page-hero-full img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Keep the stag/moon right of the copy but clear of the right edge across
+     widths (the layer is taller than the plate, so this window matters). */
+  object-position: 18% 50%;
+  max-width: none;
+  /* LQIP: 24px WebP from scripts/optimize_images.py, painted by the <img> so it
+     shows until the plate decodes and is covered by it afterwards (the mask
+     fades it too). Same pattern as .hero and .cta-band. */
+  background-image: url("data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAACQAwCdASoYAAYAPu1iqk2ppaQiMAgBMB2JYwAAWdRu+cYcy22AAP3jsWYrgn4TDPQ2HkvCXgTeKN/DvMkqqWfPT0f/b14HU5hu/iNkRzEd5bMpj4x8gk3gAAA=");
+  background-size: cover;
+  background-position: 18% 50%;
+  background-repeat: no-repeat;
+  /* Alpha fade ON THE IMAGE LAYER (not a gradient on any band/background div):
+     the bottom 150px dissolve to fully transparent, so the solid --green-deep
+     behind the artwork shows through. */
+  -webkit-mask-image: linear-gradient(to bottom,
+    #000 calc(100% - 150px),
+    rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to bottom,
+    #000 calc(100% - 150px),
+    rgba(0, 0, 0, 0) 100%);
+}
+/* The vision band keeps its solid --green-deep fill — the same value the image
+   mask fades toward, so there is no colour discontinuity at full transparency.
+   Its top padding is raised so the pull-quote card sits entirely below the
+   mask's fade range, on solid green. */
+.page-hero--art + .band--text {
+  background: var(--green-deep);
+  padding-top: 150px;
+}
+.page-hero--art + .band--text .band-card {
+  position: relative;
+  z-index: 3; /* above the artwork layer (z-index 1) */
+}
+/* Scrim weighted toward the copy side so the stag and sphere stay readable.
+   It spans the same extended height as the artwork and carries the SAME bottom
+   mask, so it fades out with the image instead of cutting a hard line at the
+   hero's box edge. Above the artwork (z-index 1), below the hero copy (z3). */
+.page-hero--art::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 -120px 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg,
+      rgba(18, 51, 41, 0.88) 0%,
+      rgba(18, 51, 41, 0.72) 40%,
+      rgba(18, 51, 41, 0.4) 70%,
+      rgba(18, 51, 41, 0.24) 100%),
+    linear-gradient(180deg, rgba(18, 51, 41, 0.12) 0%, rgba(18, 51, 41, 0.34) 100%);
+  -webkit-mask-image: linear-gradient(to bottom,
+    #000 calc(100% - 150px),
+    rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to bottom,
+    #000 calc(100% - 150px),
+    rgba(0, 0, 0, 0) 100%);
+}
+.page-hero--art .wrap { position: relative; z-index: 3; }
+/* The overlay artwork's grain fades with the image, so no noise sits on the
+   solid green below the dissolve. */
+.page-hero--art .page-hero-full::after {
+  -webkit-mask-image: linear-gradient(to bottom,
+    #000 calc(100% - 150px),
+    rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to bottom,
+    #000 calc(100% - 150px),
+    rgba(0, 0, 0, 0) 100%);
+}
+/* Same display serif as the homepage hero (DESIGN-BRIEF §6: serif on dark). */
+.page-hero--art h1 {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 500;
+  font-size: var(--fs-1100);
+  text-transform: none;
+  letter-spacing: -0.012em;
+  line-height: 1.02;
+  color: var(--parchment);
+  max-width: 560px;
+}
+.page-hero--art .lede { color: var(--legacy-paper); }
+.page-hero--art .eyebrow { color: var(--parchment); }
+.page-hero--art .eyebrow::before { background: var(--ochre); }
+
+/* Wide viewports (>=1700px): at ~1900px the artwork's cover crop leaves only
+   ~80px of horizontal slack, so object-position can barely move the stag away
+   from the copy. Extending the layer zooms the plate (cover scales by height),
+   which creates real slack; re-anchoring the crop to 0% then sets the stag
+   clear of the text. The scrim follows the same height so no seam returns. */
+@media (min-width: 1700px) {
+  .page-hero--art .page-hero-full { inset: 0 0 -180px 0; }
+  .page-hero--art .page-hero-full img { object-position: 0% 50%; background-position: 0% 50%; }
+  .page-hero--art::before { inset: 0 0 -180px 0; }
+  .page-hero--art + .band--text { padding-top: 210px; }
+}
+
+/* The green halftone dots are retired in favour of the artwork. */
+.page-hero--art::after { display: none; }
+
+/* Film grain (~5%) on the artwork, same pattern as the dark bands. It fades
+   with the image so no noise sits on the solid green below the dissolve. */
+.page-hero--art .page-hero-full::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+}
+
 /* Focus ring. `--green` (#4FAC4E) was only 2.53:1 on `--cream`, below the
    3:1 WCAG non-text minimum. Use existing ink on light surfaces and
    parchment on the dark surfaces; both clear 3:1 on their backgrounds. */
