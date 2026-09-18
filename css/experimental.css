@@ -2201,3 +2201,54 @@ body.page-kernel .arch-caption { margin-top: var(--sp-16); font-size: var(--fs-4
 @media (max-width: 900px) {
   body.page-kernel .arch-plate { min-width: 820px; }
 }
+
+/* ==========================================================================
+   KERNEL PAGE — CONSOLIDATED CARD SYSTEM (body.page-kernel)
+   One canonical card for the whole page: square corners, 2px ink border,
+   paper fill, equal padding and internal rhythm, hard offset-shadow hover —
+   the ".persona-card" language applied to every card grid (the three
+   problem grids and the four-layer grid).
+
+   These are scoped overrides; the shared .problem-* / .persona-* rules are
+   untouched so no other page changes. They are the candidate for a later
+   site-wide card consolidation (out of scope for this pass).
+   ========================================================================== */
+body.page-kernel .problem-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-16);
+  margin-top: var(--sp-40);
+  border: 0;
+}
+body.page-kernel .persona-grid { gap: var(--sp-16); }
+body.page-kernel .problem-card,
+body.page-kernel .persona-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--legacy-paper);
+  border: 2px solid var(--legacy-ink);
+  padding: var(--sp-32) var(--sp-28);
+  transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+body.page-kernel .problem-card:hover,
+body.page-kernel .persona-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 5px 5px 0 var(--legacy-ink);
+}
+/* Equal internal rhythm on every card. The inherited first-card emphasis
+   (larger numeral/heading, cream-dim fill) is a deliberate homepage pattern;
+   on the Kernel page all cards are equal. */
+body.page-kernel .problem-card h3,
+body.page-kernel .persona-card h3 {
+  font-size: var(--fs-600);
+  margin-bottom: var(--sp-24);
+}
+body.page-kernel .problem-card p,
+body.page-kernel .persona-card p {
+  color: var(--muted);
+  font-size: var(--fs-500);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+@media (max-width: 900px) {
+  body.page-kernel .problem-grid { grid-template-columns: 1fr; }
+}
