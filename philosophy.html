@@ -30,6 +30,21 @@
 </head>
 <body>
 
+<!-- Philosophy ambient pane (DESIGN-BRIEF §7). One fixed, desktop-only image
+     beside the prose (hidden below 1120px); decorative, so aria-hidden and an
+     empty alt. The master keeps its printed paper mat — the crop to 470x2006
+     lives in the pipeline:
+       scripts/optimize_images.py images/PHIL_amb_arches-doors-stag.png \
+         --kind hero --widths 512 --crop-box 20,22,470,2006
+     Deferred: re-render this composition at higher native resolution before
+     production release (DESIGN-BRIEF §13). -->
+<div class="phil-ambient" aria-hidden="true">
+  <picture>
+    <source type="image/avif" srcset="images/derived/PHIL_amb_arches-doors-stag-470.avif">
+    <img src="images/derived/PHIL_amb_arches-doors-stag-470.webp" alt="" width="470" height="2006" decoding="async">
+  </picture>
+</div>
+
 <header class="site-header">
   <div class="wrap nav">
     <a href="index.html" class="brand">
@@ -52,7 +67,21 @@
   </div>
 </header>
 
-<section class="page-hero">
+<!-- Philosophy hero (DESIGN-BRIEF §6/§7). Full-bleed artwork from the same
+     family as the homepage hero, with a left-weighted --green-deep scrim and
+     Newsreader display copy. The image layer's bottom 150px fade to transparent
+     (a mask on the image) so the artwork dissolves into the vision band's solid
+     --green-deep. Decorative, so aria-hidden; the LQIP lives in the stylesheet. -->
+<section class="page-hero page-hero--art">
+  <div class="page-hero-full" aria-hidden="true">
+    <picture>
+      <source type="image/avif" sizes="100vw"
+        srcset="images/derived/PHIL_hero_stag-moon-skyline-768.avif 768w, images/derived/PHIL_hero_stag-moon-skyline-1280.avif 1280w, images/derived/PHIL_hero_stag-moon-skyline-1920.avif 1920w, images/derived/PHIL_hero_stag-moon-skyline-2048.avif 2048w">
+      <source type="image/webp" sizes="100vw"
+        srcset="images/derived/PHIL_hero_stag-moon-skyline-768.webp 768w, images/derived/PHIL_hero_stag-moon-skyline-1280.webp 1280w, images/derived/PHIL_hero_stag-moon-skyline-1920.webp 1920w, images/derived/PHIL_hero_stag-moon-skyline-2048.webp 2048w">
+      <img src="images/derived/PHIL_hero_stag-moon-skyline-2048.webp" alt="" width="2048" height="512" fetchpriority="high" decoding="async">
+    </picture>
+  </div>
   <div class="wrap">
     <span class="eyebrow"><span data-lang="de">Unternehmensphilosophie</span><span data-lang="en">Corporate Philosophy</span></span>
     <h1>Sag, was Du meinst.<br>Say what you mean.</h1>

@@ -206,3 +206,4 @@ Still open:
 Deferred asset task:
 
 - Re-render hero-class assets at ≥ 2560 px width: needed to satisfy the full Section 9 `srcset`; current masters top out at 1824 px (curated `DISCE_*`) and 1376 px (ComfyUI render plates).
+- Re-render the Philosophy ambient pane (`images/PHIL_amb_arches-doors-stag.png`, the arches/doors/stag composition) at genuinely higher native resolution before production release. Preserve the current composition and art direction as closely as possible, then crop deliberately for the right-side pane. The current 512×2048 master is prototype-grade only; do not settle for interpolated upscaling as the final solution.
