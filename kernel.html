@@ -28,7 +28,7 @@
 <meta name="twitter:description" content="Der Disce Kernel ist die Systemschicht hinter dem Coaching: ein mehrschichtiges, longitudinales Betriebssystem, das Evidenz trianguliert, begrenzte Aussagen ableitet und sich forschend kalibrieren lässt.">
 <meta name="twitter:image" content="https://weltvorstellung.de/images/derived/og-disce-1200x630.jpg">
 </head>
-<body class="page-kernel" data-ghost="A">
+<body class="page-kernel">
 
 <header class="site-header">
   <div class="wrap nav">
@@ -267,17 +267,22 @@
      The end-to-end coaching cycle. Process-list is the site's numbered-step
      pattern; the closing badge row names the three feedback principles carried
      by the Kernel's own UI (DESIGN-BRIEF §2). -->
-<section>
-  <!-- Ambient ghost, candidate A: the tower portrait (retired from the hero)
-       as a graded, edge-faded decorative layer on the right of the list.
-       Shown only while data-ghost="A" on <body>; alt="" + aria-hidden. -->
-  <picture class="k-ghost k-ghost--cycle" data-ghost-placement="A" aria-hidden="true">
-    <source type="image/avif" sizes="(max-width: 900px) 60vw, 480px"
-      srcset="images/derived/DISCE_K01_r1_tower-red-instrument-560.avif 560w, images/derived/DISCE_K01_r1_tower-red-instrument-768.avif 768w">
-    <source type="image/webp" sizes="(max-width: 900px) 60vw, 480px"
-      srcset="images/derived/DISCE_K01_r1_tower-red-instrument-560.webp 560w, images/derived/DISCE_K01_r1_tower-red-instrument-768.webp 768w">
+<!-- ============================= GHOST FIELD =============================
+     ONE continuous ambient layer behind the Cycle, the Layers and the Data
+     Advantage sections: the tower portrait (retired from the hero), graded
+     toward forest/parchment, slightly blurred at ghost opacity, its edges
+     faded into the paper and its dense tones anchored right (~78%) so they
+     stay out of the text column. Decorative: alt="" + aria-hidden. The section
+     grain overlays it. It stops before the Boundaries section. -->
+<div class="k-field">
+  <picture class="k-ghost-field" aria-hidden="true">
+    <source type="image/avif" sizes="100vw"
+      srcset="images/derived/DISCE_K01_r1_tower-red-instrument-768.avif 768w, images/derived/DISCE_K01_r1_tower-red-instrument-1280.avif 1280w, images/derived/DISCE_K01_r1_tower-red-instrument-1920.avif 1920w">
+    <source type="image/webp" sizes="100vw"
+      srcset="images/derived/DISCE_K01_r1_tower-red-instrument-768.webp 768w, images/derived/DISCE_K01_r1_tower-red-instrument-1280.webp 1280w, images/derived/DISCE_K01_r1_tower-red-instrument-1920.webp 1920w">
     <img src="images/DISCE_K01_r1_tower-red-instrument.png" alt="" width="1122" height="1402" loading="lazy" decoding="async">
   </picture>
+<section>
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow"><span data-lang="de">Der Ablauf</span><span data-lang="en">The Cycle</span></span>
@@ -375,15 +380,6 @@
      The commercial argument: what a thin wrapper cannot reproduce. Each item
      is a property that accretes over time rather than a feature. -->
 <section>
-  <!-- Ambient ghost, candidate B: the same graded tower portrait behind the
-       Data Advantage list. Shown only while data-ghost="B" on <body>. -->
-  <picture class="k-ghost k-ghost--data" data-ghost-placement="B" aria-hidden="true">
-    <source type="image/avif" sizes="(max-width: 900px) 60vw, 540px"
-      srcset="images/derived/DISCE_K01_r1_tower-red-instrument-560.avif 560w, images/derived/DISCE_K01_r1_tower-red-instrument-768.avif 768w">
-    <source type="image/webp" sizes="(max-width: 900px) 60vw, 540px"
-      srcset="images/derived/DISCE_K01_r1_tower-red-instrument-560.webp 560w, images/derived/DISCE_K01_r1_tower-red-instrument-768.webp 768w">
-    <img src="images/DISCE_K01_r1_tower-red-instrument.png" alt="" width="1122" height="1402" loading="lazy" decoding="async">
-  </picture>
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow"><span data-lang="de">Der Datenvorteil</span><span data-lang="en">The Data Advantage</span></span>
@@ -422,6 +418,7 @@
     </div>
   </div>
 </section>
+</div>
 
 <!-- ============================= LIMITS =============================
      Epistemic and governance boundaries, kept explicit: a trust signal for

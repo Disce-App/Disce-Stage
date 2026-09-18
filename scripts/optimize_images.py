@@ -76,8 +76,14 @@ def flatten_alpha(image, background):
     return image
 
 
-def target_widths(master_width, requested, append_native=True):
-    widths = sorted({int(w) for w in requested if 0 < int(w) <= master_width})
+def target_widths(master_width, requested, append_native=True, allow_upscale=False):
+    """Resolve the output widths. By default nothing is ever upscaled past the
+    master width (DESIGN-BRIEF §9); ``allow_upscale`` is an explicit opt-in for
+    the rare approved case (e.g. a blurred ambient layer where softness is
+    acceptable), and then the master width is still appended if not present.
+    """
+    limit = float("inf") if allow_upscale else master_width
+    widths = sorted({int(w) for w in requested if 0 < int(w) <= limit})
     if append_native and master_width not in widths:
         widths.append(master_width)
         widths.sort()
@@ -134,7 +140,7 @@ def make_lqip(image):
 
 def optimize(master, kind, out_dir, requested_widths, crop_inset=None, crop_box=None,
              append_native=True, background=(251, 248, 239), keep_alpha=False,
-             formats=("avif", "webp"), suffix=""):
+             formats=("avif", "webp"), suffix="", allow_upscale=False):
     image = Image.open(master)
     image.load()
     image = apply_crop(image, crop_inset, crop_box)
@@ -147,7 +153,7 @@ def optimize(master, kind, out_dir, requested_widths, crop_inset=None, crop_box=
         rgb = image.convert("RGBA") if image.mode != "RGBA" else image
     master_w, master_h = rgb.size
 
-    widths = target_widths(master_w, requested_widths, append_native)
+    widths = target_widths(master_w, requested_widths, append_native, allow_upscale)
     largest = widths[-1]
 
     # Pick the highest AVIF quality whose largest-width output meets budget.
@@ -231,6 +237,9 @@ def main(argv=None):
                         help="explicit 'left,top,width,height' crop in master pixels")
     parser.add_argument("--no-native", action="store_true",
                         help="do not append the master width (useful for oversized sources)")
+    parser.add_argument("--allow-upscale", action="store_true",
+                        help="allow output widths above the master width (explicit, "
+                             "approved opt-in; default is never upscale)")
     parser.add_argument("--keep-alpha", action="store_true",
                         help="preserve the alpha channel instead of flattening "
                              "(for mask/drop-shadow derivatives)")
@@ -262,7 +271,8 @@ def main(argv=None):
     manifest = optimize(args.master, args.kind, args.out, requested,
                         crop_inset=args.crop_inset, crop_box=crop_box,
                         append_native=not args.no_native, background=background,
-                        keep_alpha=args.keep_alpha, formats=formats, suffix=args.suffix)
+                        keep_alpha=args.keep_alpha, formats=formats, suffix=args.suffix,
+                        allow_upscale=args.allow_upscale)
     print(json.dumps(manifest, indent=2))
     return 0
 
