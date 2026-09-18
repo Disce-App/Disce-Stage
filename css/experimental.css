@@ -2252,3 +2252,34 @@ body.page-kernel .persona-card p {
 @media (max-width: 900px) {
   body.page-kernel .problem-grid { grid-template-columns: 1fr; }
 }
+
+/* ==========================================================================
+   KERNEL PAGE — NUMBERING / BADGES (body.page-kernel)
+   Two numbering treatments only on this page:
+     · cards  -> .k-badge, a green diamond shared by every card grid
+     · lists  -> .step-num, the existing duotone oversized numeral (unchanged)
+   The runtime architecture plate keeps its own ochre numerals: it is a
+   distinct plate register and is explicitly protected from restyling.
+
+   Eyebrow marker rule (documentation only — no visual change):
+     · ochre dot     = status / problem / contact contexts and dark surfaces
+                       (.section-head:has(+ .problem-grid), .band-card,
+                        .cta-band:has(.cta-band-bg), .hero)
+     · green diamond = standard light editorial sections (default .eyebrow)
+   ========================================================================== */
+body.page-kernel .k-badge {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--green);
+  border: 2px solid var(--legacy-ink);
+  transform: rotate(45deg);
+  margin-bottom: var(--sp-32); /* clears the rotated corner */
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: var(--fs-500);
+  color: var(--legacy-ink);
+}
+body.page-kernel .k-badge > span { display: block; transform: rotate(-45deg); }
