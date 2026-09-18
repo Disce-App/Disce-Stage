@@ -2283,3 +2283,28 @@ body.page-kernel .k-badge {
   color: var(--legacy-ink);
 }
 body.page-kernel .k-badge > span { display: block; transform: rotate(-45deg); }
+
+/* ==========================================================================
+   KERNEL PAGE — TYPE HIERARCHY (body.page-kernel)
+   Grotesque (Archivo Black) stays the headline face on light surfaces
+   (DESIGN-BRIEF §6); the serif stays reserved for the hero / dark surfaces.
+   Loudness is differentiated within the one face by size + whitespace:
+     hero 44px  ·  key sections (runtime plate, closing CTA) 36px  ·  sections 30px
+   The aliases below map to existing --fs-* steps only; they are kernel-scoped
+   so no other page's type scale is touched (candidate for a later site-wide
+   scale consolidation).
+   ========================================================================== */
+body.page-kernel {
+  --k-fs-hero: var(--fs-1100);      /* 44px */
+  --k-fs-key: var(--fs-1000);       /* 36px */
+  --k-fs-section: var(--fs-900);    /* 30px */
+  --k-fs-card-title: var(--fs-600); /* 18px */
+  --k-fs-body: var(--fs-500);       /* 16px */
+  --k-fs-meta: var(--fs-400);       /* 14px */
+}
+body.page-kernel .section-head h2 { font-size: var(--k-fs-section); }
+/* Key sections step up one scale step: the runtime plate and the closing CTA. */
+body.page-kernel .bg-sage .section-head h2,
+body.page-kernel .cta-band h2 { font-size: var(--k-fs-key); }
+/* List body copy matches card body copy (16px / 1.6). */
+body.page-kernel .process-item p { font-size: var(--k-fs-body); line-height: 1.6; }
