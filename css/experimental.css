@@ -220,7 +220,12 @@ body::before {
 }
 .brand .brand-mark { width: var(--sp-28); height: var(--sp-28); flex-shrink: 0; }
 
-.nav-links { display: flex; align-items: center; gap: var(--sp-40); }
+/* Gap and horizontal link padding were reduced from sp-40 / sp-16 to sp-24 /
+   sp-12 to make room for the fifth nav item ("Der Kernel"). Measured against
+   the self-hosted Inter/Archivo metrics: the five-item nav then fits the
+   1136px content column with ~40px slack, and the desktop/mobile breakpoint
+   moved to 1180 so the bar only appears when it fits at desktop spacing. */
+.nav-links { display: flex; align-items: center; gap: var(--sp-24); }
 
 .nav-links a {
   font-size: var(--fs-200);
@@ -228,7 +233,7 @@ body::before {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--legacy-ink);
-  padding: var(--sp-28) var(--sp-16);
+  padding: var(--sp-28) var(--sp-12);
   transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
 .nav-links a:hover,
@@ -252,7 +257,7 @@ body::before {
   cursor: pointer;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1179px) {
   .nav-links {
     position: fixed;
     top: 82px; left: 0; right: 0;
@@ -265,7 +270,7 @@ body::before {
     overflow: hidden;
     transition: max-height var(--dur-slow) var(--ease);
   }
-  .nav-links.open { max-height: 420px; }
+  .nav-links.open { max-height: 560px; }
   .nav-links a { padding: var(--sp-16) var(--sp-32); border-bottom: 1px solid var(--line-soft); }
   .nav-links .nav-cta { margin: 16px 32px; text-align: center; }
   .nav-toggle { display: block; }
@@ -1815,7 +1820,7 @@ html:not(.pre-en) body:not(.lang-de):not(.lang-en) [data-lang="en"] { display: n
 .lang-switch button:hover { color: var(--legacy-ink); }
 .lang-switch button[aria-pressed="true"] { background: var(--legacy-ink); color: var(--cream); }
 
-@media (max-width: 1080px) {
+@media (max-width: 1179px) {
   .lang-switch { margin-left: 0; margin-top: var(--sp-12); }
 }
 
@@ -2052,3 +2057,291 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
   .beta-hero .wrap { padding: var(--sp-48) var(--sp-32); }
   .beta-hero h1 { font-size: var(--fs-900); }
 }
+
+/* ==========================================================================
+   KERNEL PAGE — hero (body.page-kernel)
+   The Kernel page carries the emblem already established on the status page:
+   the parchment / ochre ouroboros SVG on the --green-forest field (its
+   #1E4B3A fills blend into that exact field). It is an SVG, so it is
+   resolution-independent and no raster upscaling is involved. Copy left,
+   emblem right; stacked and centred on narrow viewports. The rest of the page
+   reuses the shared .problem-grid, .process-list, .persona-grid and .cta-band
+   unchanged, so no other page is affected.
+   ========================================================================== */
+body.page-kernel .kernel-hero {
+  position: relative;
+  padding: 0; /* override the global section padding; the .wrap supplies it */
+  background: var(--green-forest);
+  color: var(--legacy-paper);
+  border-bottom: 2px solid var(--legacy-ink);
+  overflow: hidden;
+  isolation: isolate;
+}
+/* Film grain (~5%), same pattern as the other dark surfaces. */
+body.page-kernel .kernel-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+}
+body.page-kernel .kernel-hero .wrap {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: var(--sp-48);
+  align-items: center;
+  padding-top: var(--sp-72);
+  padding-bottom: var(--sp-72);
+}
+/* Parchment copy and ochre marker on the dark field (DESIGN-BRIEF §5/§8). */
+body.page-kernel .kernel-hero .eyebrow { color: var(--parchment); }
+body.page-kernel .kernel-hero .eyebrow::before { background: var(--ochre); }
+/* Newsreader roman display serif on the dark hero, as on the homepage hero
+   and the Philosophy page hero (DESIGN-BRIEF §6). */
+body.page-kernel .kernel-hero h1 {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 500;
+  font-size: var(--fs-1100);
+  text-transform: none;
+  letter-spacing: -0.012em;
+  line-height: 1.02;
+  color: var(--parchment);
+  margin-bottom: var(--sp-24);
+  max-width: 560px;
+}
+body.page-kernel .kernel-hero .lede { color: var(--legacy-paper); max-width: 600px; }
+body.page-kernel .kernel-hero-mark {
+  justify-self: center;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+}
+body.page-kernel .kernel-hero-mark img { width: 100%; height: 100%; object-fit: contain; }
+/* Dark-surface button and focus treatment, matching the homepage hero. */
+body.page-kernel .kernel-hero .btn-primary:hover { background: var(--parchment); color: var(--legacy-ink); }
+body.page-kernel .kernel-hero .btn-secondary { color: var(--legacy-paper); border-color: rgba(213, 192, 157, 0.6); }
+body.page-kernel .kernel-hero .btn-secondary:hover { background: var(--legacy-paper); color: var(--legacy-ink); }
+body.page-kernel .kernel-hero *:focus-visible { outline-color: var(--legacy-paper); }
+
+@media (max-width: 900px) {
+  body.page-kernel .kernel-hero .wrap {
+    grid-template-columns: 1fr;
+    gap: var(--sp-40);
+    padding-top: var(--sp-56);
+    padding-bottom: var(--sp-56);
+  }
+  body.page-kernel .kernel-hero h1 { font-size: var(--fs-1000); }
+  body.page-kernel .kernel-hero .lede { max-width: none; }
+  body.page-kernel .kernel-hero-mark { max-width: 320px; }
+}
+
+/* ==========================================================================
+   KERNEL PAGE — RUNTIME ARCHITECTURE PLATE (body.page-kernel)
+   A static, token-styled inline SVG rendered from the runtime architecture
+   model (source: disce-kernel-architecture.json, an untracked artifact).
+   Informative, not decorative, but hidden from the a11y tree: the bilingual
+   <figcaption> is the DOM textual equivalent (implementation plan, Slot A
+   pattern). No JS, no raster, no motion — this SVG is its own static and
+   reduced-motion fallback. Labels stay legible by scrolling the plate inside
+   its own region on narrow viewports instead of shrinking the type.
+
+   Rendered as an engraved dark plate in the brand's forest/parchment register;
+   all secondary text is parchment at >=0.8 opacity (>=5.5:1 on green-deep) and
+   the core sublabels at 0.9 (4.84:1 on green-forest), so WCAG AA holds.
+   ========================================================================== */
+body.page-kernel .arch-figure { margin: 0 0 var(--sp-48); }
+body.page-kernel .arch-plate-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+body.page-kernel .arch-plate-scroll:focus-visible { outline: 3px solid var(--legacy-ink); outline-offset: 3px; }
+body.page-kernel .arch-plate {
+  display: block;
+  width: 100%;
+  min-width: 900px;
+  max-width: 1040px;
+  height: auto;
+  margin: 0 auto;
+  shape-rendering: geometricPrecision;
+}
+/* plate + rules */
+body.page-kernel .arch-plate .plate { fill: var(--green-deep); stroke: var(--legacy-ink); stroke-width: 2; }
+body.page-kernel .arch-plate .rule { stroke: var(--parchment); stroke-opacity: 0.22; stroke-width: 1.5; }
+/* regions */
+body.page-kernel .arch-plate .zone { fill: var(--parchment); fill-opacity: 0.05; stroke: var(--parchment); stroke-opacity: 0.28; stroke-width: 1; }
+body.page-kernel .arch-plate .zone-dashed { fill: none; stroke: var(--parchment); stroke-opacity: 0.28; stroke-width: 1; stroke-dasharray: 7 5; }
+/* nodes */
+body.page-kernel .arch-plate .node rect { fill: var(--parchment); fill-opacity: 0.06; stroke: var(--parchment); stroke-opacity: 0.55; stroke-width: 1.5; }
+body.page-kernel .arch-plate .node-ext rect { fill: none; stroke: var(--parchment); stroke-opacity: 0.5; stroke-width: 1.5; stroke-dasharray: 7 5; }
+body.page-kernel .arch-plate .core rect { fill: var(--green-forest); stroke: var(--parchment); stroke-width: 1.5; }
+body.page-kernel .arch-plate .sw-core { fill: var(--green-forest); stroke: var(--parchment); stroke-width: 1.5; }
+body.page-kernel .arch-plate .sw-node { fill: var(--parchment); fill-opacity: 0.06; stroke: var(--parchment); stroke-opacity: 0.55; stroke-width: 1.5; }
+body.page-kernel .arch-plate .sw-ext { fill: none; stroke: var(--parchment); stroke-opacity: 0.5; stroke-width: 1.5; stroke-dasharray: 7 5; }
+/* connectors */
+body.page-kernel .arch-plate .edge { stroke: var(--parchment); stroke-opacity: 0.55; stroke-width: 1.5; fill: none; }
+body.page-kernel .arch-plate .edge-accent { stroke: var(--ochre); stroke-width: 2; fill: none; }
+body.page-kernel .arch-plate .edge-dashed { stroke: var(--parchment); stroke-opacity: 0.55; stroke-width: 1.5; fill: none; stroke-dasharray: 6 5; }
+body.page-kernel .arch-plate .arrow { fill: var(--parchment); fill-opacity: 0.55; }
+body.page-kernel .arch-plate .arrow-accent { fill: var(--ochre); }
+body.page-kernel .arch-plate .diamond { fill: var(--ochre); }
+/* type */
+body.page-kernel .arch-plate .plate-title { font-family: var(--font-display); font-size: 16px; fill: var(--parchment); letter-spacing: 0.01em; }
+body.page-kernel .arch-plate .plate-sub { font-family: var(--font-body); font-size: 11px; fill: var(--parchment); fill-opacity: 0.8; }
+body.page-kernel .arch-plate .region { font-family: var(--font-body); font-weight: 800; font-size: 9.5px; letter-spacing: 0.18em; fill: var(--parchment); fill-opacity: 0.8; }
+body.page-kernel .arch-plate .t-title { font-family: var(--font-body); font-weight: 800; font-size: 13px; fill: var(--legacy-paper); letter-spacing: 0.005em; }
+body.page-kernel .arch-plate .t-sub { font-family: var(--font-body); font-weight: 400; font-size: 11px; fill: var(--parchment); fill-opacity: 0.8; }
+body.page-kernel .arch-plate .core .t-title { fill: var(--parchment); fill-opacity: 1; }
+body.page-kernel .arch-plate .core .t-sub { fill: var(--parchment); fill-opacity: 0.9; }
+body.page-kernel .arch-plate .core-num { font-family: var(--font-display); font-size: 14px; fill: var(--ochre); }
+body.page-kernel .arch-plate .legend { font-family: var(--font-body); font-weight: 700; font-size: 9.5px; letter-spacing: 0.1em; fill: var(--parchment); fill-opacity: 0.8; }
+body.page-kernel .arch-plate .edge-label { font-family: var(--font-body); font-weight: 800; font-size: 9px; letter-spacing: 0.12em; fill: var(--parchment); fill-opacity: 0.8; }
+body.page-kernel .arch-caption { margin-top: var(--sp-16); font-size: var(--fs-400); color: var(--muted); max-width: 780px; line-height: 1.7; }
+@media (max-width: 900px) {
+  body.page-kernel .arch-plate { min-width: 820px; }
+}
+
+/* ==========================================================================
+   KERNEL PAGE — CONSOLIDATED CARD SYSTEM (body.page-kernel)
+   One canonical card for the whole page: square corners, 2px ink border,
+   paper fill, equal padding and internal rhythm, hard offset-shadow hover —
+   the ".persona-card" language applied to every card grid (the three
+   problem grids and the four-layer grid).
+
+   These are scoped overrides; the shared .problem-* / .persona-* rules are
+   untouched so no other page changes. They are the candidate for a later
+   site-wide card consolidation (out of scope for this pass).
+   ========================================================================== */
+body.page-kernel .problem-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-16);
+  margin-top: var(--sp-40);
+  border: 0;
+}
+body.page-kernel .persona-grid { gap: var(--sp-16); }
+body.page-kernel .problem-card,
+body.page-kernel .persona-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--legacy-paper);
+  border: 2px solid var(--legacy-ink);
+  padding: var(--sp-32) var(--sp-28);
+  transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+body.page-kernel .problem-card:hover,
+body.page-kernel .persona-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 5px 5px 0 var(--legacy-ink);
+}
+/* Equal internal rhythm on every card. The inherited first-card emphasis
+   (larger numeral/heading, cream-dim fill) is a deliberate homepage pattern;
+   on the Kernel page all cards are equal. */
+body.page-kernel .problem-card h3,
+body.page-kernel .persona-card h3 {
+  font-size: var(--fs-600);
+  margin-bottom: var(--sp-24);
+}
+body.page-kernel .problem-card p,
+body.page-kernel .persona-card p {
+  color: var(--muted);
+  font-size: var(--fs-500);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+@media (max-width: 900px) {
+  body.page-kernel .problem-grid { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   KERNEL PAGE — NUMBERING / BADGES (body.page-kernel)
+   Two numbering treatments only on this page:
+     · cards  -> .k-badge, a green diamond shared by every card grid
+     · lists  -> .step-num, the existing duotone oversized numeral (unchanged)
+   The runtime architecture plate keeps its own ochre numerals: it is a
+   distinct plate register and is explicitly protected from restyling.
+
+   Eyebrow marker rule (documentation only — no visual change):
+     · ochre dot     = status / problem / contact contexts and dark surfaces
+                       (.section-head:has(+ .problem-grid), .band-card,
+                        .cta-band:has(.cta-band-bg), .hero)
+     · green diamond = standard light editorial sections (default .eyebrow)
+   ========================================================================== */
+body.page-kernel .k-badge {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--green);
+  border: 2px solid var(--legacy-ink);
+  transform: rotate(45deg);
+  margin-bottom: var(--sp-32); /* clears the rotated corner */
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: var(--fs-500);
+  color: var(--legacy-ink);
+}
+body.page-kernel .k-badge > span { display: block; transform: rotate(-45deg); }
+
+/* ==========================================================================
+   KERNEL PAGE — TYPE HIERARCHY (body.page-kernel)
+   Grotesque (Archivo Black) stays the headline face on light surfaces
+   (DESIGN-BRIEF §6); the serif stays reserved for the hero / dark surfaces.
+   Loudness is differentiated within the one face by size + whitespace:
+     hero 44px  ·  key sections (runtime plate, closing CTA) 36px  ·  sections 30px
+   The aliases below map to existing --fs-* steps only; they are kernel-scoped
+   so no other page's type scale is touched (candidate for a later site-wide
+   scale consolidation).
+   ========================================================================== */
+body.page-kernel {
+  --k-fs-hero: var(--fs-1100);      /* 44px */
+  --k-fs-key: var(--fs-1000);       /* 36px */
+  --k-fs-section: var(--fs-900);    /* 30px */
+  --k-fs-card-title: var(--fs-600); /* 18px */
+  --k-fs-body: var(--fs-500);       /* 16px */
+  --k-fs-meta: var(--fs-400);       /* 14px */
+}
+body.page-kernel .section-head h2 { font-size: var(--k-fs-section); }
+/* Key sections step up one scale step: the runtime plate and the closing CTA. */
+body.page-kernel .bg-sage .section-head h2,
+body.page-kernel .cta-band h2 { font-size: var(--k-fs-key); }
+/* List body copy matches card body copy (16px / 1.6). */
+body.page-kernel .process-item p { font-size: var(--k-fs-body); line-height: 1.6; }
+
+/* ==========================================================================
+   KERNEL PAGE — CONTRAST HARDENING (body.page-kernel)
+   The hero's secondary action becomes a filled parchment button with dark
+   text (--legacy-ink on --legacy-paper = 17.35:1) instead of the 0.6-opacity
+   outline, which passed 3:1 as a UI border but read weak on the dark green.
+   The primary action is unchanged.
+
+   Audit note: bright --green (#4FAC4E) is used for text only on --legacy-ink
+   (6.44:1); the failing 2.53:1 light pairing does not occur. No remap needed.
+   ========================================================================== */
+body.page-kernel .kernel-hero .btn-secondary {
+  background: var(--legacy-paper);
+  color: var(--legacy-ink);
+  border-color: var(--legacy-ink);
+}
+body.page-kernel .kernel-hero .btn-secondary:hover {
+  background: var(--parchment);
+  color: var(--legacy-ink);
+}
+
+/* ==========================================================================
+   KERNEL PAGE — SECTION RHYTHM (body.page-kernel)
+   One separation principle: generous, uniform vertical whitespace on the 4px
+   token grid, plus a single intentional background shift (the Foundation
+   band, already delimited by its 2px rules) and one divider before the
+   closing chapter. Section padding and the headline -> lead -> content gap
+   are pinned so every section repeats the same pattern.
+   ========================================================================== */
+body.page-kernel { --k-section-y: var(--sp-84); --k-head-gap: var(--sp-48); }
+/* Content sections only: the hero and the shared CTA band keep their own
+   padding (the CTA band is a shared template and is out of scope this pass). */
+body.page-kernel section:not(.kernel-hero):not(.cta-band):not(.tight) { padding: var(--k-section-y) 0; }
+body.page-kernel section.tight { padding: var(--sp-56) 0; }
+body.page-kernel .section-head { margin-bottom: var(--k-head-gap); }
+body.page-kernel .section-head h2 { margin-bottom: var(--sp-16); }
+body.page-kernel .section-head .lede { margin-bottom: 0; }
