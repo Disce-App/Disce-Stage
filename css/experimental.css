@@ -2802,6 +2802,16 @@ body,
   --dot-min: 0.06;
   background-image: url('../images/derived/dot-bloom-green.png');
 }
+/* Dark hero variant (homepage): the same bloom in the ochre accent, which the
+   brief reserves for dark surfaces in place of the bright green (DESIGN-BRIEF
+   §5). Sits above the scrim so it reads, below the copy grid. */
+.dot-field--hero-dark {
+  z-index: 2;
+  opacity: 0.4;
+  background-image: url('../images/derived/dot-bloom-ochre.png');
+  --dot-color-a: var(--ochre);
+  --dot-color-b: var(--parchment);
+}
 /* Focal field (arena): a single ripple in a section's upper-right whitespace. */
 .dot-field--focal {
   --dot-pitch: 18;

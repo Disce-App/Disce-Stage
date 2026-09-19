@@ -55,6 +55,11 @@ Per-motif tuning lives in `FIELD_DEFAULTS` (`composition.js`) and is mirrored by
   the calm pulse). Current: `ring 40`, `waves 3`, `reach 0.6`, `breathe 0.08`
   → a ring opens and settles roughly every 8.7 s.
 
+Per-mount colour override: `--dot-color-a` / `--dot-color-b` on the mount replace
+the global `--green` / `--green-dark`. The dark homepage hero uses this to render
+the bloom in `--ochre` / `--parchment` (DESIGN-BRIEF §5: the bright green is for
+light surfaces only, ochre/parchment on dark).
+
 ## Pointer reaction
 
 `reactive.js` clears the dots under the cursor with a soft radial mask on the

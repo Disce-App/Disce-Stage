@@ -27,11 +27,13 @@ export function mount(el, { motion = true, phase = 0 } = {}) {
 
   const field = el.getAttribute('data-field') || 'bloom';
   const tokens = getTokens();
-  const colorA = tokens['--green'] || '#4FAC4E';
-  const colorB = tokens['--green-dark'] || '#357435';
   const cycleMs = (parseFloat(tokens['--gen-cycle']) || 26) * 1000;
 
   const style = getComputedStyle(el);
+  // Per-mount override, so a dark surface can use the ochre accent instead of
+  // the light-surface green (DESIGN-BRIEF §5). Falls back to the global tokens.
+  const colorA = style.getPropertyValue('--dot-color-a').trim() || tokens['--green'] || '#4FAC4E';
+  const colorB = style.getPropertyValue('--dot-color-b').trim() || tokens['--green-dark'] || '#357435';
   const pitch = parseFloat(style.getPropertyValue('--dot-pitch')) || 17;
   const radius = parseFloat(style.getPropertyValue('--dot-radius')) || 6;
   const minRadius = parseFloat(style.getPropertyValue('--dot-min')) || 0.06;
