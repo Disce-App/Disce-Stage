@@ -2,5 +2,6 @@
 // page pays for exactly the one visual it uses.
 export const registry = {
   'kernel-loop': () => import('./kernel-loop/index.js'),
-  'section-motif': () => import('./section-motif/index.js')
+  'section-motif': () => import('./section-motif/index.js'),
+  'dot-field': () => import('./dot-field/index.js')
 };
