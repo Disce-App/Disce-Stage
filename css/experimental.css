@@ -81,6 +81,16 @@
   --bordeaux: #612E31;
   --ochre: #E3AF50;
 
+  /* ---- Grain registers (DESIGN-BRIEF §4, print-editorial texture) ----
+     Two deliberate noise characters, both self-hosted:
+       · --grain-film: neutral photographic grain, applied OVER image
+         surfaces only (the established ~5% feTurbulence tile).
+       · --grain-paper: the paper tooth, applied to the paper substrate
+         (lights/beige, behind the ink). A seamless warm tile.
+     Tokenized so the two registers are named and tuned in one place. */
+  --grain-film: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-film-opacity: 0.05;
+
   --font-display: 'Archivo Black', 'Inter', sans-serif;
   --font-body: 'Inter', -apple-system, sans-serif;
   --font-italic: 'Newsreader', Georgia, serif;
@@ -323,8 +333,8 @@ body::before {
 .hero::after {
   content: '';
   position: absolute; inset: 0; z-index: 2;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.05;
+  background-image: var(--grain-film);
+  opacity: var(--grain-film-opacity);
   pointer-events: none;
 }
 
@@ -1493,8 +1503,8 @@ section.tight { padding: var(--sp-56) 0; }
   position: absolute;
   inset: 0;
   z-index: 2;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.05;
+  background-image: var(--grain-film);
+  opacity: var(--grain-film-opacity);
   pointer-events: none;
 }
 
@@ -1730,8 +1740,8 @@ section.tight { padding: var(--sp-56) 0; }
   position: absolute;
   inset: 0;
   z-index: 2;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.05;
+  background-image: var(--grain-film);
+  opacity: var(--grain-film-opacity);
   pointer-events: none;
 }
 
@@ -1883,8 +1893,8 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
 .cta-band:has(.cta-band-bg)::after {
   content: '';
   position: absolute; inset: 0; z-index: 2;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.05;
+  background-image: var(--grain-film);
+  opacity: var(--grain-film-opacity);
   pointer-events: none;
 }
 .cta-band:has(.cta-band-bg) .wrap { position: relative; z-index: 3; }
@@ -1958,8 +1968,8 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
 .corridor:has(.corridor-bg)::after {
   content: '';
   position: absolute; inset: 0; z-index: 2;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.05;
+  background-image: var(--grain-film);
+  opacity: var(--grain-film-opacity);
   pointer-events: none;
 }
 
@@ -2615,8 +2625,10 @@ body.page-kernel .k-band-copy {
    over the section paper tone (#F6F1E2) by scripts/optimize_images.py
    --bake-ghost. So the page only positions ONE plain, unfiltered, unmasked
    layer at opacity 1 — no live filter/mask/compositing (and no repaint of a
-   filtered layer while scrolling). Decorative: alt="" + aria-hidden. The
-   section grain overlays it.
+   filtered layer while scrolling). A paper-tone ramp on the layer's own
+   ::after dissolves the clipped sheet into the following Boundaries section
+   (see the rule below). Decorative: alt="" + aria-hidden. The section grain
+   overlays it.
 
    content-visibility lets the browser skip rendering/compositing this whole
    range while it is off-screen; contain-intrinsic-size supplies the measured
@@ -2666,6 +2678,27 @@ body.page-kernel .k-ghost-sheet {
 }
 body.page-kernel .k-ghost-sheet picture { display: block; }
 body.page-kernel .k-ghost-sheet img { width: 100%; height: auto; display: block; }
+/* Bottom dissolve. On wide viewports the cover-sized sheet is taller than the
+   field, so the sheet's own baked bottom feather falls below the field and is
+   clipped by overflow: hidden; the ambient layer then ends on a hard line at
+   the field's last pixel, right above the Boundaries section. This paper-tone
+   ramp lives INSIDE the ghost layer (below the section grain and copy), so it
+   feathers the residual ghost into --cream at any viewport width instead of
+   relying on the baked edge being in frame. The baked files are flattened over
+   exactly this tone, so the ramp is seamless. */
+body.page-kernel .k-ghost-field::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(200px, 26vh, 400px);
+  background-image: linear-gradient(to bottom,
+    rgba(246, 241, 226, 0) 0%,    /* --cream at 0 alpha */
+    rgba(246, 241, 226, 0.55) 58%,
+    var(--cream) 100%);
+  pointer-events: none;
+}
 @media (max-width: 768px) {
   body.page-kernel .k-ghost-field { display: none; }
 }
