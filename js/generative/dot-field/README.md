@@ -71,5 +71,5 @@ No dependencies.
 ## Status
 
 Integrated for `bloom` (page-hero panel, team/status/legal) and `arena`
-(homepage audience section focal). Extended fields (`current`) exist in
-`composition.js` but are not mounted yet.
+(homepage audience section focal; team page advisor block). Extended fields
+(`current`) exist in `composition.js` but are not mounted yet.

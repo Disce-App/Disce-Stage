@@ -2810,7 +2810,15 @@ body,
 }
 /* A section that hosts a focal field: lift the copy above the (absolute) mount. */
 .has-focal { position: relative; }
-.has-focal > .wrap { position: relative; z-index: 1; }
+.has-focal > *:not(.dot-field) { position: relative; z-index: 1; }
+
+/* Team page: the same ripple in the advisor block's heading whitespace. */
+.advisor-list .dot-field--focal {
+  width: min(420px, 46vw);
+  height: min(420px, 46vw);
+  right: 1%;
+  top: -64px;
+}
 
 /* The old hand-drawn halftone panels are superseded by the dot-field mounts. */
 .page-hero::after { display: none; }
