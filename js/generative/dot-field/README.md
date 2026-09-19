@@ -55,6 +55,18 @@ Per-motif tuning lives in `FIELD_DEFAULTS` (`composition.js`) and is mirrored by
   the calm pulse). Current: `ring 40`, `waves 3`, `reach 0.6`, `breathe 0.08`
   → a ring opens and settles roughly every 8.7 s.
 
+## Pointer reaction
+
+`reactive.js` clears the dots under the cursor with a soft radial mask on the
+mount. Because the mask sits on the mount it covers the animated canvas and the
+static background image alike, so the still plate reacts too (including under
+`prefers-reduced-motion` and `?gen-motion=off`). One shared passive
+`pointermove` listener drives every field; the `is-reactive` class is present
+only while the pointer is near, and a field opts out with
+`data-gen-hover="off"`. There is no reaction on coarse pointers (touch), where
+there is no hover. It is decorative and pointer-initiated — no meaning is gated
+behind it and it is not autonomous motion.
+
 ## Fallback / accessibility
 
 - No JS, failed import, or `prefers-reduced-motion: reduce` → the static PNG,

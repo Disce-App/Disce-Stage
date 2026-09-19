@@ -2776,12 +2776,22 @@ body,
   inset: 0;
   overflow: hidden;
   pointer-events: none;
+  --dot-clear: 150px;
   background-repeat: no-repeat;
   background-position: right top;
   background-size: cover;
 }
 .dot-field-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .dot-field.is-gen-active { background-image: none; }
+
+/* Pointer reaction (js/generative/dot-field/reactive.js). A soft radial mask on
+   the mount clears the dots under the cursor; because it sits on the mount it
+   masks the animated canvas and the static background image alike. The class is
+   present only while the pointer is near, so no mask is applied otherwise. */
+.dot-field.is-reactive {
+  -webkit-mask-image: radial-gradient(circle var(--dot-clear) at var(--dot-x, 50%) var(--dot-y, 50%), transparent 0, transparent 50%, #000 100%);
+          mask-image: radial-gradient(circle var(--dot-clear) at var(--dot-x, 50%) var(--dot-y, 50%), transparent 0, transparent 50%, #000 100%);
+}
 
 /* Page-hero panel (bloom): replaces the retired halftone's right-side footprint. */
 .dot-field--hero {

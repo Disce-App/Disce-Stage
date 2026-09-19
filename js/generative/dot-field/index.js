@@ -10,15 +10,20 @@
 // offscreen and in hidden tabs, resize-aware, full cleanup in destroy(),
 // decorative (aria-hidden), no dependencies.
 import { forEachDot } from './composition.js';
+import { attachReactive } from './reactive.js';
 import { getTokens } from '../tokens.js';
 
 const DPR_CAP = 2;
 const TAU = Math.PI * 2;
 
 export function mount(el, { motion = true, phase = 0 } = {}) {
+  // The pointer reaction is independent of motion, so the static plate reacts
+  // under `prefers-reduced-motion` and `?gen-motion=off` as well.
+  const detachReactive = attachReactive(el);
+
   // No motion: leave the static CSS fallback untouched (also the test hook
   // `?gen-motion=off`). Reduced motion must never get a blank or broken state.
-  if (!motion) return { destroy() {} };
+  if (!motion) return { destroy: detachReactive };
 
   const field = el.getAttribute('data-field') || 'bloom';
   const tokens = getTokens();
@@ -123,6 +128,7 @@ export function mount(el, { motion = true, phase = 0 } = {}) {
       document.removeEventListener('visibilitychange', onVisibility);
       el.classList.remove('is-gen-active');
       if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
+      detachReactive();
     }
   };
 }
