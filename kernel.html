@@ -279,18 +279,31 @@
      stay out of the text column. Decorative: alt="" + aria-hidden. The section
      grain overlays it. It stops before the Boundaries section. -->
 <div class="k-field">
-  <!-- Pre-baked ghost (Ruling 10): the grade, 6% opacity, soft edges and the
-       ~80% presence anchor are flattened into the file, composited over the
-       section paper tone (#F6F1E2). The page renders it as one plain layer at
-       opacity 1 — no live filter, mask or compositing. Baked via
-       scripts/optimize_images.py --bake-ghost. -->
-  <picture class="k-ghost-field" aria-hidden="true">
-    <source type="image/avif" sizes="100vw"
-      srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-1280.avif 1280w, images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-1920.avif 1920w">
-    <source type="image/webp" sizes="100vw"
-      srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-1280.webp 1280w, images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-1920.webp 1920w">
-    <img src="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-1280.webp" alt="" width="1920" height="5050" loading="lazy" decoding="async">
-  </picture>
+  <!-- Pre-baked ghost (Ruling 10, sliced v5): grade, 6% opacity, soft edges and
+       the ~80% presence anchor are flattened over the section paper tone
+       (#F6F1E2), then cut into three equal-height bands AFTER baking from one
+       master so the seams tile exactly. Three 960x~842 bands (0.81 MP each)
+       lazy-decode independently instead of one 1920x5050 (9.7 MP) bitmap.
+       Baked via scripts/optimize_images.py --bake-ghost --bake-slices 3. -->
+  <div class="k-ghost-field" aria-hidden="true">
+    <div class="k-ghost-sheet">
+      <picture>
+        <source type="image/avif" srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s0.avif">
+        <source type="image/webp" srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s0.webp">
+        <img src="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s0.webp" alt="" width="960" height="842" loading="lazy" decoding="async" fetchpriority="low">
+      </picture>
+      <picture>
+        <source type="image/avif" srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s1.avif">
+        <source type="image/webp" srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s1.webp">
+        <img src="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s1.webp" alt="" width="960" height="841" loading="lazy" decoding="async" fetchpriority="low">
+      </picture>
+      <picture>
+        <source type="image/avif" srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s2.avif">
+        <source type="image/webp" srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s2.webp">
+        <img src="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s2.webp" alt="" width="960" height="842" loading="lazy" decoding="async" fetchpriority="low">
+      </picture>
+    </div>
+  </div>
 <section>
   <div class="wrap">
     <div class="section-head">

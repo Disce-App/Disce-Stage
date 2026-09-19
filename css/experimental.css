@@ -2599,23 +2599,31 @@ body.page-kernel .k-field {
   isolation: isolate;
   content-visibility: auto;
   contain-intrinsic-size: auto 3789px;
+  /* inline-size container so the ghost sheet can size from the field WIDTH
+     (cqw) while its height still resolves against the field height. */
+  container-type: inline-size;
 }
 body.page-kernel .k-ghost-field {
   position: absolute;
   inset: 0;
   z-index: -1;
-  display: block;
+  display: flex;
+  justify-content: center;   /* centres the over-wide sheet, like cover */
+  align-items: flex-start;
   overflow: hidden;
   pointer-events: none;
 }
-body.page-kernel .k-ghost-field img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Position only: the anchor is baked into the file, so a plain centre
-     position lands the tower at ~80% horizontal. */
-  object-position: 50% 0%;
+/* The sheet reproduces the single-image `object-fit: cover` exactly: height is
+   the larger of the field height and the baked aspect (field width x 2.6302),
+   and the three baked bands stack inside at natural aspect, so they tile with
+   no per-band cropping and therefore no seams. */
+body.page-kernel .k-ghost-sheet {
+  flex: 0 0 auto;
+  height: max(100%, calc(100cqw * 2.6302));
+  aspect-ratio: 960 / 2525;
 }
+body.page-kernel .k-ghost-sheet picture { display: block; }
+body.page-kernel .k-ghost-sheet img { width: 100%; height: auto; display: block; }
 @media (max-width: 768px) {
   body.page-kernel .k-ghost-field { display: none; }
 }

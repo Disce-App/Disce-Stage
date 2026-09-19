@@ -294,7 +294,7 @@ def radial_mask(size, cx, cy, rx, ry, solid, fade):
 
 def bake_ghost(master, out_dir, widths, opacity, paper, anchor, ratio,
                grayscale=0.7, sepia=0.42, hue_rotate=42.0, saturate=0.9,
-               blur=0.6, scale=1.0, mask_rx=0.5, mask_ry=0.94,
+               blur=0.6, scale=1.0, mask_rx=0.5, mask_ry=0.94, slices=1,
                suffix="-ghost-baked", formats=("avif", "webp"),
                avif_quality=AVIF_QUALITY_START):
     """Bake the ambient ghost into flat files: grade + opacity + soft edges +
@@ -334,20 +334,22 @@ def bake_ghost(master, out_dir, widths, opacity, paper, anchor, ratio,
         alpha = mask.point(lambda v: int(round(v * opacity)))
         canvas.paste(layer, (0, 0), alpha)
 
-        if "avif" in formats:
-            data = encode_avif(canvas, avif_quality)
-            path = os.path.join(out_dir, f"{stem}-{width}.avif")
-            with open(path, "wb") as fh:
-                fh.write(data)
-            derivatives.append({"format": "avif", "width": width, "height": height,
-                                "file": path, "bytes": len(data)})
-        if "webp" in formats:
-            data = encode_webp(canvas)
-            path = os.path.join(out_dir, f"{stem}-{width}.webp")
-            with open(path, "wb") as fh:
-                fh.write(data)
-            derivatives.append({"format": "webp", "width": width, "height": height,
-                                "file": path, "bytes": len(data)})
+        # Optional slicing: cut the finished canvas into equal-height bands so
+        # the page can lazy-decode them independently (smaller peak decode).
+        # Sliced AFTER compositing, from one master, so the seams tile exactly.
+        bounds = [round(i * height / slices) for i in range(slices + 1)]
+        for s in range(slices):
+            top, bottom = bounds[s], bounds[s + 1]
+            part = canvas.crop((0, top, width, bottom)) if slices > 1 else canvas
+            tag = f"-{width}-s{s}" if slices > 1 else f"-{width}"
+            for fmt in formats:
+                data = encode_avif(part, avif_quality) if fmt == "avif" else encode_webp(part)
+                path = os.path.join(out_dir, f"{stem}{tag}.{fmt}")
+                with open(path, "wb") as fh:
+                    fh.write(data)
+                derivatives.append({"format": fmt, "width": width,
+                                    "height": bottom - top, "slice": s,
+                                    "file": path, "bytes": len(data)})
 
     return {
         "mode": "bake-ghost",
@@ -405,6 +407,8 @@ def main(argv=None):
                         help="soft-edge mask x radius, fraction of width (bake mode)")
     parser.add_argument("--bake-mask-ry", type=float, default=0.94,
                         help="soft-edge mask y radius, fraction of height (bake mode)")
+    parser.add_argument("--bake-slices", type=int, default=1,
+                        help="cut the baked canvas into N equal-height bands (bake mode)")
     args = parser.parse_args(argv)
 
     requested = [w for w in args.widths.split(",") if w.strip()]
@@ -430,6 +434,7 @@ def main(argv=None):
             opacity=args.bake_opacity, paper=background, anchor=args.bake_anchor,
             ratio=args.bake_ratio, blur=args.bake_blur, scale=args.bake_scale,
             mask_rx=args.bake_mask_rx, mask_ry=args.bake_mask_ry,
+            slices=args.bake_slices,
             suffix=args.suffix or "-ghost-baked", formats=formats)
         print(json.dumps(manifest, indent=2))
         return 0
