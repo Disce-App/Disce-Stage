@@ -123,6 +123,10 @@
   --dur-base: 180ms;
   --dur-slow: 260ms;
 
+  /* Generative ambient cycle (DESIGN-BRIEF §14 / generative plan). UI
+     durations above are 120-260ms; ambient loops are a separate register. */
+  --gen-cycle: 26s;
+
   --maxw: 1200px;
 }
 
@@ -2756,4 +2760,60 @@ body,
   background-image: var(--paper-grain);
   background-repeat: repeat;
   background-size: var(--grain-paper-size);
+}
+
+/* ==========================================================================
+   GENERATIVE DOT FIELDS (js/generative/dot-field)
+   Progressive enhancement. Each mount ships the matching static PNG as its
+   background — the intended still — and the module covers it with an animated
+   canvas only once it mounts. `.is-gen-active` drops the still so the two never
+   double up. No JS or `prefers-reduced-motion: reduce` leaves the still; the
+   static assets come from scripts/generate_dot_patterns.py. Decorative only
+   (aria-hidden, pointer-events: none), and deletable: remove the mount.
+   ========================================================================== */
+.dot-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: cover;
+}
+.dot-field-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.dot-field.is-gen-active { background-image: none; }
+
+/* Page-hero panel (bloom): replaces the retired halftone's right-side footprint. */
+.dot-field--hero {
+  left: auto;
+  width: min(46%, 640px);
+  --dot-pitch: 17;
+  --dot-radius: 6;
+  --dot-min: 0.06;
+  background-image: url('../images/derived/dot-bloom-green.png');
+}
+/* Focal field (arena): a single ripple in a section's upper-right whitespace. */
+.dot-field--focal {
+  --dot-pitch: 18;
+  --dot-radius: 5.4;
+  --dot-min: 0.06;
+  left: auto;
+  right: 2%;
+  top: -30px;
+  bottom: auto;
+  width: min(620px, 58vw);
+  height: min(620px, 58vw);
+  opacity: 0.32;
+  background-image: url('../images/derived/dot-arena-green.png');
+  background-position: center;
+  background-size: contain;
+}
+/* A section that hosts a focal field: lift the copy above the (absolute) mount. */
+.has-focal { position: relative; }
+.has-focal > .wrap { position: relative; z-index: 1; }
+
+/* The old hand-drawn halftone panels are superseded by the dot-field mounts. */
+.page-hero::after { display: none; }
+@media (max-width: 768px) {
+  .dot-field--hero { display: none; } /* keep the mobile hero clean */
 }
