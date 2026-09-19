@@ -266,7 +266,11 @@
 <!-- ============================= CYCLE =============================
      The end-to-end coaching cycle. Process-list is the site's numbered-step
      pattern; the closing badge row names the three feedback principles carried
-     by the Kernel's own UI (DESIGN-BRIEF §2). -->
+     by the Kernel's own UI (DESIGN-BRIEF §2).
+     NOTE (intended, not a bug): this section has no lede on purpose — its lede
+     was relocated VERBATIM into the editorial band just above, which now
+     carries the cycle's statement. Do not add a replacement lede here without
+     copy approval (COPY is otherwise frozen). -->
 <!-- ============================= GHOST FIELD =============================
      ONE continuous ambient layer behind the Cycle, the Layers and the Data
      Advantage sections: the tower portrait (retired from the hero), graded
@@ -275,12 +279,17 @@
      stay out of the text column. Decorative: alt="" + aria-hidden. The section
      grain overlays it. It stops before the Boundaries section. -->
 <div class="k-field">
+  <!-- Pre-baked ghost (Ruling 10): the grade, 6% opacity, soft edges and the
+       ~80% presence anchor are flattened into the file, composited over the
+       section paper tone (#F6F1E2). The page renders it as one plain layer at
+       opacity 1 — no live filter, mask or compositing. Baked via
+       scripts/optimize_images.py --bake-ghost. -->
   <picture class="k-ghost-field" aria-hidden="true">
     <source type="image/avif" sizes="100vw"
-      srcset="images/derived/DISCE_K01_r1_tower-red-instrument-768.avif 768w, images/derived/DISCE_K01_r1_tower-red-instrument-1280.avif 1280w, images/derived/DISCE_K01_r1_tower-red-instrument-1920.avif 1920w">
+      srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-1280.avif 1280w, images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-1920.avif 1920w">
     <source type="image/webp" sizes="100vw"
-      srcset="images/derived/DISCE_K01_r1_tower-red-instrument-768.webp 768w, images/derived/DISCE_K01_r1_tower-red-instrument-1280.webp 1280w, images/derived/DISCE_K01_r1_tower-red-instrument-1920.webp 1920w">
-    <img src="images/DISCE_K01_r1_tower-red-instrument.png" alt="" width="1122" height="1402" loading="lazy" decoding="async">
+      srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-1280.webp 1280w, images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-1920.webp 1920w">
+    <img src="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-1280.webp" alt="" width="1920" height="5050" loading="lazy" decoding="async">
   </picture>
 <section>
   <div class="wrap">

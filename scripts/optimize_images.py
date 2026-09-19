@@ -38,11 +38,12 @@ import argparse
 import base64
 import io
 import json
+import math
 import os
 import sys
 
 try:
-    from PIL import Image
+    from PIL import Image, ImageFilter
 except ImportError:  # pragma: no cover
     sys.exit("Missing dependency: Pillow. See the module docstring for setup.")
 
@@ -223,6 +224,144 @@ def optimize(master, kind, out_dir, requested_widths, crop_inset=None, crop_box=
     }
 
 
+def _mat_mul(a, b):
+    return [[sum(a[i][k] * b[k][j] for k in range(3)) for j in range(3)] for i in range(3)]
+
+
+def _mat_lerp(a, b, t):
+    return [[a[i][j] + (b[i][j] - a[i][j]) * t for j in range(3)] for i in range(3)]
+
+
+def _identity3():
+    return [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+
+
+def css_filter_matrix(grayscale=0.0, sepia=0.0, hue_rotate=0.0, saturate=1.0):
+    """Build the 3x3 matrix for the CSS filter chain used by the kernel ghost
+    (``grayscale(0.7) sepia(0.42) hue-rotate(42deg) saturate(0.9)``). The CSS
+    Filter Effects matrices operate on non-linear sRGB, which is exactly what
+    Pillow's ``Image.convert`` matrix does, so the baked result matches the
+    live CSS it replaces.
+    """
+    m = _identity3()
+    if grayscale:
+        luma = 0.2126, 0.7152, 0.0722
+        m = _mat_mul(_mat_lerp(_identity3(), [list(luma)] * 3, grayscale), m)
+    if sepia:
+        sep = [[0.393, 0.769, 0.189], [0.349, 0.686, 0.168], [0.272, 0.534, 0.131]]
+        m = _mat_mul(_mat_lerp(_identity3(), sep, sepia), m)
+    if hue_rotate:
+        a = math.radians(hue_rotate)
+        c, s = math.cos(a), math.sin(a)
+        m = _mat_mul([
+            [0.213 + c * 0.787 - s * 0.213, 0.715 - c * 0.715 - s * 0.715, 0.072 - c * 0.072 + s * 0.928],
+            [0.213 - c * 0.213 + s * 0.143, 0.715 + c * 0.285 + s * 0.140, 0.072 - c * 0.072 - s * 0.283],
+            [0.213 - c * 0.213 - s * 0.787, 0.715 - c * 0.715 + s * 0.715, 0.072 + c * 0.928 + s * 0.072],
+        ], m)
+    if saturate != 1.0:
+        t = saturate
+        m = _mat_mul([
+            [0.213 + 0.787 * t, 0.715 - 0.715 * t, 0.072 - 0.072 * t],
+            [0.213 - 0.213 * t, 0.715 + 0.285 * t, 0.072 - 0.072 * t],
+            [0.213 - 0.213 * t, 0.715 - 0.715 * t, 0.072 + 0.928 * t],
+        ], m)
+    return m
+
+
+def radial_mask(size, cx, cy, rx, ry, solid, fade):
+    """Soft-edge alpha mask (L) with a solid core up to ``solid`` of the
+    normalised radius and a linear falloff to transparent at ``fade``. Computed
+    small and upscaled - it is a blur, so the interpolation is free quality.
+    """
+    width, height = size
+    sw, sh = 64, max(8, round(64 * height / width))
+    small = Image.new("L", (sw, sh))
+    px = small.load()
+    for j in range(sh):
+        dy = ((j + 0.5) * height / sh - cy) / ry
+        for i in range(sw):
+            dx = ((i + 0.5) * width / sw - cx) / rx
+            d = math.hypot(dx, dy)
+            if d <= solid:
+                v = 1.0
+            elif d >= fade:
+                v = 0.0
+            else:
+                v = (fade - d) / (fade - solid)
+            px[i, j] = int(round(v * 255))
+    return small.resize((width, height), Image.BILINEAR)
+
+
+def bake_ghost(master, out_dir, widths, opacity, paper, anchor, ratio,
+               grayscale=0.7, sepia=0.42, hue_rotate=42.0, saturate=0.9,
+               blur=0.6, scale=1.0, mask_rx=0.5, mask_ry=0.94,
+               suffix="-ghost-baked", formats=("avif", "webp"),
+               avif_quality=AVIF_QUALITY_START):
+    """Bake the ambient ghost into flat files: grade + opacity + soft edges +
+    presence anchor, composited over the section paper tone. The page then
+    renders one plain, unfiltered, unmasked background layer at opacity 1, so
+    there is no live filter/mask/compositing cost. One file per serving width.
+    """
+    image = Image.open(master)
+    image.load()
+    rgb = flatten_alpha(image, paper).convert("RGB")
+    matrix = css_filter_matrix(grayscale, sepia, hue_rotate, saturate)
+    # Pillow's 12-tuple matrix is 3 rows of (r, g, b, offset); our filters have
+    # no offsets, so each row gets a trailing 0.
+    flat = [v for row in matrix for v in (list(row) + [0.0])]
+    graded = rgb.convert("RGB", tuple(flat))
+
+    os.makedirs(out_dir, exist_ok=True)
+    stem = os.path.splitext(os.path.basename(master))[0] + suffix
+    a = anchor / 100.0  # CLI anchor is a percentage
+    derivatives = []
+    for width in widths:
+        height = max(1, round(width * ratio))
+        tower_h = max(1, round(height * scale))
+        scaled_w = max(1, round(graded.width * tower_h / graded.height))
+        tower = graded.resize((scaled_w, tower_h), Image.LANCZOS)
+        if blur:
+            tower = tower.filter(ImageFilter.GaussianBlur(blur))
+        canvas = Image.new("RGB", (width, height), paper)
+        x_off = int(round(a * width - scaled_w / 2))
+        y_off = int(round((height - tower_h) / 2))
+        # Lay the (wider) tower onto a canvas-sized paper sheet, then composite
+        # that sheet over the flat paper using the soft-edge alpha.
+        layer = Image.new("RGB", (width, height), paper)
+        layer.paste(tower, (x_off, y_off))
+        mask = radial_mask((width, height), cx=a * width, cy=0.5 * height,
+                           rx=mask_rx * width, ry=mask_ry * height, solid=0.28, fade=0.82)
+        alpha = mask.point(lambda v: int(round(v * opacity)))
+        canvas.paste(layer, (0, 0), alpha)
+
+        if "avif" in formats:
+            data = encode_avif(canvas, avif_quality)
+            path = os.path.join(out_dir, f"{stem}-{width}.avif")
+            with open(path, "wb") as fh:
+                fh.write(data)
+            derivatives.append({"format": "avif", "width": width, "height": height,
+                                "file": path, "bytes": len(data)})
+        if "webp" in formats:
+            data = encode_webp(canvas)
+            path = os.path.join(out_dir, f"{stem}-{width}.webp")
+            with open(path, "wb") as fh:
+                fh.write(data)
+            derivatives.append({"format": "webp", "width": width, "height": height,
+                                "file": path, "bytes": len(data)})
+
+    return {
+        "mode": "bake-ghost",
+        "master": master,
+        "opacity": opacity,
+        "paper": "#%02X%02X%02X" % paper,
+        "anchor": anchor,
+        "ratio": ratio,
+        "grade": {"grayscale": grayscale, "sepia": sepia,
+                  "hue_rotate": hue_rotate, "saturate": saturate, "blur": blur},
+        "derivatives": derivatives,
+    }
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Disce Stage image optimizer (Section 9).")
     parser.add_argument("master", help="path to a master image under images/")
@@ -249,6 +388,23 @@ def main(argv=None):
                         help="string appended to the output stem, e.g. '-mask'")
     parser.add_argument("--background", default="#FBF8EF",
                         help="hex colour to flatten image transparency over (default: site paper)")
+    parser.add_argument("--bake-ghost", action="store_true",
+                        help="bake mode: flatten grade + opacity + soft edges + anchor "
+                             "into one composited file per width (no LQIP)")
+    parser.add_argument("--bake-opacity", type=float, default=0.06,
+                        help="ghost opacity baked into the file (bake mode)")
+    parser.add_argument("--bake-anchor", type=float, default=80.0,
+                        help="horizontal presence anchor, percent (bake mode)")
+    parser.add_argument("--bake-ratio", type=float, default=2.63,
+                        help="canvas height/width ratio (bake mode)")
+    parser.add_argument("--bake-blur", type=float, default=0.6,
+                        help="Gaussian blur radius baked in (bake mode)")
+    parser.add_argument("--bake-scale", type=float, default=1.0,
+                        help="tower height as a fraction of the canvas (bake mode)")
+    parser.add_argument("--bake-mask-rx", type=float, default=0.5,
+                        help="soft-edge mask x radius, fraction of width (bake mode)")
+    parser.add_argument("--bake-mask-ry", type=float, default=0.94,
+                        help="soft-edge mask y radius, fraction of height (bake mode)")
     args = parser.parse_args(argv)
 
     requested = [w for w in args.widths.split(",") if w.strip()]
@@ -268,6 +424,16 @@ def main(argv=None):
     for fmt in formats:
         if fmt not in ("avif", "webp"):
             sys.exit(f"unsupported format: {fmt}")
+    if args.bake_ghost:
+        manifest = bake_ghost(
+            args.master, args.out, [int(w) for w in requested],
+            opacity=args.bake_opacity, paper=background, anchor=args.bake_anchor,
+            ratio=args.bake_ratio, blur=args.bake_blur, scale=args.bake_scale,
+            mask_rx=args.bake_mask_rx, mask_ry=args.bake_mask_ry,
+            suffix=args.suffix or "-ghost-baked", formats=formats)
+        print(json.dumps(manifest, indent=2))
+        return 0
+
     manifest = optimize(args.master, args.kind, args.out, requested,
                         crop_inset=args.crop_inset, crop_box=crop_box,
                         append_native=not args.no_native, background=background,
