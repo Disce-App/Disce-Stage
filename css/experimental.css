@@ -279,6 +279,10 @@ body::before {
     position: fixed;
     top: 82px; left: 0; right: 0;
     background: var(--cream);
+    /* Paper grain on the opened mobile panel; hidden while max-height is 0. */
+    background-image: var(--paper-grain);
+    background-repeat: repeat;
+    background-size: var(--grain-paper-size);
     flex-direction: column;
     align-items: stretch;
     gap: 0;
@@ -2712,4 +2716,43 @@ body.page-kernel .k-ghost-field::after {
    ========================================================================== */
 body.page-kernel section.bg-sage:not(.kernel-hero):not(.cta-band):not(.tight) {
   padding-bottom: var(--sp-40);
+}
+
+/* ==========================================================================
+   PAPER GRAIN — one sheet across the site
+   Every light/paper surface paints the shared, seamless --grain-paper tile, so
+   the site reads as one continuous sheet of warm cotton paper. The grain is a
+   background layer BEHIND the ink and images: it never touches glyph
+   rendering, contrast or layout, and it costs no blend mode, filter or live
+   compositing. Dark ink surfaces and photographic bands are excluded — they
+   keep their own film grain (--grain-film). body.page-kernel opts out via
+   --paper-grain: none because it applies the same tile above its baked ghost
+   field. Delete this block to remove the texture site-wide.
+
+   Placed last so the background-image wins over each surface's `background`
+   shorthand at equal specificity; the :first-child variant is listed because
+   it out-specifies the bare class. `.page-hero--art` is excluded: it is a dark
+   image plate, not paper.
+   ========================================================================== */
+body,
+.site-header,
+.bg-sage,
+.page-hero:not(.page-hero--art),
+.beta-hero,
+.problem-card,
+.problem-card:first-child,
+.persona-card,
+.media-card,
+.band-card,
+.team-card,
+.status-ledger,
+.status-anchor,
+.philosophy-toc,
+.prose blockquote,
+.cta-frame-inner,
+.lang-switch,
+.badge {
+  background-image: var(--paper-grain);
+  background-repeat: repeat;
+  background-size: var(--grain-paper-size);
 }
