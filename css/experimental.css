@@ -2421,9 +2421,11 @@ body.page-kernel .section-head .lede { margin-bottom: 0; }
    ========================================================================== */
 body.page-kernel {
   --k-grain-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2' intercept='-1.15'/%3E%3CfeFuncG type='linear' slope='2' intercept='-1.15'/%3E%3CfeFuncB type='linear' slope='2' intercept='-1.15'/%3E%3C/feComponentTransfer%3E%3CfeColorMatrix type='matrix' values='0.97 0 0 0 0.04 0 0.9 0 0 0.02 0 0 0.75 0 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
-  --k-grain-fibre: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='v'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.085' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='1.15' intercept='-0.42'/%3E%3CfeFuncG type='linear' slope='1.15' intercept='-0.42'/%3E%3CfeFuncB type='linear' slope='1.15' intercept='-0.42'/%3E%3C/feComponentTransfer%3E%3CfeColorMatrix type='matrix' values='0.97 0 0 0 0.04 0 0.9 0 0 0.02 0 0 0.75 0 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23v)'/%3E%3C/svg%3E");
-  --k-grain: var(--k-grain-fine), var(--k-grain-fibre);
-  --k-grain-size: 150px 150px, 260px 260px;
+  /* One fine tile only (Ruling 12): the 260px fibre-mottle layer was not
+     independently perceptible in a 100% crop (mean delta ~2.4/255 on a 400px
+     sample), so it was dropped rather than stacked — same read, less paint. */
+  --k-grain: var(--k-grain-fine);
+  --k-grain-size: 150px 150px;
   --k-grain-opacity: 0.08;
 }
 body.page-kernel section:not(.kernel-hero):not(.cta-band) { position: relative; }
@@ -2586,9 +2588,18 @@ body.page-kernel .k-band-copy {
    filtered layer while scrolling). Decorative: alt="" + aria-hidden. The
    section grain overlays it.
 
+   content-visibility lets the browser skip rendering/compositing this whole
+   range while it is off-screen; contain-intrinsic-size supplies the measured
+   height so the scrollbar does not jump.
+
    Desktop layer only: hidden at <=768, where no composition is left.
    ========================================================================== */
-body.page-kernel .k-field { position: relative; isolation: isolate; }
+body.page-kernel .k-field {
+  position: relative;
+  isolation: isolate;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 3789px;
+}
 body.page-kernel .k-ghost-field {
   position: absolute;
   inset: 0;
