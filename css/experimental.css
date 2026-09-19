@@ -2803,7 +2803,7 @@ body,
   bottom: auto;
   width: min(620px, 58vw);
   height: min(620px, 58vw);
-  opacity: 0.32;
+  opacity: 0.4;
   background-image: url('../images/derived/dot-arena-green.png');
   background-position: center;
   background-size: contain;

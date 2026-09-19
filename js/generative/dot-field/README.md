@@ -46,6 +46,15 @@ never double up.
 | pitch / radius / min | CSS `--dot-pitch` / `--dot-radius` / `--dot-min` | 17 / 6 / 0.06 | dot lattice |
 | cycle | `--gen-cycle` | 26 s | loop period |
 
+Per-motif tuning lives in `FIELD_DEFAULTS` (`composition.js`) and is mirrored by
+`scripts/generate_dot_patterns.py --params` for the still:
+
+- `arena` — `ring` (ring wavelength, px), `waves` (whole wavelengths travelled
+  per cycle; integer keeps the loop seamless), `reach` (field radius as a
+  fraction of the short side), `breathe` (whole-field expansion/contraction:
+  the calm pulse). Current: `ring 40`, `waves 3`, `reach 0.6`, `breathe 0.08`
+  → a ring opens and settles roughly every 8.7 s.
+
 ## Fallback / accessibility
 
 - No JS, failed import, or `prefers-reduced-motion: reduce` → the static PNG,

@@ -137,13 +137,18 @@ def draw_motif(im: Image.Image, motif: str, p: dict, idx: dict) -> None:
     elif motif == "arena":
         cx, cy = p.get("center", [0.5, 0.5])
         cx, cy = coord(cx, w), coord(cy, h)
-        ring = p.get("ring", 26.0)
-        reach = p.get("reach", min(w, h) * 0.56)
+        ring = p.get("ring", 40.0)
+        reach = p.get("reach", min(w, h) * 0.6)
+        waves = p.get("waves", 3)          # whole wavelengths per cycle
+        breathe_amp = p.get("breathe", 0.08)
+        ph = p.get("phase", 0.0) * math.tau
+        breathe = 1.0 + breathe_amp * math.sin(ph)
         for x, y in grid():
-            dist = math.hypot(x - cx, y - cy)
+            dist = math.hypot(x - cx, y - cy) / breathe
             if dist > reach:
                 continue
-            r = r0 * (mn + (1 - mn) * _smooth(math.sin(dist / ring))) * (1 - dist / (reach * 1.1))
+            wave = 0.5 + 0.5 * math.sin(dist / ring - waves * ph)
+            r = r0 * (mn + (1 - mn) * wave) * (1 - dist / (reach * 1.1))
             disc(x, y, r, idx["primary"])
 
     elif motif == "depth":

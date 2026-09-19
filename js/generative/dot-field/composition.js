@@ -13,8 +13,10 @@ const TAU = Math.PI * 2;
 const FIELD_DEFAULTS = {
   // radial bloom from an anchor (today's page-hero panel)
   bloom: { anchorX: 0.9, anchorY: 0.08, reach: 0.92, breathe: 0.10, wave: 96 },
-  // concentric rings travelling outward from a centre (the "arena" focal)
-  arena: { cx: 0.5, cy: 0.5, ring: 26, reach: 0.56 },
+  // concentric rings travelling outward from a centre (the "arena" focal).
+  // `waves` = whole wavelengths travelled per cycle (integer => seamless);
+  // `breathe` = gentle expansion/contraction of the whole field (the pulse).
+  arena: { cx: 0.5, cy: 0.5, ring: 40, waves: 3, reach: 0.6, breathe: 0.08 },
   // organic drift along a smooth vector field
   current: { amp: 7.5 }
 };
@@ -54,11 +56,14 @@ export function forEachDot(field, opts, cb) {
         const ax = width * cfg.cx;
         const ay = height * cfg.cy;
         const reach = Math.min(width, height) * cfg.reach;
-        const d = Math.hypot(x - ax, y - ay);
+        // Whole-field breath so the rings expand and settle, not just drift.
+        const breathe = 1 + cfg.breathe * Math.sin(ph);
+        const d = Math.hypot(x - ax, y - ay) / breathe;
         if (d > reach) continue;
-        // d/ring - phase: one wavelength per cycle, so the rings travel and loop.
-        const wave = 0.5 + 0.5 * Math.sin(d / cfg.ring - ph);
-        r = radius * (minRadius + (1 - minRadius) * wave) * (1 - d / (reach * 1.05));
+        // d/ring - waves*phase: `waves` full wavelengths per cycle, so the
+        // rings travel outward and the loop closes.
+        const wave = 0.5 + 0.5 * Math.sin(d / cfg.ring - cfg.waves * ph);
+        r = radius * (minRadius + (1 - minRadius) * wave) * (1 - d / (reach * 1.1));
       } else if (field === 'current') {
         const a = Math.sin(x / 190 + ph) * Math.PI + Math.cos(y / 150 - ph) * Math.PI;
         ox = Math.cos(a) * cfg.amp;
