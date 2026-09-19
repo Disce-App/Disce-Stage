@@ -28,9 +28,9 @@ illustration.
 
 Determinism
 -----------
-All motifs are analytic and the only randomness (``trail``'s faint field,
-optional jitter) comes from ``--seed``. The same arguments reproduce the same
-bytes.
+All motifs are analytic; the only variation is per-dot ``--jitter`` (default
+0, a perfect lattice), seeded by ``--seed``. The same arguments reproduce the
+same bytes.
 
 Dependencies
 ------------
@@ -97,11 +97,19 @@ def draw_motif(im: Image.Image, motif: str, p: dict, idx: dict) -> None:
     mn = p["min_radius"]
 
     step = max(1, int(round(pitch)))
+    jitter = p.get("jitter", 0.0)
+    seed = p.get("seed", 0)
 
     def grid():
         for y in range(int(pitch * 0.5), h, step):
             for x in range(int(pitch * 0.5), w, step):
-                yield x, y
+                if jitter:
+                    h1 = math.sin(x * 12.9898 + y * 78.233 + seed) * 43758.5453
+                    h2 = math.sin(x * 39.3468 + y * 11.135 + seed) * 24634.6345
+                    yield (x + (h1 - math.floor(h1) - 0.5) * 2 * jitter,
+                           y + (h2 - math.floor(h2) - 0.5) * 2 * jitter)
+                else:
+                    yield x, y
 
     def disc(x, y, r, index):
         if r > 0.25:
@@ -198,6 +206,8 @@ def build(args) -> str:
         "pitch": args.pitch,
         "radius": args.radius,
         "min_radius": args.min_radius,
+        "jitter": args.jitter,
+        "seed": args.seed,
     }
     if args.params:
         try:
@@ -235,7 +245,9 @@ def main(argv=None) -> int:
     ap.add_argument("--min-radius", type=float, default=0.05, help="smallest radius as a fraction of r0")
     ap.add_argument("--color", default=GREEN, help="primary dot colour (hex, default --green)")
     ap.add_argument("--color2", default=GREEN_SAGE, help="secondary colour for depth/trail (hex)")
-    ap.add_argument("--seed", type=int, default=20260919)
+    ap.add_argument("--seed", type=int, default=20260919, help="seed for --jitter (stable output)")
+    ap.add_argument("--jitter", type=float, default=0.0,
+                    help="max dot-centre displacement in px; controlled imperfection (0 = perfect lattice)")
     ap.add_argument("--params", default="", help="motif-specific JSON, e.g. '{\"reach\":760,\"anchor\":[120,60]}'")
     ap.add_argument("--out", default="images/derived")
     ap.add_argument("--name", default="", help="output stem without extension")
