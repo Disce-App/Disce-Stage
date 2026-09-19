@@ -45,6 +45,7 @@ export function mount(el, { motion = true, phase = 0 } = {}) {
   let running = false;
   let raf = 0;
   let start = performance.now();
+  let lastPhase = phase;
 
   function size() {
     const rect = el.getBoundingClientRect();
@@ -72,7 +73,8 @@ export function mount(el, { motion = true, phase = 0 } = {}) {
   function frame(now) {
     if (!running) return;
     raf = requestAnimationFrame(frame);
-    draw(((now - start) % cycleMs) / cycleMs);
+    lastPhase = ((now - start) % cycleMs) / cycleMs;
+    draw(lastPhase);
   }
 
   function play() {
@@ -102,8 +104,10 @@ export function mount(el, { motion = true, phase = 0 } = {}) {
   document.addEventListener('visibilitychange', onVisibility);
 
   const ro = new ResizeObserver(() => {
+    // Resizing a canvas clears it, so always repaint — even mid-animation —
+    // rather than relying on the next frame (which may be paused offscreen).
     size();
-    if (!running) draw(phase);
+    draw(lastPhase);
   });
   ro.observe(el);
 
