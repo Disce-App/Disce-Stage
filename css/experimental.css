@@ -2091,22 +2091,24 @@ body.page-kernel .kernel-hero-bg img {
   object-position: 78% 50%;
   display: block;
 }
-/* Scrim: a flat, square-language gradient in the panorama's OWN paper tone
-   (#E2CDAD, sampled from the left of the master) so text and image read as one
-   continuous sheet. Opaque from the left, fully transparent by ~62% of the
-   viewport; a gentle bottom lift lightens the lower-left. Not a panel. */
+/* Scrim (R14): two layers mirroring the index hero's tonal-field logic,
+   adapted to the LIGHT panorama. (a) a uniform full-hero veil in the image's
+   own paper tone (#E2CDAD) so the whole image recedes one step; (b) a wide
+   left ramp that plateaus well before the eyebrow and holds across the ENTIRE
+   text block (eyebrow + h1 + lede + both buttons) plus >=64px beyond the
+   furthest glyph, falling off only in the image's right half. It never fades
+   out inside the text zone. */
 body.page-kernel .kernel-hero::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
-  background-image:
-    linear-gradient(90deg,
-      rgba(226, 205, 173, 0.9) 0%,
-      rgba(226, 205, 173, 0.88) 42%,
-      rgba(226, 205, 173, 0.42) 53%,
-      rgba(226, 205, 173, 0) 62%),
-    linear-gradient(0deg, rgba(226, 205, 173, 0.34) 0%, rgba(226, 205, 173, 0) 26%);
+  background-color: rgba(226, 205, 173, 0.34);
+  background-image: linear-gradient(90deg,
+    rgba(226, 205, 173, 0.86) 0%,
+    rgba(226, 205, 173, 0.86) 60%,
+    rgba(226, 205, 173, 0.45) 74%,
+    rgba(226, 205, 173, 0) 88%);
   pointer-events: none;
 }
 /* The same paper grain as the light page, over the image surface, for
@@ -2143,15 +2145,31 @@ body.page-kernel .kernel-hero h1 {
   margin-bottom: var(--sp-24);
   max-width: 560px;
 }
-body.page-kernel .kernel-hero .lede { color: var(--legacy-ink); max-width: 620px; }
+body.page-kernel .kernel-hero .lede {
+  color: var(--legacy-ink);
+  max-width: 620px;
+  /* Rhythm parity with the index hero: its lede carries a --sp-8 top
+     offset on top of the h1's --sp-24 margin (eyebrow --sp-16 / h1
+     --sp-24 / actions --sp-32 already match). */
+  margin-top: var(--sp-8);
+}
 /* The eyebrow keeps the light-surface green diamond marker, but its text uses
    --green-forest rather than --green-dark: on the sampled paper tone
    (#E2CDAD) green-dark measures only ~3.3:1, while green-forest is ~5.8:1
    (AA). Documented deviation, AA-driven. */
 body.page-kernel .kernel-hero .eyebrow { color: var(--green-forest); }
 /* No box: the copy sits directly on the panorama. Legibility comes from the
-   scrim below — a flat gradient in the image's own paper tone, not a panel. */
-body.page-kernel .kernel-hero-copy { position: relative; max-width: 680px; }
+   scrim below — a flat gradient in the image's own paper tone, not a panel.
+   Flex column (like the index hero's copy cell) so the child margins do NOT
+   collapse — that is what makes the eyebrow/h1/lede/actions gaps identical to
+   the homepage's rhythm. */
+body.page-kernel .kernel-hero-copy {
+  position: relative;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 /* Light-surface buttons: the global defaults apply (ink-filled primary, ink
    outline secondary); the previous dark-surface overrides are removed. */
 
@@ -2170,13 +2188,13 @@ body.page-kernel .kernel-hero-copy { position: relative; max-width: 680px; }
    right stays clear. */
 @media (min-width: 769px) and (max-width: 1200px) {
   body.page-kernel .kernel-hero::before {
+    background-color: rgba(226, 205, 173, 0.34);
     background-image:
       linear-gradient(90deg,
-        rgba(226, 205, 173, 0.92) 0%,
-        rgba(226, 205, 173, 0.9) 60%,
-        rgba(226, 205, 173, 0.5) 76%,
-        rgba(226, 205, 173, 0) 92%),
-      linear-gradient(0deg, rgba(226, 205, 173, 0.34) 0%, rgba(226, 205, 173, 0) 26%);
+        rgba(226, 205, 173, 0.86) 0%,
+        rgba(226, 205, 173, 0.86) 80%,
+        rgba(226, 205, 173, 0.5) 92%,
+        rgba(226, 205, 173, 0) 100%);
   }
 }
 /* Mobile (<=768): the horizontal scrim cannot cover a full-width text column
