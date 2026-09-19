@@ -2060,48 +2060,80 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
 
 /* ==========================================================================
    KERNEL PAGE — hero (body.page-kernel)
-   The Kernel page carries the emblem already established on the status page:
-   the parchment / ochre ouroboros SVG on the --green-forest field (its
-   #1E4B3A fills blend into that exact field). It is an SVG, so it is
-   resolution-independent and no raster upscaling is involved. Copy left,
-   emblem right; stacked and centred on narrow viewports. The rest of the page
-   reuses the shared .problem-grid, .process-list, .persona-grid and .cta-band
-   unchanged, so no other page is affected.
+   Full-bleed panorama (the golden archway) as the hero surface, with the copy
+   on a flat parchment panel. Light-surface text values, the documented light
+   eyebrow variant, the default light buttons, and the same paper grain as the
+   page so image and paper read as one world. The rest of the page reuses the
+   shared .problem-grid, .process-list, .persona-grid and .cta-band unchanged,
+   so no other page is affected.
    ========================================================================== */
 body.page-kernel .kernel-hero {
   position: relative;
   padding: 0; /* override the global section padding; the .wrap supplies it */
-  background: var(--green-forest);
-  color: var(--legacy-paper);
+  display: flex;
+  align-items: center;
+  min-height: min(78vh, 720px);
+  color: var(--legacy-ink);
   border-bottom: 2px solid var(--legacy-ink);
   overflow: hidden;
   isolation: isolate;
+  background-color: var(--parchment);
+  /* LQIP (24x10 WebP from scripts/optimize_images.py) until the AVIF decodes. */
+  background-image: url("data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAAAQBACdASoYAAoAPu1kqk4ppaQiMAgBMB2JQBOmUAFI0toHe3PZ2x+DgAD++LE3zcqdZIQ5IhD9faem4T4DsA64145jmAro2oDin45onSPiHyakt9qFA4lYAAA=");
+  background-size: cover;
+  background-position: 78% 50%;
 }
-/* Film grain (~5%), same pattern as the other dark surfaces. */
-body.page-kernel .kernel-hero::after {
+body.page-kernel .kernel-hero-bg { position: absolute; inset: 0; z-index: 0; display: block; }
+body.page-kernel .kernel-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 78% 50%;
+  display: block;
+}
+/* Scrim (R14): two layers mirroring the index hero's tonal-field logic,
+   adapted to the LIGHT panorama. (a) a uniform full-hero veil in the image's
+   own paper tone (#E2CDAD) so the whole image recedes one step; (b) a wide
+   left ramp that plateaus well before the eyebrow and holds across the ENTIRE
+   text block (eyebrow + h1 + lede + both buttons) plus >=64px beyond the
+   furthest glyph, falling off only in the image's right half. It never fades
+   out inside the text zone. */
+body.page-kernel .kernel-hero::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.05;
+  background-color: rgba(226, 205, 173, 0.34);
+  background-image: linear-gradient(90deg,
+    rgba(226, 205, 173, 0.86) 0%,
+    rgba(226, 205, 173, 0.86) 60%,
+    rgba(226, 205, 173, 0.45) 74%,
+    rgba(226, 205, 173, 0) 88%);
+  pointer-events: none;
+}
+/* The same paper grain as the light page, over the image surface, for
+   world-unity. It sits below .wrap, so the copy panel and its type stay crisp. */
+body.page-kernel .kernel-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image: var(--k-grain);
+  background-size: var(--k-grain-size);
+  opacity: var(--k-grain-opacity);
   pointer-events: none;
 }
 body.page-kernel .kernel-hero .wrap {
   position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  gap: var(--sp-48);
-  align-items: center;
-  padding-top: var(--sp-72);
-  padding-bottom: var(--sp-72);
+  z-index: 3;
+  width: 100%;
+  padding-top: var(--sp-84);
+  padding-bottom: var(--sp-84);
 }
-/* Parchment copy and ochre marker on the dark field (DESIGN-BRIEF §5/§8). */
-body.page-kernel .kernel-hero .eyebrow { color: var(--parchment); }
-body.page-kernel .kernel-hero .eyebrow::before { background: var(--ochre); }
-/* Newsreader roman display serif on the dark hero, as on the homepage hero
-   and the Philosophy page hero (DESIGN-BRIEF §6). */
+/* The eyebrow uses the documented light-surface variant (green diamond,
+   green-dark text); the previous dark-surface overrides are removed. The
+   headline keeps the Newsreader display serif (DESIGN-BRIEF §6) and flips to
+   legacy ink, as does the lede. */
 body.page-kernel .kernel-hero h1 {
   font-family: 'Newsreader', Georgia, serif;
   font-weight: 500;
@@ -2109,35 +2141,83 @@ body.page-kernel .kernel-hero h1 {
   text-transform: none;
   letter-spacing: -0.012em;
   line-height: 1.02;
-  color: var(--parchment);
+  color: var(--legacy-ink);
   margin-bottom: var(--sp-24);
   max-width: 560px;
 }
-body.page-kernel .kernel-hero .lede { color: var(--legacy-paper); max-width: 600px; }
-body.page-kernel .kernel-hero-mark {
-  justify-self: center;
-  width: 100%;
-  max-width: 440px;
-  aspect-ratio: 1 / 1;
-  pointer-events: none;
+body.page-kernel .kernel-hero .lede {
+  color: var(--legacy-ink);
+  max-width: 620px;
+  /* Rhythm parity with the index hero: its lede carries a --sp-8 top
+     offset on top of the h1's --sp-24 margin (eyebrow --sp-16 / h1
+     --sp-24 / actions --sp-32 already match). */
+  margin-top: var(--sp-8);
 }
-body.page-kernel .kernel-hero-mark img { width: 100%; height: 100%; object-fit: contain; }
-/* Dark-surface button and focus treatment, matching the homepage hero. */
-body.page-kernel .kernel-hero .btn-primary:hover { background: var(--parchment); color: var(--legacy-ink); }
-body.page-kernel .kernel-hero .btn-secondary { color: var(--legacy-paper); border-color: rgba(213, 192, 157, 0.6); }
-body.page-kernel .kernel-hero .btn-secondary:hover { background: var(--legacy-paper); color: var(--legacy-ink); }
-body.page-kernel .kernel-hero *:focus-visible { outline-color: var(--legacy-paper); }
+/* The eyebrow keeps the light-surface green diamond marker, but its text uses
+   --green-forest rather than --green-dark: on the sampled paper tone
+   (#E2CDAD) green-dark measures only ~3.3:1, while green-forest is ~5.8:1
+   (AA). Documented deviation, AA-driven. */
+body.page-kernel .kernel-hero .eyebrow { color: var(--green-forest); }
+/* No box: the copy sits directly on the panorama. Legibility comes from the
+   scrim below — a flat gradient in the image's own paper tone, not a panel.
+   Flex column (like the index hero's copy cell) so the child margins do NOT
+   collapse — that is what makes the eyebrow/h1/lede/actions gaps identical to
+   the homepage's rhythm. */
+body.page-kernel .kernel-hero-copy {
+  position: relative;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+/* Light-surface buttons: the global defaults apply (ink-filled primary, ink
+   outline secondary); the previous dark-surface overrides are removed. */
 
 @media (max-width: 900px) {
+  body.page-kernel .kernel-hero { min-height: min(72vh, 620px); }
   body.page-kernel .kernel-hero .wrap {
-    grid-template-columns: 1fr;
-    gap: var(--sp-40);
     padding-top: var(--sp-56);
     padding-bottom: var(--sp-56);
   }
   body.page-kernel .kernel-hero h1 { font-size: var(--fs-1000); }
   body.page-kernel .kernel-hero .lede { max-width: none; }
-  body.page-kernel .kernel-hero-mark { max-width: 320px; }
+  body.page-kernel .kernel-hero-copy { max-width: none; }
+}
+/* Tablet (769-1200): the text column is a larger share of the width, so the
+   scrim fade is pushed later to keep the column covered while the arch on the
+   right stays clear. */
+@media (min-width: 769px) and (max-width: 1200px) {
+  body.page-kernel .kernel-hero::before {
+    background-color: rgba(226, 205, 173, 0.34);
+    background-image:
+      linear-gradient(90deg,
+        rgba(226, 205, 173, 0.86) 0%,
+        rgba(226, 205, 173, 0.86) 80%,
+        rgba(226, 205, 173, 0.5) 92%,
+        rgba(226, 205, 173, 0) 100%);
+  }
+}
+/* Mobile (<=768): the horizontal scrim cannot cover a full-width text column
+   while keeping the arch visible, so we use the documented fallback — the text
+   block sits on the panorama's own paper tone, above a shortened image band
+   that keeps the arch. Rendered and measured. */
+@media (max-width: 768px) {
+  body.page-kernel .kernel-hero {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background-color: #E2CDAD;
+    background-image: none;
+  }
+  body.page-kernel .kernel-hero::before { content: none; }
+  body.page-kernel .kernel-hero .wrap { order: 1; }
+  body.page-kernel .kernel-hero-bg {
+    position: relative;
+    inset: auto;
+    order: 2;
+    width: 100%;
+    height: 240px;
+  }
 }
 
 /* ==========================================================================
@@ -2310,24 +2390,15 @@ body.page-kernel .cta-band h2 { font-size: var(--k-fs-key); }
 body.page-kernel .process-item p { font-size: var(--k-fs-body); line-height: 1.6; }
 
 /* ==========================================================================
-   KERNEL PAGE — CONTRAST HARDENING (body.page-kernel)
-   The hero's secondary action becomes a filled parchment button with dark
-   text (--legacy-ink on --legacy-paper = 17.35:1) instead of the 0.6-opacity
-   outline, which passed 3:1 as a UI border but read weak on the dark green.
-   The primary action is unchanged.
+   KERNEL PAGE — HERO SURFACE CONTRAST (body.page-kernel)
+   v2: the hero is a light surface (panorama + parchment copy panel), so the
+   previous dark-hero button hardening is gone and the global light-surface
+   rules apply (--legacy-ink secondary outline, ink-filled primary). The
+   measured hero pairings at 375/768/1440 are reported with the commit.
 
    Audit note: bright --green (#4FAC4E) is used for text only on --legacy-ink
    (6.44:1); the failing 2.53:1 light pairing does not occur. No remap needed.
    ========================================================================== */
-body.page-kernel .kernel-hero .btn-secondary {
-  background: var(--legacy-paper);
-  color: var(--legacy-ink);
-  border-color: var(--legacy-ink);
-}
-body.page-kernel .kernel-hero .btn-secondary:hover {
-  background: var(--parchment);
-  color: var(--legacy-ink);
-}
 
 /* ==========================================================================
    KERNEL PAGE — SECTION RHYTHM (body.page-kernel)
@@ -2345,3 +2416,266 @@ body.page-kernel section.tight { padding: var(--sp-56) 0; }
 body.page-kernel .section-head { margin-bottom: var(--k-head-gap); }
 body.page-kernel .section-head h2 { margin-bottom: var(--sp-16); }
 body.page-kernel .section-head .lede { margin-bottom: 0; }
+
+/* ==========================================================================
+   KERNEL PAGE — PAPER GRAIN (body.page-kernel)
+   Additive "depth layer". Two procedural inline-SVG feTurbulence tiles,
+   static, pointer-events: none:
+     · a fine warm grain (baseFrequency 0.9) — the tooth of the paper
+     · a sparse larger fibre fleck (baseFrequency 0.11, thresholded) — the
+       irregular specks that read as paper rather than film noise
+   Both are tinted warm (R > G > B) so the multiply darkens toward a brown
+   fleck rather than neutral grey. Combined effective darkening on cream is
+   ~6-7%: visible at 100% in a full-page screenshot, still reading as paper.
+
+   Applied BEHIND the content (section ::before under .wrap; card ::before at
+   z-index: -1), so glyph rendering is untouched. Scoped to the light surfaces
+   (default cream sections, the .bg-sage band, the paper cards); the dark hero
+   and the shared CTA band are excluded.
+
+   Candidate for a future site-wide texture system (the "flyer" metaphor
+   already started by body::before); deliberately NOT applied site-wide yet.
+   ========================================================================== */
+body.page-kernel {
+  /* Alpha-composited grain (v5): the flecks carry their OWN alpha, so the
+     overlays composite under NORMAL blending instead of mix-blend-mode:
+     multiply — same read, but no forced isolated compositing / re-blend
+     of scroll content. Colour is warm-dark; alpha ramps with the noise. */
+  --k-grain-fine: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAMAAAAL34HQAAADAFBMVEUwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCQwLCTO6N6tAAABAHRSTlMBAwQFBwgJCgsNDg8REhMUFRYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAuDczDAAALtpJREFUeNo9nIuWpDiyBLMSPRCSIPv/f/aaObP37M5Md1UmCCkeHh4efM7dV7nmdZ7XmL2NsflPP899bv5yXWN/x+Q/Y9arXlc7z3Pxx3U94xyd36zTX9fpP5OrzD7K6OMafHZddfJrPtn48nn22Xfl59d1nXPus/GHOc7C3a5+8aXGZzc/+5yzTa7Zr/O4+h6jn3O0tnP9q7KE2e7OsrnOr/H1c5yz7l65h2tnKVyqnFz0ZA3+dV3X35jzmucapS6+Ma65+/7VNtcu1/c5eXAWyhNOHq7d3IunK4s/1tUPvvLhgqv9zr5bO8uu37E6/1+rncfBCtpVnt7cpsYzH4uL3Wv3Vsa1O/fubd18qPaTe89exqr84RhlDXb0vFqtLPPicXiM2dpqPPvV73PsyqaxSTxZ20fvc4/Kr8qXxY/P7HU3Lsg+36N3rnKO+jcbG8oPuQpnxy3OfnSW1NnOcvI4J89a3MJv4yjLHmevx7l4nDkHjz3Llw1ghYtnqmdjS8c4z9Zbn1VbGWWuqw1W2WfrnW0cR+sc/drPVT69sYH13KzscEe42L1+A7sY/OvqLInNP0dhJ+qotW/uzNFyDtzxe/OUHiy/wg4K62z8mY/0e/Cjyrm6yIFlVB51aEWjtrNhZzwZt2CD+qV5HLf7cK+jnNdn3x1L4iQx475unqtVFseVTn51YhTcAlO6nu6WszdYQint0ZTnuL5YcXH5nCFG0naZrhJ34PmrV8CS73FjsnyZlWB/bCfGhTXtq3DlvRf/5VRZ8Cq9X8f6jMIGF+42bm5yX2yCu13X5LwWu7w53MUN3I7FXrI9mBSXxTmxkM258bt5PqMWFqS7XF+uz1XPtiqbsjCgVaaO0dntsx6DTcFUfTA9cxY+9XAmuPQfR373Tz+ftnCcMRbnxdcMBtfgDxi8G1TX7Y5jj3/3ZBdYDCa9p97HabG+zq/rj5VcuzZ2AMe4eWa+y2OOpkcU404jyAx8mxDDQrllM7rgsi4Ru8Lo8TR2/DRAYGYVtzBGjeeLGRrFiGWnDoihcCycA4fcN96P1WOrB5vJovj9c1xGACygPSwBB+WKnPzZOA4+yD9+oRON6nCLK1uGh/Cl20DmFvCliaNeVz821yBSfNji4uXdBY6PyMZ3eYSzag6Xt6/Tg63sJmbF1uvYZx5nubfZX66qMfMn/HISergIu8iJ4XX8peepWc3/1sLf9mWMwLNYPU+m8VSegOMenz2rPnRpv9yM05v5OmHiyg4e1768IUdxnzUmNQ0VC6MZt0aKGQ1O7f7zdyx8FmyKq83ch7DMP9yYHHB55ESTaSirLV68WN5BjGDlpyftLlwf7qqb8pGBDTV+gfviUJjuWhu7GS6QB8fT2Ad8gI3bBzfHRoxR2TGjaMeTp0+9Dx6HnxYCpbGK6If5ErIv/8KSTAY8FaGDfzdj2/no4ARl8l5ztxqHxqLu5QbwT730j+vhcHFfnnzvtjgPTo9z8pEIujeuS7A7yQN8+SEZGchvrJvv85hsaqvrIUasXpexG3f/sodG6THvcpZh+jP9YhnXPrQ24uPfPyIGfvvhFIhKhWDHUvXR+mX5B7ZQdaTFEY+HnScOLeMteYb1YmgEq832si1sM+neSDm08h5n64kHPKD5Yz+L1Mv/+f5BwMTo8Tg8f9y6CIsvc/MXnvo4zTYfHrTfu2Fir4F5IFwQuyQAd0EFyRKL5rwwxrrn3oVVcBNiFSZFOu4He1OxzU5A5cJaGJd9OLqL7WM7eGoiRouDDCM8ZtMDGtyjTmDlHtgc8ZG7s1EfHvzoF6fiwZMGuEgdT9cq+M5xlvnlHudeWMC8/xpPI8wgEmnyhO12E9753vBoztXnHx/449CudVycPzYEntGEWLwhPmm8HB75IuCY9XV+lnRgjtePjNs/5q1kkVUJLcR+1oyDz4NMcOqSj7mWNEqUJnvhYDmKsXZwE4GU/2F6/9gXYxsezuUIowah7dnoXPVFdG4Tge4mcJI9i5vXxVdGklMPW8ArNta4tdmqmfCATXCU7BNPwTmRbEgf4qZLrzPhn4ZTDxhj0uGxYTOZWR13arrubMQCNosc9R0Fe2BbrvEc+jSAyeA9DVELBzq/+NPBj4MSyCq/vn6AqOvDtdcxzX48sxDHe/Dd+3zMBsSK3oM2Mf3rx+/ZUjLkXwDrdO1dBBGsR/DVCNiJw6B8lR8HRshZZZ8JQaQivNoYRSQ+BV6aPTEH7AQWYQMIDAAH8BaLLIIewB83xYxNYyT77T4Q0lsRRA3jKXuJ5XtRDb4aV+cA+pJTO3kyvhgTvcGCpoovAMSkTmwj4Blfh/A62Lh7DSE2Nxd2bnfzZln4wvgkBwq/DETdGGVMb+ZE70F0G6zZSxfi5Z7mnltkxbMTMS8DBh/l2DFyDDqRV/swTxHd+CorIqbPbBnZefCgwv/WH47CXavJ3lesyNROOCX04yt8yCcgdm2xLYEUIyLarXmLINfwpKbxAh/ApYfh1ecRP5x38h2nTWIXhRDEAMGTWIiNTjHn9Kfdn7KuVZ+Z6gXD5SqjH8Tl+Ct1AwnAKC90cnfdVgE5VyBMHPjkZSQs+jFJ5imCB3a4ityGQOU0pCdVGIKwQzb3PnP0nDYmSNw/uRI+TkIjzuPK282tfHZiuddX5zdHc20XLdAvQuf6Ob+ngMXFuQr8iLCx603QrD6q/l747K4FlIKNsKhqornMnyCpiWNP0y3Q9tvHnx9ZyzLrINqRpW4xkjUGllimqPYQA3A6PzJ9/P2KaxlrWTp/6xzi2Hr9FTTMcwKVaqngpOmmPkLme2nDOM8kHGs5/Kp9BziaxwRv4o2HAJWVEWiIBQdhkVQyxfbdZ8ExjGh69GnI5dGqcZQd7LU9naMhyN1coMdlKTGIbmSHuawHBEIba3tmQiVLLYHHPCfWy27rWRguO7TvWjih/uWbBnu3TC8lzc0LiySOE175+q39kGOyqi9ZwuTKw6/vnB+sTcAEJKzFaEycIpP3Dz5BKWW0GTHNiqHdoilBAuH5NAoUfyAw1Df2uSo5zKIK2/Jm/IdsKVKa4kz24DYJeywPXrOEHfU2aZD42YByPmzCPMDgbEEV0bCkE4wsoAIPr88KRgQNeJCtEVn9ehMO1nJzPfIQIYwHBT192zb1cyw7RmfUMXZYElkJCCNxgR8/ZfFYEXg70BbXMc4JuUjS3AGkSySyFiIuETJmTsqvClSvDyjmSyDiy6KQi79YOVgum+8tEC8zLbHusjqzqqc+ZAv50HTRX2Il0QwExFnk2pR41tZD9P4j0lwixkNXJ/AvA7XrxzCu+7hErjwYJYzfJf6RXybLupJzh1nRMG5I5Bwsxg3K7nnC87TQq48xtmKcuYzp16hsaOh6Y34rBPLBCd/ATT3O+FbDgpAtExjdLA+bHRWg64ouilLMUp+4ZdC0ONDGj9uapAfLUxUvk6cRDbOxSniOlnuEHkmVwz2PnlRidGNxxF2gtfdgyYSOIVXAerCjnvDLn1eSxhUMFcaCZd7t59lxG9IFCfKzfIC3Ojk5WQKleZciGhRgiY7Zh1uhlgF1TN2VuPHtljIkPx5ofc/UKOJt74Sb4rLWhEvIw0pwgSGsqVrKd0piUO5eLugWh1DiAwc9IqzdmnF+cPxhoUUswU34nKjcejUR8JJ8cqc5Mwtkzx2YcSdfyw+JJi0+jv03rQ7uranxYAd5UCrC6DLkhKjo2SFqaPHu6nd8qqQgKwYo9oLiBDoJGqB88MACKq0Prs/Cqqmki6d36LTOYVMxLK5cSFzlscYiTS1rAwEw8cvCC8Pb+BNXOnzE+LJZTeRCYviGrgAHUHSfN5UC3zy2RTrBlSoBD/ueoh5rIMzhUzk2DbQQHK0oz8OcCSIH0vSxb6oM9uCsXBMflPPAQ9rBX6Zph50pZgxOowVpE7hAZvVLlOOTxQxvOOCspV3gmswGlzEN8sjamc2hIiC8tXAveMRz3h/O5Mb4F4fKopZ2wWYXS0IDFJH2meEp27PlEizSeqPCx5WbPMRl0nFfmqhJWobjoVC3Wtb2ZcfGt7+GtfjDP8wDc7Zk4YskqG/tYdaEPQTUg5j+YduNb1JB0m5idNhKNwV+TR/GCgwZFCK9hhCwvqUQEz8SnCt52/IGSop8rndxbjVuKopPrAnG62YIlkvSMWCAZcRa952zIrFynJeLYcMqwEZ2lHTdrGkxYKLslGbEoQC+qZJBCXqUuQnHAIOwv+wDSZHrU52yK1jg9/7Kk35xOB3G9RBEoZ7MUjiRrsY5UHJqkkPDcnvlfXEEfioNSUJkV2BsDGQ+PnYkucYdBCW4mNyAFeZRjJia/2lVbdBlMUJok4GXFXBbEZreLilgWWWDN0+CkfNbCCG2IKCZ0pg7ybkQhGoCufHxCDPi8q8noHkDoEFWV1B2T8aQCA1kNSpaAHA41njJe+FaCI/cwvC06t2Myye07G0eAc54HcH/Fo3K7Bhj3pByGQafY+XbmCkpwZoJVuDFgc2QLGiGZTfbuxvHLQfFE3/xPkmbS6M/55uZZDaClPEZotOSKiqS2hp6t5STw+VuPLpZdsoEGVelLy4rgexHOCjAl9WLQTxb0V56w/JrelyfaWYRWi2/IkUpGcPyyIUt6ADI4mNrQNIjgqsCjMW5TQEDdtJUbv2s/UiiTHM135Nak/e7wvn1nk4CXlB76Dn5e67ARYvEDabWbm7KQQFsqF4kfi1Nh5WHx0BkJRqNJwCfbcFJDwLR1DcJJZMEAu9lzBJKQJ3ri7oOrhEyZ77B/TL2srPSKOV2u41YRJs7XDoVUY+d2yngUiU53dV/QrDIrOGO1sOCBrl1onmRkrnMtP4WxNHmPipLPqS9oM9EwyT9pxU3gTj2tYISXfp4dmmgyJt1r/mHVLeCeK8WSo8PYUo/a1ie3bRrdOye2fXB1QDVojwvZq1x3VhlSwgDTYr5gBiSBl1iXkt5sFZBnnZLiTElMQhs+3JTDfbEupZT41fxy1ZC+wQEz/ElM1vqT7Jmsx2CdYsWZNeLMP36/G0trlqokgeNgyskx5KIFQqeBCkX6zMeWyBRjHw17srR2g24JTxl255tQiVHHILw5EyOemvFLNe9kgY03GFslglcVy5N8Axg4yEvUez4PHL0Te4xQHQbnv2d9MPpaeK8TRSekvbLQqQmKEv0KDZO3IuZtnRStpUm9SEtBIh3InTJ8s9/LOUwbUnO8DjFYAFvqE9hJljd36gvf097gDIVAvz8rrRPNidQRHc2VmwhkD05IO6+Aywp9cELwDCThkVEYAD/TV3rAVhTcCZNP+2imxDXy+RRL8kZyCIy4B1igINvdzEn4XvlJZqlVU0N6yP07Y8eY7+G9fMNQjJxKVzM+j4tLLSJt6StcHnON5nXJPDTYSQCsWcBsED1tt8xAzUndW7KesHF+A/j2nfjh8e2CemXKN3PFcwHjSZbCb8VckLAJ+m2DItCLtL7Fc6BkNXuMOuEIo1bVnm91bbwQAiWZZO1OYYhcSmyt27I0SfFYg54u+aeVmhwu65rHRC2q/hvicNhih0fS32YF+ld4eX/Wiv8yMQgpSRB5jVwHjK4gJs4KqKehqbjSpvC1tPhbvFsQix7ElNSlBDrBSkOs1RraujgqSce4UHeVsXI+S+bVXKNtAtaCkUyE1W6oTY1iwHpSjjBGwyVZsoig2c/QaY2eACO2w6dbcIbgGv0tiWDcaWsq6Fc7Ney5ysUEBvk1hmDD3NsE2mZSCuIr7pquzUfLp9SECLSDuR3uDTLLMMEZi6vKwc5pRIoKeh5VZsNuLQn263beCrqpMMLE67E9naWaj00GB5apGkgCUHdyBYtPgb7YK+FBT6cCIFfWLHCD3xE6e0f12idLI5fssIz2BDMAiCxtP7Z6dky9QGf3Lf5CKbHZHQq90EHGueTyZWHKESwJYITdmCgM9zLcoclRew5mBhtsvHYOjJ3guhi18a97fnc/PhKTfiVzuEPxH1WsYRnGtUN/SLHBX0AfwNJMM2X0jSsh6QtthvXW/xbwwFf7XBiT6JejGpw5WGn3v7BYY9b+B/KzlbDJsJ2S7+btrJwkzj6wX3u1DfEO5sPxT7Y9RSBLHsTJF4lmYcwopA2xy2MX7aH7XvS2bHNbVbt4nzoXHHGxYKxzvBVHoHo9iHEwPKvxy5OCbeNxR6QU5xSEVXb1tY3oHRFd96dbrGYxFRmY8Zq+bTnK8Nhd1bgRdBNXb2EpZwXGy23KAcDeelR2bin7U0xsyBSSOu0ifH1lb4mSQizOqWtYt08d09yC040e8OlgQpJ1Su8CyzVKU9NeQiGh7G9RWsUyJJZQwPnGyV1H6vdMjxDgcVh0CNYWt1aQHIR6f6VIGtXpJzpBvjA9pO3scXM2uwAcZcrJyVb4LLJUEu+4mOWPMJsiBFuz50dldMObeBh4A+au9TIFpYQQWfIODtrmvfII+wE/KDTOxTP7N873VBJMShXaTXMAjxg3xwyCj7VNqo9jBD1CajTbsBHcspFjLexEPJu2T5olizRVKgZESvjf0FiPRvTwh8LK410af5EUQAustFuDpVT+Y8vLvb2jVtXsH56DRjfeJur+nQP5rdHlSgf+NUlbbTLHbppiPleSobQmrZv+HDhlmksi0/BYNgURxmncRLWLmVeRnsfdEQaQpm7a+L4SHMgchELhfXdyRpv4cVPDItEr0ZODCumWmarGbG/2oxfQ8nGbRXLAyjhMcfIzmGXz5tHrp0KoAeZikWJhGwe+/jE2IWgiTjTZkO6ETzmsiK2x4Ep8T27aEVQS2DAxQ528Ds/TbEIiKcFxQ5Zgyu9NmNkh1IxQ3ehyQlNIYeK//1GFCg89/37Jjg1Mlyzqcta7OM1+R0pLvuAgmI2gTMV7YVb44nhcHGNr07Thdi3jM6Spbi6nX18bBuEDe23Ac22One1dt6WavbpW4Qncqh4fKC4ViC7/cCdFSmiqx7FcMKvbtuR9ttJYZg4Pkwd2TxH1k1IpaqO6IAvPfIO3IWPE+qe9GlEEHQG+heqp8onkbvACdwRG5DaS2uuaZuqLzAYGS2ZacFXjdqJ3oL/wf+28LSY99iP+xY9n6khLwms8Uc2vKTDUVgcSodOMwDZ8Zu++t7Whk2Wki4Gjv2VCOH8L/VFshTKkUh77OetxbJ5U+b47fPfwAgeyDY6ZFptIdllwUzdp53QmaLoFI6yQQhtxH2GD4NrhT5YPY1H9A+bM9p2X9jDTkiC9Op/HKJIA48+npSzxR2SrB1icQP2IWJW26CZHDZcx0FjVKDnibCn3AWbBvyo6enPCs/19vrScbJixneWfUQu2elVhDni37jDYfVzliKaeKkYi7mPPf+lQ42IAIjASbpYlsh2aOwqrshum2qQbvhxpq8YkiRaJXEOCFr65k6dyOnYz17Qo4X/R14iLrSHaHKVzWkmfSsSIxt9FXUXAdOyR2f92P6pT/W2PLgdB2VqoLN3WaHC6bmbaVQeyQlW9RnUI2EHE32JoZbhYjc7Q2EfiEGHSoTw84CoMC65TA8qmC3FXpqvLTFzShqxOKtqoc9y/yQqTUGHuQSWxHauHRzr6ZyINXCijVU9dYR0l+jC0h7nndY+RuJiZzdlNeAsnBcUZBXgXOl6rr/HNFMVlJgAgNhfGam0GIlGpvBPTUdGwGcv4WV2KPSlbELPy1ClBMeZgv4N1EZHzV824H6RFQW1NEKUFAra1N/NKnvr39IIsVlqdElewiyv+mgcBFl53CQkOW9ZNjpkP/kOH30prxgvZxSd3qnUQZkAqGKz8CWLUmFksQ2bhN5nmyGWLR7bBiPKixaDn9YfmLPxMPItITu7W/VZ22xYv3IAea2/kc6wBvjTnz/y0RaaMgxbhUT6DC3Adqt641TVu0UmJrHTgmXl6QEukhM2UdK2sXFz2X6YgZ7zS1MYqKVXgleeZdXc4zxafxPWyjAYh7CPHh69e2QIPMWfkuOSs6JfwmInAquqwDCoNn/SOUJOiyuK+FuKvoc/qJ2dhl5iHzcylz85q6EU4HtIq00AOUHS/I//XABbOx0ihaYcTo2FcBSEA83+a5YiQ5kBxvmR/mc7pNPIa7slkwuLTr9RDMhGoX0cqVu2UiGRBCyEdnK+asFhdztp1KCCs00FPnyfvqzB+Ev18LXAtYncc237VtvucYdsOtUlnP7lVuh1feRw20w21oYBQUkuQwrhLlGczhXJmvzWUUS+FjEitmZdI4lnqD7MpUq3bDZOwyXmCLUEhsAgdVdOYCgdtWTUVB9BDGVleUWxqhHPwPoGDASEwLuYk7VJxL0u5bInhV0Y1SV/7CBO9Vdp5qPmLZQAl7GQnn+kD6gIsGGlhdL9bIxCD1F2+CONakY6aQUv76IbcFU5Ek09vMk3vV2N5aNfKOvB2QFlMyXFKTtpThQMe+3fyCZxfkZE+wPWY5vcHV7RiAP8rKHqlqISW+t27OXyCMjzJtfZ0rRnbj+dZ4VFjFxXnlISWN1Umy9IpLMv4DN2K4eitLAFC5VDxJERqqFnlVG8cN3qWl8lTMkDyzS1+ZLOt6X6EHrJw1r59fKY9ox1MqdNjBhVsqWMje6VGixY6fBMlJmNHNeHaHmbTSL7GPd/2mMUTm2nE2xagD2TLLBTxuOlrFX1HcpLzvVMfwFgF9dSVXGGzlE/62ZIrR3qQcMKqfAxB1AS5w927a+yg3MJsZFFfNKP6OnTg3ct5E3DZzq+4YLinqksIgx0LY9twIhwdI10h1WZvM2YlvsYapR0nxHOmalXAs2ShLQjoQSTAzFDpH81khZIz4fA84NXIpmqalBAGD/DmAXbaYSw4URAE41Ien2DWVLw4chXigzOrijtP40iam0SU2d0GJEQ2Je2zZm+j6CjrqyuSGIW6/AmOQCA7RJ/JT5A3IoOk/KS3T2q9uuRhdcnq0QHK9nAB07VupI9d5hnazXlY0qB7GTA9iAjs1MChLpzC0vi/4RXpzBE4y+GYYkx9UcKElpUrmfaFKk3ZEsUeN4R9ULXqdJV0N4WkiFVKEg/EvlprBZD9tcNiryQBNoUIlqFCuipCyhUrIYu216GdICnswFWBcZUqcQG/P4RVRD8EY4sNYg0YEArd4kipfBfVv1QJ3J1qw2pTY53C9tbmsxbSuWn11P7K6ol9/JAmPvD9plHsBpRj4f5jXpc2TzCisgdm954SKtNCbswe9qS8jByLsundU43GFQVSiYKNeEYn/tcKVXlZhSO1FCEmlmVK0uLoNinlM0QP725YIWTGo9dodsgbKCITNcsZKVpi55gfsWcWhTyVitn7JsYTNwy+YHt3TPdkERxy3IR1wbaG0SjtzEP4MGl4KlTzqsB15/mmUkCBYhVstuWl52Mpjdxu4MALAIihahSZc33Kmkbmcbsnt7bmqXs743EoBzz2YflWkzTQknw8tDDtVRBzmSztbWP6vdAHsyuRIssR/ElodnwFnZz6VTPzUjGV2yVAjN++PqRPorkAV5Tfxb0HNbXxsFI19OS8NReWJGaKxUStzyqkG77tVAYcEVuRB5aNdH5UZN3d8XRQOcRQ1G6pHMXYb0N9/6qbGaiUtArG2AVMZ4SGbAaqetIWzRKwuhTCIyassSkwb7lQA349htAdks8d6gqG5GdqumELXEeiKYwj3O/2UDJyeoRaCZwqggxor6k0RmP89ZwlamaRrgN+3Oe4tBcsQKLxJGxkSLnH02tczn7+7KYGl4kMjNEuij8nO98EdtvVcmWkhMJ45E+yOIgPEsli4mL05E6KCHdEeHslU9EKBN/UvTm3NMVcqZFsGxudafdOmrMFhmHJWIU+j3q8Zlvn6IGt7DpWbd7mRbaU0Ik8Tj7Fwow2uEu28WV7JxJ5UiZSpt4BU+vhEWjysa0YAlmWA+zyzRquDZaNs2yAX571+hZdJEaInqpKLfPqeR2hW227x5AL2/McMmOekFBvT2jF57VCDstUHBM0gFkuwp452VIS/A3Oo/lTsZMLhuRZhLnUVDCJKafKbIyExUUqT7WFFVo5zXVMo8nrX5JpHXUdK17Wki28WWRaRe0f3b2+UeN8JTLEqkCeIUahLItQe/TkigsfbAd28l2IS2WM2vB30qkkgoOh20w4o/1c2mRN6X7YUvDPtNWpShZo8Z+/Hxctu5xnMi+tLXsRi9vv4tDQCmm2nz89DriuWIylfJRD7cRlCMn4pgcWVMqvEsTqN8WFgolqv/d9kKjOKzuyU5k7UbBAJhmgFOeGPmcBNVO33WqN7xk7aSaPq8CII1EECqyU+WMJmZpEIumryjOP9HVqcp/RVHV0LOELVPeTBHfPQOoVhqL+5FtJo0CjDEnGGtFdc0mC07x23b6NVoljA0Aw2hFNzAKKmVZPgKeMxOKK3W/7IyzIzwmDjUtTwGZJlEouXZGgCBZ+A0VtyJJsFCvchNNIZQaxEsOlNY6IZFagnoL3j5zZHW9g2UGIfWXzsIw2vcOFwk20kNYapr5yqHAWkaN3KF9Y0h4r2lTYZRUnVte9blhbXGmphNkw+jvK6fcUv4TBr/F3phu39+WMU7+KP5YQasmQqv6Kru1QlvIjEV8eEsuLPXyts6WcVn5hmGwpTI2XdsQtVRQTqCe/UjHxXSJLiiYw7jZUwI9JQwqfm7mFPhewfYjdZTTVe/8CAF72a5aanjBPiqqbm3S3XdgNLMxH782MkWTZ+7hAtET0KU3FhsNNEq17D6V814+ogTGyHCneVwuBcCwM1tln3ZnWkpqKt1XC7v+6g9/HMMRZaZ9hpjO/OpQ1ikgzWJFi5gFwITtyGErgq9iIqUxl/IPG2YCcqOQrHmR2Y/+xqRkvCeW3RllZaeB59NZSqjCnxtNgtf6rYKmrTHTaUraZEq3NNJ+k+zV3lEshxykoeFOlXAoieP5HqCtzVWFvqrlLnlCW52p3tD/egOVahIEQfB2rIzM8rM/DF6FA3N+0ocRQE0bC5ZaekfRcGx1y506TmKvkU21kWdxBzBk9X6adkH9gVR2WEgHhRy2tZ+tMoYbHCFrM34j3duNAuOdHHa4k61UImQCsf60O8SK3z4ZS2oS6hYV31NaRGgNgk5Rkgzk0+aT3OqOaNl2IzqILUH5n852fY3yTckbY72i7ZEu+J02vCWjsyyYKHKrzLuqbyCy2geHb6rvOMTvygRf0bmwEw6sfSWTOQIlS/tJ1SkZfQWb3OvPAH90aSlbZ5zlh/PAnau9SLEUJxYJieMTWrHTn+DB5Kvpnb5STS6eHQzxzuejmLbaTAPAaCdkS94TKDbZcJu9Qkiu/qdRw9sWeVK5FEoJOXV6pfYw+EL9iK3U/tlklNz7poutZlWTYEwCPGLXOTIbC1IOBdM+Mk3tjZrsMcnBImDU384IinZjFWTKUQaVnr7TRIyGbtu98nvwmyjUXx5ypy3C1qngfhBKOfJ0G9N7prNGtGiRP5CHaEf9swDGrE3KMySs7FtEwm6pE0ESXzMS4KJAs8n2im6iJfGAhEEbYgOd8YszVHdG30SXsTR4X/OJWqNUIH1+LJ+kJBRWqr5Ts03Jf7g14ESWp+k8YsnunIwzhSIgDTITDRlpt6wpZ3qLy+AKXoGWuiPxICB0ZUB35uUe29yzRwdkA6erdfVwp4O90HWtBjSrnvkqn3JEtuixI5HJLRBKmeLWq1EvzmOM4Fq1FxFVMoLCDex7qbq4lGnt62/69BnHvjJ9UTLnZfawPyWLjrlbpWeuTDesacCyUbfe95EKb+n4z0yXa7Ys6VgZeVLKsF/th3PSaWZKRUUVkrHHGl3IFdndkzEfzvzIawiGCWnHy+2MHGnDpl+7x5uTzjfySx6rNXFwNVjKDpnknaDfW2Taysm0+d8Mg62PGq2t8EF10dvFPXf6hbfvK0h/wSmI7pRsSxbL1Jbxt0exFuFWxojS/j6Tda53RuJSsVIi9RDUmU6xLREfYz0GzQgXduYkJCNgRsUUl0Im++jU1dZauruiuZQ8NbL8Gf7Lue9pXHaeoTmv5nSxtxcV3vZnyQUrrIX7EwruVAjAZ01hLftBtUmqVnQB4dMtlizpLTnzfoealzZYrJholdF0598tbgRwV9TV6O80U64YGka8kn6TNmppunqIOuhNB4RVLdkQ839eBuG1eiimyezI9wgfBbFp3DUlFCpunAAwaTq4YE9G2HWHwz+0EPqklyjykP9guNtmrsBel+SrP1UarwQwMUG1sm0sxfBEEXreKO26lBCGxii9YdEA2kXHRKNIUw+E5vAaH2tiw5SqXXgZKVzxeI9kwBKZldlzjRw847CX3BYaQUiNp4fY6UHc38zumTZxNxJDsUf7QJoJJCSDOB/jiWnDkeIiu23JnA7qY4E9HbLi3OoH8H9bxm+RLNLBzHFP52O23QqL8Iz3mwy+MmkOBAGtbKUK10to2mFUkaTD8n/S+wrNEBJahQrPG13s+o+I9jxBMIc/NXM2J6eVcrqtmEaxNidAOJJoa8tq+JKhtSEoACYX29our8dITBOG9SLel2AeFsr4ag01O4939hClhR02EOAblzODGz2wpa/sZZUvVHcGq57RZYd3M7sxEswcxI4C3A4JUUgXVVrmU5vWBXlC8hvOVGwsmlRPT4hqcsT9ZT/oFEc84os01IkYnkpo3pvwO0M/DttIfHf5LoKXyraE+NotEHzbujrfF3/Y6+DLH2urzLBZjEY0mDlTUXTJDK3i8jN6MlNNqgHFYpZUifnbZMKuGooSIinPijDrjISjRDymylgsQUVgtHejpUta0DoHdodViudIqNO4e19x4NsyWMGVfvEQl2VCLGgm4kw1SfYskmZ9bUMabZ7BynstrnBNftdCcrzCFX3U+ypK+H8eoGW6WLUhtaKErsVzBEJ69MzLJz5nlOPNgBtAqlI1r6/x5QSOhploM9e9ZhaqztzIkSx1fR2iFZ3ZHs7IEHWsTpFsoCn6Xe6B8jVjhksyoL95yzxjgL7TIrwyXvf2HD5W9pGJ2mVweiOV/5SMt9w3VHv0tgy55zdqcEDOHQla5CoR8cjbm1UdLc9bHgxemRaedjWsaV4doWYYqWdPvz+dU9jx7mDmqQzEkRqokWVPvfjqH19ncf1PTQspc/RXqE0vE2NR0ywMNjmLDFJQsjgmN8/sT7p9O3KIKKelexXbTKs62yEMxvUo5oqCIDIT7Hra45kXGAEiIHc5yY+tMGdj6GA5h8oCn/eVEWc4qbxU4yuSyiCXyANzKlYg0zcLZTRr2YxrL427ZPFZnZqWQ60AanCHkMAxD9x+uNjxzn+uMH2PfWDVatv69VAZ1Ktv/UlVSDDeUfl6fDXKbOKp38t4qNOL0MSS/fV9CY1ScHl4X8Ey7ucVaBvEFSUX1eWZdvENRtKxp1OaR15VYdNTbXvJ8KjMRc0INxOOX0A3E5J09iUzWszBgfoMRM/QOzaRFRP87JrblVDhrYneS4CR1zTJ8vgdw29zgDWSYvap2l69FBkJwZTJHb6jqGYG3HkqU1E6v9udSKVsxS4sJG4wn9h9y5H1j+8T2vtX3HOU1lvSwJHn4TtS4M0pqe54tgmB9R2nXWPfM+D0ptyVr+zgx1RrmRzfDswWey3kj2ITEtuRVXr9NLjGuVq78hkRtxY5FVR9zEDqAxw+/DMUKc4S7bao7WyK1dR76vFsavvuJ1KUEs6ZYlYmIS/JiHHpNDX1u6NjRoRp/4Nxu201bYhSEqqACqQN4rWySvebTSVoIoQny318+9AO0+07ULRfmZcdjyI4oz671Wf5R9/3o7JtZBAzdLyZSObyldRf4UYiG9cUhMDOEyo5239PySsIzl/x5R3X+waNzGtkMsceg8D9VK6p7lSmMCIaDz9qyKhKeoJyz1trEv22ipoQGXZNSuYNMrge6v2dcb0C5sf7bhv7Z0ZBARw9thC9ekaJpjKqyZkWgsVrEoQiRYWbzr4SkByijvr91UTiZtqRxURT+9TbW5A6S552tGE7IfTQ8/3K6aTIGaifDN8M+RjULqFRkZKpMFNgW3waU6fKvUigCZFb0W4IaNObKt30P7cNF61Ixb9sVCaXDC78yudkoRBqvkTC6lKSZGYEdwbepYQbeTeGocBs9hZBI2owp0p924TuxQV+Z/bL0jNvbRBTRvHlaK4CZOrEDGFEn5wWuYCFNoC0TpSqbOQVlZij4iUDMGQgSv5DOaZ+YX7CXZxZ3UbKuwaRYOrA1/WkiUjnSiimAtZBKSdwPXHM3PesjbeNDKI9VO46N0NVTdsBQ8wbFayLpgJQPyVP3RzV3DY8p29R0TcN083XoH0dxkrv8FVMHFbIZs8p72WC/6ZaNr6cChydgT8zDe2wtL5QRDiSjMBVIoCaKNhoLOOD3AQSyh5pd+BxvK9pUjp9JLidytoIRldeG6ffNdUjKbtOA7i8qsGR3xZnEBWw2aD0+Qg37IgKr8gHHbNWJHsxZ8p4JOUK6czCt70DlHdsDX0wqbrnlQG+SES4aWddOGkbk+D7+JIvdX87bHcNA/Rytr7UzHa7c/7RS5VC2xDCc0bcrmjwmA5qU421d43o1S2opYXzTrO8LcENxgZtRue9YCI8CHC32cKeLVuLbCppp7x6+Yqz9rMbap3dI/VekT0X1U+HHcskAfXbh71bDT3vOlE/1CKe06SUTBobL41hJXVoWhanLSMrUUwfaeHxaJ7Wp9noSccITltC16rekiX6sSgjpcGjh/plqgH0zlEJRLYz8mlOS/dKVbb06HtKtpmBvGDV5uuDtu+AA3Lsr1NooOfb+jqDoILtiE9ozptyBDZnMFEkhyGXZxQyeVmGsQnKPVpuS+bvmdOAgy2Bfiv8tdwW87l28vXBly7poYKIL+ElfO9LDdiUWhXmSjHL0F0ZtRgZuWMnbfCHAK9XIuVI9qjpHeeKJcoVY/zxvuVmKWBIo9QzPV+w7ssiIus87Gu0951opob0joWoUdypypU/qumh1kDT2jJtNCIkatHQI85CVcYWflT2vGWv3aUzrIqGtMM6/lc92A1x5uHO6OOSG6nvZKy6c91eNUlee1edT7Jhf0YqIng20WtsJUWJzq1YnRhBNz0vFbOabvWdzgknTolBDWfxXEVnTYme45y+fqdGRU6mpu2ERagfIctdYXBvuaL3lWqKskOfjrzsUrS+lZSrRT7/wm+F88yINoVBM8DNdzLXGcwZrR0m7ztXHCG04PkYI6+ERN/pJxGTN87t7tAzx4Mcl9eOSWb0vMVT2qk6au0L1TLrYayG1uSH6YaiCcRJ547Oy9dwpCbuTlvr1Nv3Ceb1FqfvyzGXRQT7lqruKbgIakRnUciMq7TUWsM2ptS3Nj8j1LZrupw4Jc98M3tjYCHF5sVg74w4+0gPjKf1zSPfHMylvsbXijH0yfs/M0KBqF6VtXwFPJEnvZQoOFH8+EbPvH8M21LA4jMtyhhf1iDr6wCJ2RGDqqqzyQwudWdurUihR2XGFXnxga9/iVX5UjffRykbmJ54pqXyys4R+Z5vj/tGvYgGDJCybFx7dioCfKLuOyCJSbwwxrdtPsroHU8wxHendN10/g7IV9MZ2A6ZJI65xwtmMse27ey8YhcmKEB/+5kygZlO2rx2Iq+xG+V9iVKmbVZeKCbXpJEHyNrXCTIywVrAICu7XiFW3p1naC79xXdX5vVWuo6yMjVNjp35K4efMn4qUyWAdahBT+JjDj6o9RR03SrPKXah0ti7n5I13kdxSZ0YAZu6HM4BQyi+RlJuU2oAWRnnX+8MVEZQZyMm4QMOKsRQdQwT6/d9ByCbkveuFEvyM5OkGdmXdso8kEV+c3JoOPmnvue4I9iN4NUXg1pIz7yg1eM93zeHXP3PkuvlbKVcPqIMldj4Kg2F912YhoI7HesE5lxFhtM3QQlFDTch2s/2UvSRI7fnq05GiZHaquvVqQfdCxe70tWontUasbyoNUeYefRhvuXFOYm0U04VSW1HmhjUHSmlL3hRSxlC5Ao+UkzRtep36EjoIwMk9rP7Skq73kGo+Y5Vyqgfa7yslGPI0rOpTOb/WrF3skc49jIijLc+TfNh/B90pP8r/SRCmwAAAABJRU5ErkJggg==");
+  /* One fine tile only (Ruling 12): the 260px fibre-mottle layer was not
+     independently perceptible in a 100% crop (mean delta ~2.4/255 on a 400px
+     sample), so it was dropped rather than stacked — same read, less paint. */
+  --k-grain: var(--k-grain-fine);
+  --k-grain-size: 150px 150px;
+  --k-grain-opacity: 1;
+}
+body.page-kernel section:not(.kernel-hero):not(.cta-band) { position: relative; }
+body.page-kernel section:not(.kernel-hero):not(.cta-band)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--k-grain);
+  background-size: var(--k-grain-size);
+  opacity: var(--k-grain-opacity);
+  pointer-events: none;
+}
+/* Content sits above the section grain (the plate, cards and copy are opaque). */
+body.page-kernel section:not(.kernel-hero):not(.cta-band) > .wrap { position: relative; z-index: 1; }
+/* Paper cards carry the same grain so the texture reads across the cards too.
+   z-index:-1 paints it above the card fill but BELOW the card's text, so the
+   copy stays crisp; isolation keeps the multiply confined to the card fill. */
+body.page-kernel .problem-card,
+body.page-kernel .persona-card { position: relative; isolation: isolate; }
+body.page-kernel .problem-card::before,
+body.page-kernel .persona-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--k-grain);
+  background-size: var(--k-grain-size);
+  opacity: var(--k-grain-opacity);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   KERNEL PAGE — EMBLEM WATERMARK (body.page-kernel)
+   The ouroboros emblem relocated from the hero into a single decorative
+   watermark behind the Definition section ("A system, not content") at 8%
+   opacity. It reuses the existing external SVG (also served on status.html, so
+   it stays cached rather than being duplicated into the document); alt="" +
+   aria-hidden because it is purely ornamental.
+   ========================================================================== */
+body.page-kernel .k-watermark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(680px, 72vw);
+  height: auto;
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* ==========================================================================
+   KERNEL PAGE — EDITORIAL BAND (body.page-kernel)
+   Full-bleed panorama between the Foundation and the Cycle. The <picture> is
+   absolutely positioned so the band keeps a fixed 45-60vh height with no
+   layout shift; object-position is biased right so the archway stays in frame
+   at 1440/768/375. A pergament/forest grade plus the Block A grain pull the
+   image into the page palette. Decorative (alt="").
+   ========================================================================== */
+body.page-kernel .k-band {
+  position: relative;
+  height: 52vh;
+  min-height: 320px;
+  max-height: 640px;
+  margin: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border-bottom: 2px solid var(--legacy-ink);
+  background-color: var(--green-deep);
+  /* LQIP (24x10 WebP from scripts/optimize_images.py) until the AVIF decodes. */
+  background-image: url("data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAADwAwCdASoYAA0APu1qrU8ppiQiMAgBMB2JYwCdAGle6tcAOZeo6LgAAP74sq5EjY2LzsB34ab9uv0fcm904y7zyXVxz9fHh3c3XrT7CGu/hGBZUxOOm0si3pbOP4xeYF3Os5TEuNNgAAAA");
+  background-size: cover;
+  background-position: 74% 50%;
+}
+body.page-kernel .k-band-bg { position: absolute; inset: 0; z-index: 0; display: block; }
+body.page-kernel .k-band-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 74% 50%;
+  display: block;
+}
+/* Token grade: forest vignette (left/bottom) + pergament warmth, multiplied. */
+body.page-kernel .k-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    linear-gradient(90deg, rgba(18, 51, 41, 0.42) 0%, rgba(18, 51, 41, 0) 46%),
+    linear-gradient(0deg, rgba(18, 51, 41, 0.20) 0%, rgba(18, 51, 41, 0) 38%);
+  background-color: rgba(213, 192, 157, 0.16);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+/* Block A grain, repeated for this image band (over the scrim). */
+body.page-kernel .k-band::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background-image: var(--k-grain);
+  background-size: var(--k-grain-size);
+  opacity: 1;
+  pointer-events: none;
+}
+/* R15 — quote-panel device, copied from the index hero card (square, 1px
+   parchment-@30 hairline, parchment gradient over a forest stage) and adapted
+   to this lighter band image. The scrim behind the panel is a soft forest
+   ground so the panel's surroundings stay dark enough; the arch stays clear
+   on the right. */
+body.page-kernel .k-band-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image: linear-gradient(90deg,
+    rgba(18, 51, 41, 0.60) 0%,
+    rgba(18, 51, 41, 0.34) 46%,
+    rgba(18, 51, 41, 0) 70%);
+  pointer-events: none;
+}
+body.page-kernel .k-band .wrap {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+/* The relocated statement as a panel. Tokens copied from the index hero
+   .glass-card (border 1px rgba(213,192,157,0.30); fill linear-gradient
+   parchment 0.07->0.03 over forest; box-shadow). The forest alpha is deepened
+   from the homepage's 0.66 to 0.84 because this band image is much lighter, so
+   parchment text still reaches AA. */
+body.page-kernel .k-band-copy {
+  font-family: var(--font-italic);
+  font-size: var(--k-fs-key); /* 36px */
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  color: var(--parchment);
+  max-width: 620px;
+  padding: var(--sp-32);
+  border: 1px solid rgba(213, 192, 157, 0.30);
+  background:
+    linear-gradient(180deg, rgba(213, 192, 157, 0.07), rgba(213, 192, 157, 0.03)),
+    rgba(18, 51, 41, 0.90);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+@media (max-width: 768px) {
+  body.page-kernel .k-band { height: auto; min-height: 0; max-height: none; }
+  body.page-kernel .k-band .wrap { padding-top: var(--sp-40); padding-bottom: var(--sp-40); }
+  body.page-kernel .k-band-scrim {
+    background-image: linear-gradient(180deg,
+      rgba(18, 51, 41, 0.66) 0%,
+      rgba(18, 51, 41, 0.42) 60%,
+      rgba(18, 51, 41, 0.12) 100%);
+  }
+  body.page-kernel .k-band-copy { font-size: var(--fs-900); max-width: none; padding: var(--sp-24); }
+}
+
+/* ==========================================================================
+   KERNEL PAGE — GHOST FIELD (body.page-kernel)
+   ONE continuous ambient layer behind the Cycle, Layers and Data Advantage
+   sections. Since Ruling 10 it is a PRE-BAKED, flattened file: the grade,
+   6% opacity, soft edges and the ~80% presence anchor are already composited
+   over the section paper tone (#F6F1E2) by scripts/optimize_images.py
+   --bake-ghost. So the page only positions ONE plain, unfiltered, unmasked
+   layer at opacity 1 — no live filter/mask/compositing (and no repaint of a
+   filtered layer while scrolling). Decorative: alt="" + aria-hidden. The
+   section grain overlays it.
+
+   content-visibility lets the browser skip rendering/compositing this whole
+   range while it is off-screen; contain-intrinsic-size supplies the measured
+   height so the scrollbar does not jump.
+
+   Desktop layer only: hidden at <=768, where no composition is left.
+   ========================================================================== */
+body.page-kernel .k-field {
+  position: relative;
+  isolation: isolate;
+  /* inline-size container so the ghost sheet can size from the field WIDTH
+     (cqw) while its height still resolves against the field height. */
+  container-type: inline-size;
+}
+/* content-visibility sits on the field's SECTIONS, not the wrapper: on the
+   wrapper it left a 1px containment seam at the field's bottom edge, which
+   R13 forbids. Per-section containment keeps the off-screen skip without a
+   visible boundary line. */
+body.page-kernel .k-field > section {
+  content-visibility: auto;
+}
+/* Pin each field section's intrinsic size to its real height so the page
+   height is right before the sections first render (no scrollbar jump). */
+/* contain-intrinsic-size is the CONTENT box; the sections' --k-section-y
+   padding (2 x 84) is added on top, so these are the content heights. */
+body.page-kernel .k-field > section:nth-of-type(1) { contain-intrinsic-size: auto 1416px; }
+body.page-kernel .k-field > section:nth-of-type(2) { contain-intrinsic-size: auto 799px; }
+body.page-kernel .k-field > section:nth-of-type(3) { contain-intrinsic-size: auto 1069px; }
+body.page-kernel .k-ghost-field {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: flex;
+  justify-content: center;   /* centres the over-wide sheet, like cover */
+  align-items: flex-start;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* The sheet reproduces the single-image `object-fit: cover` exactly: height is
+   the larger of the field height and the baked aspect (field width x 2.6302),
+   and the three baked bands stack inside at natural aspect, so they tile with
+   no per-band cropping and therefore no seams. */
+body.page-kernel .k-ghost-sheet {
+  flex: 0 0 auto;
+  height: max(100%, calc(100cqw * 2.6302));
+  aspect-ratio: 960 / 2525;
+}
+body.page-kernel .k-ghost-sheet picture { display: block; }
+body.page-kernel .k-ghost-sheet img { width: 100%; height: auto; display: block; }
+@media (max-width: 768px) {
+  body.page-kernel .k-ghost-field { display: none; }
+}
+
+/* ==========================================================================
+   KERNEL PAGE — BAND SEAM (body.page-kernel)
+   Pull the band up against the card grid above so it reads as a true
+   full-bleed divider, not a section with padding. High specificity so it
+   overrides the section-rhythm rule.
+   ========================================================================== */
+body.page-kernel section.bg-sage:not(.kernel-hero):not(.cta-band):not(.tight) {
+  padding-bottom: var(--sp-40);
+}

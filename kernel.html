@@ -54,11 +54,22 @@
 </header>
 
 <!-- ============================= HERO =============================
-     The Kernel carries the emblem already established on the status page:
-     the parchment/ochre ouroboros on the --green-forest field. It is an SVG,
-     so it is resolution-independent and no raster upscaling is involved.
-     Copy left, emblem right; stacked and centred on narrow viewports. -->
+     Full-bleed panorama: the golden archway on the plain, the ouroboros above
+     it and the stag in the doorway. It is the page's LCP image (self-hosted
+     <picture>, AVIF -> WebP -> master PNG, fetchpriority=high, no lazy). The
+     copy sits on a flat parchment panel (square language, no glassmorphism)
+     tuned for AA, and the hero carries the same paper grain as the light page
+     so image and paper read as one world. The arch stays anchored right at
+     every width (strong crop at 375 is accepted). -->
 <section class="kernel-hero">
+  <picture class="kernel-hero-bg">
+    <source type="image/avif" sizes="100vw"
+      srcset="images/derived/DISCE_K02_r1_archway-golden-plain-768.avif 768w, images/derived/DISCE_K02_r1_archway-golden-plain-1280.avif 1280w, images/derived/DISCE_K02_r1_archway-golden-plain-1824.avif 1824w, images/derived/DISCE_K02_r1_archway-golden-plain-1983.avif 1983w">
+    <source type="image/webp" sizes="100vw"
+      srcset="images/derived/DISCE_K02_r1_archway-golden-plain-768.webp 768w, images/derived/DISCE_K02_r1_archway-golden-plain-1280.webp 1280w, images/derived/DISCE_K02_r1_archway-golden-plain-1824.webp 1824w, images/derived/DISCE_K02_r1_archway-golden-plain-1983.webp 1983w">
+    <img src="images/DISCE_K02_r1_archway-golden-plain.png"
+         alt="" width="1983" height="793" fetchpriority="high" decoding="async">
+  </picture>
   <div class="wrap">
     <div class="kernel-hero-copy">
       <span class="eyebrow"><span data-lang="de">Disce Kernel</span><span data-lang="en">Disce Kernel</span></span>
@@ -69,17 +80,18 @@
         <a href="mailto:bjarne.dudzus@disce.de" class="btn-secondary"><span data-lang="de">Kontakt aufnehmen</span><span data-lang="en">Get in Touch</span></a>
       </div>
     </div>
-    <div class="kernel-hero-mark" aria-hidden="true">
-      <img src="images/DISCE_D01_r2_ouroboros-branching-forest.svg"
-           alt="" width="2048" height="2048" decoding="async">
-    </div>
   </div>
 </section>
 
 <!-- ============================= DEFINITION =============================
      What the Kernel is, set against what it is not. The "is not" cards follow
      the homepage's problem-grid pattern (first card weighted larger). -->
-<section>
+<section class="k-definition">
+  <!-- Decorative watermark: the ouroboros emblem relocated from the hero, one
+       occurrence at 8% behind the cream section. alt="" + aria-hidden: purely
+       ornamental. -->
+  <img class="k-watermark" src="images/DISCE_D01_r2_ouroboros-branching-forest.svg"
+       alt="" aria-hidden="true" width="2048" height="2048" decoding="async" loading="lazy">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow"><span data-lang="de">Die Definition</span><span data-lang="en">The Definition</span></span>
@@ -226,16 +238,77 @@
   </div>
 </section>
 
+<!-- ============================= EDITORIAL BAND =============================
+     Full-bleed panorama between the Foundation and the Cycle: the archway on the
+     golden plain, the ouroboros above it and the stag in the doorway. A token
+     grade (pergament/forest) and the Block A grain pull it into the page's
+     palette so it reads as an editorial plate in series, not as foreign stock.
+     Decorative: alt="" (the surrounding text carries the meaning). -->
+<figure class="k-band">
+  <picture class="k-band-bg">
+    <source type="image/avif" sizes="100vw"
+      srcset="images/derived/DISCE_K03_r1_ouroboros-city-stag-768.avif 768w, images/derived/DISCE_K03_r1_ouroboros-city-stag-1280.avif 1280w, images/derived/DISCE_K03_r1_ouroboros-city-stag-1672.avif 1672w">
+    <source type="image/webp" sizes="100vw"
+      srcset="images/derived/DISCE_K03_r1_ouroboros-city-stag-768.webp 768w, images/derived/DISCE_K03_r1_ouroboros-city-stag-1280.webp 1280w, images/derived/DISCE_K03_r1_ouroboros-city-stag-1672.webp 1672w">
+    <img src="images/DISCE_K03_r1_ouroboros-city-stag.png"
+         alt="" width="1672" height="940" loading="lazy" decoding="async">
+  </picture>
+  <!-- Flat scrim on the text side, toned to the band's own mist palette
+       (#DBD1B1, sampled from the master); the arch stays clear on the right. -->
+  <div class="k-band-scrim" aria-hidden="true"></div>
+  <div class="wrap">
+    <!-- Statement relocated verbatim from the Cycle section's lede (the band
+         now introduces the Cycle it precedes). No copy was written. -->
+    <p class="k-band-copy"><span data-lang="de">Jeder Durchlauf folgt demselben Vertrag: Kontext und Einwilligung zuerst, dann Aufgabe, Evidenz und eine begrenzte Aussage. Kein Schritt überspringt den vorherigen.</span><span data-lang="en">Every run follows the same contract: context and consent first, then task, evidence and a bounded claim. No step skips the one before it.</span></p>
+  </div>
+</figure>
+
 <!-- ============================= CYCLE =============================
      The end-to-end coaching cycle. Process-list is the site's numbered-step
      pattern; the closing badge row names the three feedback principles carried
-     by the Kernel's own UI (DESIGN-BRIEF §2). -->
+     by the Kernel's own UI (DESIGN-BRIEF §2).
+     NOTE (intended, not a bug): this section has no lede on purpose — its lede
+     was relocated VERBATIM into the editorial band just above, which now
+     carries the cycle's statement. Do not add a replacement lede here without
+     copy approval (COPY is otherwise frozen). -->
+<!-- ============================= GHOST FIELD =============================
+     ONE continuous ambient layer behind the Cycle, the Layers and the Data
+     Advantage sections: the tower portrait (retired from the hero), graded
+     toward forest/parchment, slightly blurred at ghost opacity, its edges
+     faded into the paper and its dense tones anchored right (~78%) so they
+     stay out of the text column. Decorative: alt="" + aria-hidden. The section
+     grain overlays it. It stops before the Boundaries section. -->
+<div class="k-field">
+  <!-- Pre-baked ghost (Ruling 10, sliced v5): grade, 6% opacity, soft edges and
+       the ~80% presence anchor are flattened over the section paper tone
+       (#F6F1E2), then cut into three equal-height bands AFTER baking from one
+       master so the seams tile exactly. Three 960x~842 bands (0.81 MP each)
+       lazy-decode independently instead of one 1920x5050 (9.7 MP) bitmap.
+       Baked via scripts/optimize_images.py --bake-ghost --bake-slices 3. -->
+  <div class="k-ghost-field" aria-hidden="true">
+    <div class="k-ghost-sheet">
+      <picture>
+        <source type="image/avif" srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s0.avif">
+        <source type="image/webp" srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s0.webp">
+        <img src="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s0.webp" alt="" width="960" height="842" loading="lazy" decoding="async" fetchpriority="low">
+      </picture>
+      <picture>
+        <source type="image/avif" srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s1.avif">
+        <source type="image/webp" srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s1.webp">
+        <img src="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s1.webp" alt="" width="960" height="841" loading="lazy" decoding="async" fetchpriority="low">
+      </picture>
+      <picture>
+        <source type="image/avif" srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s2.avif">
+        <source type="image/webp" srcset="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s2.webp">
+        <img src="images/derived/DISCE_K01_r1_tower-red-instrument-ghost-baked-960-s2.webp" alt="" width="960" height="842" loading="lazy" decoding="async" fetchpriority="low">
+      </picture>
+    </div>
+  </div>
 <section>
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow"><span data-lang="de">Der Ablauf</span><span data-lang="en">The Cycle</span></span>
       <h2><span data-lang="de">Vom Szenario zum revidierten Zustand.</span><span data-lang="en">From scenario to revised state.</span></h2>
-      <p class="lede"><span data-lang="de">Jeder Durchlauf folgt demselben Vertrag: Kontext und Einwilligung zuerst, dann Aufgabe, Evidenz und eine begrenzte Aussage. Kein Schritt überspringt den vorherigen.</span><span data-lang="en">Every run follows the same contract: context and consent first, then task, evidence and a bounded claim. No step skips the one before it.</span></p>
     </div>
     <div class="process-list">
       <div class="process-item">
@@ -367,6 +440,7 @@
     </div>
   </div>
 </section>
+</div>
 
 <!-- ============================= LIMITS =============================
      Epistemic and governance boundaries, kept explicit: a trust signal for
