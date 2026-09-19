@@ -2554,17 +2554,19 @@ body.page-kernel .k-band::after {
   opacity: 1;
   pointer-events: none;
 }
-/* Text-side scrim: a flat gradient in the band's own mist tone (#DBD1B1,
-   sampled from the master); the arch stays clear on the right. */
+/* R15 — quote-panel device, copied from the index hero card (square, 1px
+   parchment-@30 hairline, parchment gradient over a forest stage) and adapted
+   to this lighter band image. The scrim behind the panel is a soft forest
+   ground so the panel's surroundings stay dark enough; the arch stays clear
+   on the right. */
 body.page-kernel .k-band-scrim {
   position: absolute;
   inset: 0;
   z-index: 2;
   background-image: linear-gradient(90deg,
-    rgba(219, 209, 177, 0.94) 0%,
-    rgba(219, 209, 177, 0.9) 42%,
-    rgba(219, 209, 177, 0.45) 56%,
-    rgba(219, 209, 177, 0) 68%);
+    rgba(18, 51, 41, 0.60) 0%,
+    rgba(18, 51, 41, 0.34) 46%,
+    rgba(18, 51, 41, 0) 70%);
   pointer-events: none;
 }
 body.page-kernel .k-band .wrap {
@@ -2574,25 +2576,35 @@ body.page-kernel .k-band .wrap {
   align-items: center;
   height: 100%;
 }
-/* The relocated statement: serif display, short measure, ink for AA. */
+/* The relocated statement as a panel. Tokens copied from the index hero
+   .glass-card (border 1px rgba(213,192,157,0.30); fill linear-gradient
+   parchment 0.07->0.03 over forest; box-shadow). The forest alpha is deepened
+   from the homepage's 0.66 to 0.84 because this band image is much lighter, so
+   parchment text still reaches AA. */
 body.page-kernel .k-band-copy {
   font-family: var(--font-italic);
   font-size: var(--k-fs-key); /* 36px */
   line-height: 1.16;
   letter-spacing: -0.01em;
-  color: var(--legacy-ink);
-  max-width: 560px;
+  color: var(--parchment);
+  max-width: 620px;
+  padding: var(--sp-32);
+  border: 1px solid rgba(213, 192, 157, 0.30);
+  background:
+    linear-gradient(180deg, rgba(213, 192, 157, 0.07), rgba(213, 192, 157, 0.03)),
+    rgba(18, 51, 41, 0.90);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
 }
 @media (max-width: 768px) {
   body.page-kernel .k-band { height: auto; min-height: 0; max-height: none; }
   body.page-kernel .k-band .wrap { padding-top: var(--sp-40); padding-bottom: var(--sp-40); }
   body.page-kernel .k-band-scrim {
     background-image: linear-gradient(180deg,
-      rgba(219, 209, 177, 0.95) 0%,
-      rgba(219, 209, 177, 0.9) 55%,
-      rgba(219, 209, 177, 0.6) 100%);
+      rgba(18, 51, 41, 0.66) 0%,
+      rgba(18, 51, 41, 0.42) 60%,
+      rgba(18, 51, 41, 0.12) 100%);
   }
-  body.page-kernel .k-band-copy { font-size: var(--fs-900); max-width: none; }
+  body.page-kernel .k-band-copy { font-size: var(--fs-900); max-width: none; padding: var(--sp-24); }
 }
 
 /* ==========================================================================
