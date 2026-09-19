@@ -43,7 +43,7 @@ import os
 import sys
 
 try:
-    from PIL import Image, ImageFilter
+    from PIL import Image, ImageChops, ImageFilter
 except ImportError:  # pragma: no cover
     sys.exit("Missing dependency: Pillow. See the module docstring for setup.")
 
@@ -295,6 +295,7 @@ def radial_mask(size, cx, cy, rx, ry, solid, fade):
 def bake_ghost(master, out_dir, widths, opacity, paper, anchor, ratio,
                grayscale=0.7, sepia=0.42, hue_rotate=42.0, saturate=0.9,
                blur=0.6, scale=1.0, mask_rx=0.5, mask_ry=0.94, slices=1,
+               feather_top=0, feather_bottom=0,
                suffix="-ghost-baked", formats=("avif", "webp"),
                avif_quality=AVIF_QUALITY_START):
     """Bake the ambient ghost into flat files: grade + opacity + soft edges +
@@ -331,6 +332,19 @@ def bake_ghost(master, out_dir, widths, opacity, paper, anchor, ratio,
         layer.paste(tower, (x_off, y_off))
         mask = radial_mask((width, height), cx=a * width, cy=0.5 * height,
                            rx=mask_rx * width, ry=mask_ry * height, solid=0.28, fade=0.82)
+        # Long spatial feather on the top/bottom edges so the field dissolves
+        # into the section paper tone instead of ending on a rectangular seam.
+        if feather_top or feather_bottom:
+            ramp = Image.new("L", (1, height))
+            rp = ramp.load()
+            for j in range(height):
+                v = 1.0
+                if feather_top and j < feather_top:
+                    v = min(v, j / feather_top)
+                if feather_bottom and j > height - feather_bottom:
+                    v = min(v, (height - j) / feather_bottom)
+                rp[0, j] = int(round(v * 255))
+            mask = ImageChops.multiply(mask, ramp.resize((width, height), Image.BILINEAR))
         alpha = mask.point(lambda v: int(round(v * opacity)))
         canvas.paste(layer, (0, 0), alpha)
 
@@ -409,6 +423,10 @@ def main(argv=None):
                         help="soft-edge mask y radius, fraction of height (bake mode)")
     parser.add_argument("--bake-slices", type=int, default=1,
                         help="cut the baked canvas into N equal-height bands (bake mode)")
+    parser.add_argument("--bake-feather-top", type=float, default=0,
+                        help="vertical fade-in at the canvas top, in canvas px (bake mode)")
+    parser.add_argument("--bake-feather-bottom", type=float, default=0,
+                        help="vertical fade-out at the canvas bottom, in canvas px (bake mode)")
     args = parser.parse_args(argv)
 
     requested = [w for w in args.widths.split(",") if w.strip()]
@@ -435,6 +453,7 @@ def main(argv=None):
             ratio=args.bake_ratio, blur=args.bake_blur, scale=args.bake_scale,
             mask_rx=args.bake_mask_rx, mask_ry=args.bake_mask_ry,
             slices=args.bake_slices,
+            feather_top=args.bake_feather_top, feather_bottom=args.bake_feather_bottom,
             suffix=args.suffix or "-ghost-baked", formats=formats)
         print(json.dumps(manifest, indent=2))
         return 0

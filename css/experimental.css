@@ -2597,12 +2597,24 @@ body.page-kernel .k-band-copy {
 body.page-kernel .k-field {
   position: relative;
   isolation: isolate;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 3789px;
   /* inline-size container so the ghost sheet can size from the field WIDTH
      (cqw) while its height still resolves against the field height. */
   container-type: inline-size;
 }
+/* content-visibility sits on the field's SECTIONS, not the wrapper: on the
+   wrapper it left a 1px containment seam at the field's bottom edge, which
+   R13 forbids. Per-section containment keeps the off-screen skip without a
+   visible boundary line. */
+body.page-kernel .k-field > section {
+  content-visibility: auto;
+}
+/* Pin each field section's intrinsic size to its real height so the page
+   height is right before the sections first render (no scrollbar jump). */
+/* contain-intrinsic-size is the CONTENT box; the sections' --k-section-y
+   padding (2 x 84) is added on top, so these are the content heights. */
+body.page-kernel .k-field > section:nth-of-type(1) { contain-intrinsic-size: auto 1416px; }
+body.page-kernel .k-field > section:nth-of-type(2) { contain-intrinsic-size: auto 799px; }
+body.page-kernel .k-field > section:nth-of-type(3) { contain-intrinsic-size: auto 1069px; }
 body.page-kernel .k-ghost-field {
   position: absolute;
   inset: 0;
