@@ -2763,6 +2763,81 @@ body,
 }
 
 /* ==========================================================================
+   BOTANICAL PAPER WASH — Greenery backdrop (DESIGN-BRIEF §4/§5/§7)
+   One Greenery master sits fixed behind the page at low opacity, so the site
+   picks up more of the green/paper palette without replacing any existing
+   image or pattern. It is painted by `body::after`, the same fixed,
+   negative-z-index pattern as .phil-ambient / .portrait-layer: it shows through
+   the transparent cream sections and is naturally hidden by every opaque
+   surface (dark bands, image heroes, the sticky header, cards). Deletable:
+   remove this block and the wash is gone; the page renders as before.
+
+   NOT applied to `.bg-sage` or `.page-hero`: those already carry their own
+   decoration (dot fields / patterned surface) and a second image read as a
+   background on top of a background. They keep their pre-wash state.
+
+   Deliberately excluded: body.page-kernel (its pre-baked ghost field already
+   carries an image), .page-hero--art, .beta-hero, .site-header, all cards, and
+   every dark section. waitlist.html is untouched (its own inline stylesheet).
+
+   Performance: one composited fixed layer with plain `opacity` — no
+   background-attachment, no blend mode, no filter. Tune the strength with
+   --botanical-opacity (0.25 = 25%).
+   ========================================================================== */
+:root { --botanical-opacity: 0.25; }
+body {
+  --botanical-image: url('../images/derived/greenery-horizon-watertower-2560.webp');
+  --botanical-position: 74% 50%;
+}
+/* Homepage: the conservatory + bordeaux moon echoes the hero's sphere. */
+body:has(.hero) {
+  --botanical-image: url('../images/derived/greenery-conservatory-moon-1254.webp');
+  --botanical-position: 58% 42%;
+}
+/* The Kernel keeps its baked ghost field and opts out of the wash entirely. */
+body.page-kernel { --botanical-image: none; }
+/* Philosophy keeps BOTH the Greenery backdrop and its right-hand arches pane
+   (.phil-ambient). So the two images read as separate pictures instead of
+   bleeding into each other, the wash is masked off just before the pane begins.
+   The fade is pinned to the pane's own width (`clamp(320px, 26vw, 380px)`, the
+   same value .phil-ambient uses) rather than a fixed percentage, so the wash
+   runs right up to a ~16px paper gutter at every viewport and never leaves a
+   dead strip between the copy and the pane. The pane's own left dissolve then
+   supplies the separation. Below 1120px the pane is hidden, so the wash runs
+   full width and needs no mask. */
+@media (min-width: 1120px) {
+  body:has(.phil-ambient)::after {
+    --phil-pane: clamp(320px, 26vw, 380px);
+    -webkit-mask-image: linear-gradient(90deg,
+      #000 0%,
+      #000 calc(100% - var(--phil-pane) - 180px),
+      rgba(0, 0, 0, 0) calc(100% - var(--phil-pane) - 16px));
+    mask-image: linear-gradient(90deg,
+      #000 0%,
+      #000 calc(100% - var(--phil-pane) - 180px),
+      rgba(0, 0, 0, 0) calc(100% - var(--phil-pane) - 16px));
+  }
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--botanical-image, none);
+  background-size: cover;
+  background-position: var(--botanical-position, 50% 50%);
+  background-repeat: no-repeat;
+  opacity: var(--botanical-opacity);
+}
+/* Mobile/tablet: match the other ambient layers, which are desktop-only, and
+   keep the fixed layer off small screens. */
+@media (max-width: 1023px) {
+  body::after { display: none; }
+}
+
+/* ==========================================================================
    GENERATIVE DOT FIELDS (js/generative/dot-field)
    Progressive enhancement. Each mount ships the matching static PNG as its
    background — the intended still — and the module covers it with an animated
