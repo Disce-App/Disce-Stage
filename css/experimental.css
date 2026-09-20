@@ -1457,6 +1457,148 @@ section.tight { padding: var(--sp-56) 0; }
 .prose .attrib { font-size: var(--fs-300); color: var(--muted); margin-top: -14px; margin-bottom: var(--sp-24); }
 
 /* ==========================================================================
+   PHILOSOPHY — CHAPTER COVERS (DESIGN-BRIEF §6/§7)
+   Each essay chapter opens with a small 21:9 plate that carries its headline,
+   replacing the retired seeded line-motif (the .gen-motif mounts are gone, so
+   the section-motif module no longer draws anything here). The plate is inside
+   the 740px prose column, square-cornered and ink-bordered like the rest of the
+   editorial grid. The image is decorative (alt=""), and a bottom-weighted
+   --green-deep scrim plus the Newsreader roman headline follow the §5/§6 dark-
+   surface pairing so the parchment label clears AA. The h2 keeps its id and
+   text exactly, so the TOC anchors and copy are untouched. The fixed
+   aspect-ratio plus the explicit width/height attributes keep CLS at zero.
+   To restyle a chapter, swap only its image path in the markup.
+   ========================================================================== */
+.chapter-cover {
+  position: relative;
+  aspect-ratio: 21 / 9;
+  margin: var(--sp-60) 0 var(--sp-40);
+  border: 2px solid var(--legacy-ink);
+  overflow: hidden;
+  background: var(--green-deep);
+}
+.chapter-cover picture { position: absolute; inset: 0; display: block; }
+.chapter-cover img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.chapter-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* Light all-over film only; the legibility work is done locally behind the
+     copy so the upper image stays open. */
+  background: linear-gradient(180deg,
+    rgba(18, 51, 41, 0.05) 0%,
+    rgba(18, 51, 41, 0.16) 60%,
+    rgba(18, 51, 41, 0.45) 100%);
+}
+/* Copy block: the chapter kicker (small uppercase) stacked above the serif
+   title, both overlaid at the foot of the plate. A soft local gradient sits
+   behind the block so the text clears AA over any crop — a wash, not an
+   opaque box. Kicker and title share the same left edge. */
+.chapter-cover-copy {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 2;
+  padding: var(--sp-48) var(--sp-24) var(--sp-20);
+  /* Local wash: transparent at the top edge, deepening under the kicker and
+     title so both clear AA over any crop — a gradient, never an opaque box.
+     It reaches ~0.82 by the kicker line, which keeps the brightest possible
+     image pixel behind the text at ≤0.15 luminance. */
+  background: linear-gradient(180deg,
+    rgba(18, 51, 41, 0) 0%,
+    rgba(18, 51, 41, 0.82) 30%,
+    rgba(18, 51, 41, 0.90) 65%,
+    rgba(18, 51, 41, 0.93) 100%);
+}
+.chapter-cover-copy .section-kicker {
+  display: block;
+  margin: 0 0 var(--sp-8);
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--legacy-paper);
+}
+.chapter-cover-copy h2 {
+  margin: 0;
+  border-bottom: 0;
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 500;
+  font-size: var(--fs-900);
+  line-height: 1.06;
+  letter-spacing: -0.012em;
+  text-transform: none;
+  color: var(--legacy-paper);
+}
+@media (max-width: 560px) {
+  .chapter-cover-copy { padding: var(--sp-16) var(--sp-20); }
+  .chapter-cover-copy h2 { font-size: var(--fs-800); }
+  .chapter-cover-copy .section-kicker { font-size: 10px; letter-spacing: 0.12em; }
+}
+
+/* ==========================================================================
+   PHILOSOPHY — LONG-FORM TYPE (DESIGN-BRIEF §6)
+   Reading refinements scoped to the Philosophy essay so the legal pages that
+   share .prose keep their current styling. The prose column stays 740px (so
+   every chapter cover keeps its exact rendered size); line length is instead
+   improved by setting the essay body to 18px, which lands the measure at
+   ~72 characters per line at that width. Leading is opened to 1.72 and the
+   paragraph rhythm to 24px, with `text-wrap: pretty` for cleaner endings.
+
+   Body paragraphs are justified (inter-word, language-aware hyphenation via
+   the explicit lang on each .prose block); below 641px justification returns
+   to a ragged right so narrow measures never open rivers. Headings, kickers,
+   blockquotes and other short text stay left-aligned.
+   ========================================================================== */
+body:has(.phil-ambient) .prose p {
+  font-size: var(--fs-600);
+  line-height: 1.72;
+  margin-bottom: var(--sp-24);
+  text-wrap: pretty;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+@media (max-width: 640px) {
+  body:has(.phil-ambient) .prose p {
+    text-align: left;
+    hyphens: manual;
+    -webkit-hyphens: manual;
+  }
+}
+body:has(.phil-ambient) .prose blockquote {
+  border-left: 3px solid var(--green-forest);
+  padding: var(--sp-24) 0 var(--sp-24) var(--sp-32);
+  margin: var(--sp-32) 0;
+  font-size: var(--fs-700);
+  text-align: left;
+  hyphens: manual;
+}
+
+/* Editorial drop cap on every chapter opening: the first body paragraph after
+   each .chapter-cover plate, targeted structurally — no per-paragraph class.
+   The glyph is the site's serif display face (Newsreader) in muted forest
+   green, set to span three text lines: 6.05em at a 0.85 line-height =
+   3 × 1.72em. Pure ::first-letter — the prose text and the screen-reader
+   output are untouched. Reduced to ~2 lines at ≤640px. */
+body:has(.phil-ambient) .prose .chapter-cover + p::first-letter {
+  float: left;
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 500;
+  font-size: 6.05em;
+  line-height: 0.85;
+  margin: 0.02em 0.08em 0 0;
+  color: var(--green-forest);
+}
+@media (max-width: 640px) {
+  body:has(.phil-ambient) .prose .chapter-cover + p::first-letter {
+    font-size: 3.8em;
+  }
+}
+
+/* ==========================================================================
    PHILOSOPHY — AMBIENT PANE (DESIGN-BRIEF §7)
    A single, page-level desktop visual for the long-form Philosophy prose, not
    a per-section illustration. A fixed, full-height image area sits flush at the
