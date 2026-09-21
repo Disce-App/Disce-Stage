@@ -28,13 +28,13 @@
 | GATE-10 | P0 | `datenschutz.html:125` | Privacy — notice date ("Stand") | OPEN-FOUNDER | — |
 | GATE-11 | BLOCKER | `impressum.html:87`; `datenschutz.html:82,131`; `waitlist.html:733,740` (+ `beta.html:97`, `index.html:309`, `kernel.html:80,496,527`, `philosophy.html:482`, `status.html:304`, `team.html:196`) | Mailbox verification — confirm `bjarne.dudzus@disce.de` exists and is monitored before public promotion | OPEN-FOUNDER | — |
 | GATE-12 | BLOCKER | `impressum.html`; `datenschutz.html` | Legal review of imprint + privacy notice (both currently marked draft) | OPEN-LEGAL | GATE-01…10 |
-| GATE-13 | P2 | `waitlist.html:610,618,625,632,639`; JS `:829,:862` | Final decision on internal field name `availability_june` / Airtable column (non-public) | OPEN-FOUNDER | — |
+| GATE-13 | P2 | `waitlist.html` form; CONV-05 | Final decision on internal field name `availability_june` / Airtable column (non-public) | **SUPERSEDED** — the public availability field and all code-level dependence on `availability_june` were removed in Batch D/CONV-05 (no markup, validation, error association, or payload key remains). No Airtable column was renamed or deleted; it is simply no longer written. | — |
 | GATE-14 | BLOCKER | `robots.txt`; per-page `<meta name="robots">`; `sitemap.xml`; canonical/OG in page heads | Staging→production indexability decision + execution (robots allow, remove `noindex`, align canonical/OG/sitemap) | OPEN-FOUNDER + OPEN-CODE | GATE-01…12 |
 | GATE-15 | P1 | — | BFSG/accessibility applicability review (Sprint 4 §4.9.5; deep-dive §6 item 15) | OPEN-LEGAL | GATE-12 |
 
 **Gate rule:** GATE-01…12 must close before GATE-14 (indexability). Until then the site stays in its current non-indexable staging posture (`robots.txt` `Disallow: /`; `noindex` on every page).
 
-**GATE-13 note:** founder decision #4 — once the availability field is removed in Batch D/CONV-05, GATE-13 becomes obsolete and may be closed as superseded.
+**GATE-13 note:** closed as **SUPERSEDED** in Batch D/CONV-05 — the availability field and every code-level reference to `availability_june` (markup, validation, error association, payload key) are gone. The Airtable column was not renamed or deleted; it is simply no longer written.
 
 ---
 
@@ -44,10 +44,10 @@
 
 | ID | Prio | Status | Source | Action | Acceptance | Validation | Effort | Depends |
 |---|---|---|---|---|---|---|---|---|
-| POS-01 | P0 | OPEN-CODE | Sprint 1 §1.5/§1.8; decision pack B.1; locked #2/#5; `index.html:73–75` | Reframe homepage hero eyebrow/lede to the primary professional audience and the truthful planned status; no availability claim | Hero names the primary audience/context and a planned status; no "available/now" claim | Founder sign-off; manual review | medium | — |
-| — | — | — | **Overlap note (Batch A closure)** | The homepage hero **primary CTA** was changed for IA-04 (`index.html:77` → `waitlist.html` "Interesse anmelden"). This touches the hero but is IA-04 work; POS-01 (hero eyebrow/lede framing) remains OPEN-CODE and the hero CTA change must be **reviewed in Batch D**, not treated as POS-01 completion. | — | — | — | — |
+| POS-01 | P0 | DONE | Sprint 1 §1.5/§1.8; decision pack B.1; locked #2/#5 | Reframe homepage hero eyebrow/lede to the primary professional audience and the truthful planned status; no availability claim | Hero names the primary audience/context and a planned status; no "available/now" claim | `index.html:77` eyebrow → audience ("Für internationale Fachkräfte in Deutschland" / "For international professionals in Germany"); `index.html:79` lede → career context (job interview / day-to-day work / next career step) + system framing (diagnosis, targeted practice, feedback) + truthful status ("Proof of Principle (Cervus) abgeschlossen; nächster Prototyp in Entwicklung; Private Beta geplant"). Hero primary CTA "Interesse anmelden" unchanged (`:81`). **Manual visual review + founder sign-off required** | medium | — |
+| — | — | — | **Batch D note** | Supersedes the Batch A overlap note: the IA-04 hero primary-CTA change (`index.html:81` → `waitlist.html`) was reviewed in Batch D and retained; POS-01 hero eyebrow/lede framing is completed. | — | — | — | — |
 | POS-02 | P0 | DONE | locked #2; Sprint 1 §1.7; `index.html:90`; `status.html:78,82` | Make status labels consistent site-wide: "Cervus research completed" / "private beta planned" / "next research phase in preparation — recruitment not open" | Grep shows no conflicting present-tense study/availability labels on public pages; `beta.html` exempt as founder-deferred | Manual + grep; founder sign-off | low | — |
-| POS-03 | P1 | OPEN-CODE | Sprint 1 §1.14; decision pack B.3; `index.html:48`; `kernel.html:76–77` | Apply codename policy: gloss "Kernel" at first contact; keep "Cervus" contextual; keep Midgard/Asgard deep-page only | No unexplained public codename at first contact | Visual review | low | POS-02 |
+| POS-03 | P1 | DONE | Sprint 1 §1.14; decision pack B.3 | Apply codename policy: gloss "Kernel" at first contact; keep "Cervus" contextual; keep Midgard/Asgard deep-page only | No unexplained public codename at first contact | `kernel.html:81` hero lede now glosses Kernel plainly ("die Systemschicht hinter dem Coaching: das System, das Diagnose, gezieltes Üben und Rückmeldung verbindet") before the technical detail; `index.html:94` stat label `Pilotphase` → `Proof of Principle` with value "Cervus — abgeschlossen" (Cervus framed as completed research, not the product); Midgard/Asgard remain only in `status.html` roadmap cards (`:173`,`:188`, deep page). Nav label "Der Kernel" is a link label; the gloss lives at its destination. **Manual visual review required** | low | POS-02 |
 | POS-04 | P1 | DONE | locked #8; founder-decisions-locked.md (a)#8; decision pack B.3 | Confirm "Proof of Principle" as the public research term and keep "Proof of Visibility" out of headline/marketing positions | No "Proof of Visibility" in public copy; PoP used for Cervus | Grep + founder sign-off | low | — |
 | — | — | — | **Batch A note** | POS-04 closed per founder decision #8: "Proof of Principle public; Proof of Visibility internal-only." Grep confirms "Proof of Visibility" appears only in internal `.md` documents, not in any public HTML. | — | — | — | — |
 
@@ -100,22 +100,25 @@
 | — | — | — | **Batch A closure note** | Applied on all eight pages. Final state: `index.html:50,259,306`; `beta.html:46,95`; `kernel.html:45,524`; `philosophy.html:60,479`; `status.html:45,275,302`; `team.html:45,193`; `datenschutz.html:46,166`; `impressum.html:46,146` all read "Interesse anmelden / Register interest". Grep for "Auf die Warteliste" / "Join the Waitlist" returns **zero HTML hits** (remaining occurrences are internal `.md` documents only). | — | — | — | — |
 | CONV-02 | P0 | DONE | Sprint 4 §1.3; `index.html:256–257` | Replace "join the beta"/"first cohort" with target interest-registration wording (no cohort/access implication) | No cohort/access/availability implication in band | Founder sign-off + manual review | low | — |
 | — | — | — | **Batch A note** | `index.html:255–256` now reads "Die Entwicklung verfolgen oder Interesse anmelden." / "…melden Sie unverbindlich Ihr Interesse an der geplanten Private Beta an." No cohort/access/date/response implication remains. | — | — | — | — |
-| CONV-03 | P0 | OPEN-CODE | Sprint 4 §2.2; Sprint 3 §1.2; `waitlist.html:704–708,728–743` | Complete thank-you state: accessible confirmation (A11Y-02), privacy deep link to `datenschutz.html`, correction/withdrawal note | Confirmation announced; privacy linked; withdrawal stated | Screen reader + link check | low | A11Y-02 |
+| CONV-03 | P0 | DONE | Sprint 4 §2.2; Sprint 3 §1.2; `waitlist.html` success state | Complete thank-you state: accessible confirmation (A11Y-02), privacy deep link to `datenschutz.html`, correction/withdrawal note | Confirmation announced; privacy linked; withdrawal stated | `waitlist.html:745–746` success text now confirms receipt, restates the honest expectation (contact only when the planned beta/next research phase opens), states no queue position / automatic invitation / access guarantee / fixed date, links `datenschutz.html`, and gives the `mailto:bjarne.dudzus@disce.de` correction/withdrawal path. Batch-B mechanics preserved (`role="status" tabindex="-1"`, focus on success); `.submit-feedback a` styled (`:392`); no response-time target shown. **Manual screen-reader + link check required** | low | A11Y-02 |
 | CONV-04 | P1 | OPEN-FOUNDER | Sprint 4 §2.3; locked #1; founder decision #3 | Finalize the follow-up runbook (who/trigger/medium/no-trigger message) | Runbook documented; mailbox confirmed | Founder sign-off | low | GATE-11 |
 | — | — | — | **Founder decision (Batch A, later Batch D)** | Owner: Bjarne Dudzus. Trigger: a valid interest-registration submission. Internal service target: review/respond within five business days — **internal only, never displayed as a public response-time guarantee**. Medium: `bjarne.dudzus@disce.de`. Initial response: acknowledgement, honest status, no access promise, optional one relevant follow-up question. Spam/irrelevant may receive none/short neutral reply. List usable for narrowly related beta/next-study status communication (incl. delay notices), **not** a general newsletter; any future Substack/newsletter opt-in must be separate, voluntary, unchecked, distinct purpose, and legally reviewed. **Not implemented in Batch A; remains OPEN-FOUNDER for Batch D.** | — | — | — | — |
-| CONV-05 | P0 | OPEN-FOUNDER | Sprint 4 §3; founder decision #4 | Form data minimization: drop/defer availability + microphone fields; simplify level; defer role/career data; adjust JS validation accordingly | Form fields reflect the decision; validation still blocks invalid submits | Founder sign-off + manual form test | medium | — |
+| — | — | — | **Batch D evidence note** | Operational follow-up runbook recorded here: owner Bjarne Dudzus; trigger a valid interest-registration submission; internal target review/respond within five business days (**internal only, never published**); medium `bjarne.dudzus@disce.de`; initial reply = acknowledgement + honest status + no access promise, optionally one relevant follow-up question; spam/irrelevant = none or short neutral reply; narrowly related beta/research status updates (incl. delay notices) permitted; **no** general-newsletter scope. Status deliberately left **OPEN-FOUNDER**: mailbox verification (GATE-11) and founder sign-off remain, and CONV-04 is outside Batch D scope. | — | — | — | — |
+| CONV-05 | P0 | DONE | Sprint 4 §3; founder decision #4 | Form data minimization: drop/defer availability + microphone fields; simplify level; defer role/career data; adjust JS validation accordingly | Form fields reflect the decision; validation still blocks invalid submits | Removed the availability group and the microphone checkbox; `german_level` is now optional (no required star, no `aria-describedby`, no error element); the optional free-text `source_channel` input is relabelled "Kontext, Interesse oder Fragen" (same `name`/Airtable column); validation requires `first_name`, `email`, `consent_contact` only; payload no longer carries `availability_june`/`has_microphone` and sends `german_level`/`source_channel` only when provided; adjacent privacy summary (`waitlist.html:814` DE / `:821` EN) and `datenschutz.html:102` DE / `:138` EN updated; dead `.availability-grid` CSS removed. **Manual form test + founder sign-off required** | medium | — |
 | — | — | — | **Founder decision (Batch A, later Batch D)** | Keep name + email; remove/defer availability field; remove/defer microphone field; keep language level only as a simplified, low-friction **optional** field; defer role/career/detailed qualification to a later actual beta invitation/application; keep free text optional. Once availability is removed in Batch D, **GATE-13 becomes obsolete/superseded**. **Not implemented in Batch A** (no form/JS/Airtable changes); remains OPEN-FOUNDER for Batch D. | — | — | — | — |
+| — | — | — | **Batch D evidence note** | Implemented in Batch D/CONV-05. Kept: name, email, optional German level, optional free-text context. Removed/deferred: availability, microphone, and any study-scheduling/qualification/segmentation field. Airtable schema untouched (no column renamed or deleted); removed fields are simply no longer written. | — | — | — | — |
 | CONV-06 | P2 | DEFERRED | Sprint 4 §4/§7; benchmark §7 | Introduce privacy-friendly, low-traffic measurement only after validated interest (no trackers now) | Measurement introduced with consent-free config | Post-launch review | medium | GATE-14 |
 
 ### 2.6 Trust & evidence (TRUST)
 
 | ID | Prio | Status | Source | Action | Acceptance | Validation | Effort | Depends |
 |---|---|---|---|---|---|---|---|---|
-| TRUST-01 | P0 | OPEN-CODE | Sprint 4 §5; target IA §5; `waitlist.html:728–743` | Add a compact trust/status block near the form: status, data-use summary, privacy deep link, contact, completed-Cervus context | Block present; privacy linked; no security/availability overclaim | Content review | low–med | CONV-03 |
+| TRUST-01 | P0 | DONE | Sprint 4 §5; target IA §5; `waitlist.html` form | Add a compact trust/status block near the form: status, data-use summary, privacy deep link, contact, completed-Cervus context | Block present; privacy linked; no security/availability overclaim | `waitlist.html:753–770` compact `.trust-block` added inside the form card, below the form: status (Cervus complete as Proof of Principle; next prototype in development; private beta planned), interest clarity (no queue position / fixed access date / access guarantee), data-use summary, `datenschutz.html` link, and `mailto:bjarne.dudzus@disce.de` contact/withdrawal. No security/availability claim; no new CTA. Styled subordinate (`.trust-block` `:420–431`). **Manual content + keyboard review required** | low–med | CONV-03 |
 | TRUST-02 | P1 | OPEN-FOUNDER | Sprint 3 §2; founder decision #5 | Decide the product-evidence strategy: raise the Kernel architecture plate as labeled evidence and/or supply a real prototype artifact / anonymized output | Decision recorded; artifacts supplied (if any) | Founder sign-off | low | — |
 | — | — | — | **Founder decision (Batch A, later Batch E)** | No new public product artifact at this stage; existing Kernel architecture communication remains the current conceptual mechanism representation; no testimonial approved; prototype screenshots only later when a stable, truthful artifact exists and is labeled "prototype in development"; no evidence asset may imply current access, public availability, validated efficacy, or product readiness. **Not implemented in Batch A.** | — | — | — | — |
 | TRUST-03 | P1 | OPEN-CODE | Sprint 3 §2; target IA §3; `kernel.html:142–220,217–219`; founder decision #5 | Implement the chosen evidence placement (e.g., label the existing architecture plate as a figure with its textual equivalent) | Evidence artifact visible and truthful; no availability implication | Founder sign-off + visual review | medium | TRUST-02 |
-| TRUST-04 | P1 | OPEN-CODE | Sprint 4 §4; `waitlist.html:665–668,730,737` | Final check that the single-purpose contact consent still suffices (no new scopes; no consent manager) | Consent text matches purpose; no new consent mechanism | Legal review (GATE-12) | low | GATE-12 |
+| TRUST-04 | P1 | DONE | Sprint 4 §4; `waitlist.html` consent/purpose surfaces | Final check that the single-purpose contact consent still suffices (no new scopes; no consent manager) | Consent text matches purpose; no new consent mechanism | Source-level consistency audit passed: the sole required consent (`waitlist.html:701–704`) is limited to being contacted when the planned private beta / next research phase opens, states no fixed commitment and no queue position; the trust block, success message, FAQ, privacy summary and `datenschutz.html:104` purpose all describe the same interest-registration purpose; **no** newsletter/marketing scope, recruitment claim, access/scheduling/selection promise, or consent manager was added. See the OPEN-LEGAL note below | low | GATE-12 |
+| — | — | — | **OPEN-LEGAL (TRUST-04)** | This item confirms source-level consistency only and does **not** close legal review. Final legal review of the consent/privacy wording (GATE-12) and mailbox verification (GATE-11) remain open and are not resolved in code. | — | — | — | — |
 | TRUST-05 | P2 | OPEN-CODE | Sprint 4 §8 | Use the claim register as a pre-publish verification reference | Each public claim type checked against its evidence pointer | Manual check | low | — |
 
 ### 2.7 Legal (LEGAL)
@@ -278,6 +281,65 @@ Structural: six native `<button type="button" class="faq-trigger">` (all inside 
 Source-level: `node --check js/site.js` OK; extracted inline `waitlist.html` script OK. JS keeps `aria-expanded` and `hidden` in lock-step; collapsed answers are `hidden`, so no focusable content remains; native buttons give Enter/Space; no single-open restriction; no animation (reduced-motion safe).
 
 **Manual verification still required:** keyboard operation with Enter and Space; focus visibility on the FAQ buttons; open/close behaviour (multi-open); screen-reader announcement of expanded/collapsed state; mobile readability; language switching (DE/EN); the privacy (`datenschutz.html`) and withdrawal (`mailto:`) links.
+
+---
+
+## 2.12 Batch D execution log (before → after)
+
+Batch D = POS-01, POS-03, CONV-03, CONV-05, TRUST-01, TRUST-04. Files touched: `index.html`, `kernel.html`, `waitlist.html`, `datenschutz.html`, this checklist. Batch A/B/C behaviour preserved. No metadata/indexability/robots/OG/canonical changes.
+
+> **Scope note.** The Batch D brief's general "do not edit" list names `index.html`, `kernel.html` and `datenschutz.html`, but the item specs (POS-01 → homepage hero; POS-03 → `index.html`/`kernel.html`; CONV-05 item 5 → `datenschutz.html` field enumeration) explicitly require them. Interpretation applied: those files were edited **only** for the scoped Batch D items; no indexability, metadata, legal-placeholder, transfer, retention, or provider text was changed.
+
+### 2.12.1 Positioning and codenames — POS-01 / POS-03
+
+| Item | file:line | Before → After |
+|---|---|---|
+| POS-01 | `index.html:77` | eyebrow "Vor der Gründung · Berlin / Potsdam" → "Für internationale Fachkräfte in Deutschland" / "For international professionals in Germany" |
+| POS-01 | `index.html:79` | investor-facing lede → audience + career context + system framing (diagnosis / practice / feedback) + truthful status ("Proof of Principle (Cervus) abgeschlossen; nächster Prototyp in Entwicklung; Private Beta geplant") |
+| POS-03 | `index.html:94` | stat label `Pilotphase` / `Pilot Phase` → `Proof of Principle` (value "Cervus — abgeschlossen" unchanged) |
+| POS-03 | `kernel.html:81` | Kernel hero lede → plain gloss first ("die Systemschicht hinter dem Coaching: das System, das Diagnose, gezieltes Üben und Rückmeldung verbindet"), then the existing technical detail |
+| POS-03 | *(no change)* | Midgard/Asgard remain only in `status.html:173,188` roadmap cards (deep page, with explanatory sentences) |
+
+### 2.12.2 Form-data minimization — CONV-05 (before → after inventory)
+
+| Field | Before | After |
+|---|---|---|
+| First name (`first_name`) | required | **required** (unchanged) |
+| Email (`email`) | required | **required** (unchanged) |
+| German level (`german_level`) | required select A1–C2 | **optional** select A1–C2 (no required star, no error element/`aria-describedby`) |
+| Availability (`availability_june`) | required, 4 checkboxes | **removed** |
+| Microphone (`has_microphone`) | required checkbox | **removed** |
+| Contact consent (`consent_contact`) | required checkbox | **required** (unchanged; now the only checkbox) |
+| Free text (`source_channel`) | optional "How did you hear about this?" | **optional** "Kontext, Interesse oder Fragen" (same `name`/Airtable column) |
+
+Evidence: removed markup at old `waitlist.html:691–732` and `:739–745`; `german_level` block now `:674–690`; free-text label `:726`; validation now `first_name`+`email`+`consent_contact` (`:991,997,1006`); payload `:1035–1042` no longer carries `availability_june`/`has_microphone`; privacy summary `:814`/`:821`; `datenschutz.html:102` (DE) and `:138` (EN field list), `:124` ("Aufnahme in die Warteliste" → "Interessenbekundung"); dead `.availability-grid` CSS removed. Airtable schema unchanged — removed fields are simply no longer written.
+
+### 2.12.3 Thank-you and trust — CONV-03 / TRUST-01
+
+| Item | file:line | Before → After |
+|---|---|---|
+| CONV-03 | `waitlist.html:745–746` | one-line confirmation → confirmation + honest expectation + "keine Wartelistenposition, keine automatische Einladung, keine Zugangszusage und kein fester Termin" + `datenschutz.html` link + `mailto:bjarne.dudzus@disce.de` correction/withdrawal; `role="status" tabindex="-1"` and focus behaviour preserved; `.submit-feedback a` styled |
+| TRUST-01 | `waitlist.html:753–770` | *(none)* → compact `.trust-block` inside the form card: status, interest clarity, data-use summary, privacy link, contact/withdrawal; subordinate styling `.trust-block` at `:420–431` |
+
+### 2.12.4 Consent/purpose consistency — TRUST-04
+
+Source-level audit only (no legal conclusion). The single required contact consent (`waitlist.html:701–704`) is limited to being contacted when the planned private beta / next research phase opens, with no fixed commitment and no queue position. Form intro (`:620–623`), info list (`:587`), success (`:745–746`), trust block (`:753–770`), FAQ (`:837–908`) and the privacy notice purpose (`datenschutz.html:104`; `waitlist.html:814`) all describe the same interest-registration purpose. No newsletter/marketing consent, recruitment claim, access/scheduling/selection promise, or consent manager was added. **OPEN-LEGAL:** GATE-12 (legal review) and GATE-11 (mailbox verification) remain open and are not resolved in code.
+
+### 2.12.5 GATE-13
+
+**SUPERSEDED.** The availability field and every code-level reference to `availability_june` (markup, validation, error association, payload key) are removed. No Airtable column was renamed or deleted.
+
+### 2.12.6 Batch D verification
+
+Form-data: 5 visible controls after (`first_name`, `email`, `german_level`, `consent_contact`, `source_channel`); no residue of availability/microphone (`grep` zero); all `aria-describedby` references resolve (`first_name-error`, `email-error`, `checkbox-error`); no duplicate IDs; retained optionals are not required (only `first_name`, `email`, `consent_contact` are required).
+
+Consistency: `grep` of the public HTML + JS for the audit terms — "Warteliste/waitlist" occurrences are all negative/qualifying or technical page references; "Verfügbarkeit/availability/Mikrofon/microphone/erste Kohorte/first cohort/Studienteilnahme/study participation" **zero** in conversion surfaces; "Zugang/access" only in negations, technical hosting text, or out-of-scope philosophy/kernel prose.
+
+Accessibility regression: labels intact; `node --check` OK for `js/site.js` and the inline `waitlist.html` script; invalid/success/failure/retry state transitions coherent source-level; trust/thank-you `datenschutz.html` and `mailto:` links are native anchors (keyboard-reachable); anchor balance 18/18.
+
+Copy/status: no availability, open-recruitment, beta-admission, queue, first-cohort, fixed-date, or efficacy claim in edited surfaces; "Proof of Visibility" absent from public HTML; Kernel glossed at its page hero and Cervus framed as a completed Proof of Principle.
+
+**Manual verification still required:** rendered browser/mobile review of the homepage hero and `kernel.html` hero; keyboard operation of the trimmed form; screen-reader check of success + error summary after field removal; actual form submission against the live worker/Airtable (payload acceptance of an omitted `german_level`/`source_channel` and of the removed fields); visual review of the trust block and heading re-tagging; legal review (GATE-12) and mailbox verification (GATE-11).
 
 ---
 
