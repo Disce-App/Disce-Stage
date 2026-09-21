@@ -424,6 +424,44 @@
     .privacy-text a { color: var(--color-link); text-decoration: none; }
     .privacy-text a:hover { text-decoration: underline; }
 
+    /* =========================== FAQ ACCORDION =========================== */
+    .faq-section { padding: 0 0 var(--space-3xl); }
+    .faq-section .card { animation-delay: 0.6s; }
+    .faq-section h2 {
+      font-family: var(--font-heading);
+      font-size: 24px; font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: var(--space-lg);
+      text-align: center;
+    }
+    .faq-list { display: flex; flex-direction: column; }
+    .faq-item { border-bottom: 1px solid var(--color-border); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question { margin: 0; }
+    .faq-trigger {
+      width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--space-lg);
+      padding: var(--space-lg) 0;
+      background: none; border: none;
+      font-family: var(--font-body);
+      font-size: 16px; font-weight: 600;
+      color: var(--color-text);
+      text-align: left;
+      cursor: pointer;
+    }
+    .faq-icon { flex-shrink: 0; line-height: 1; }
+    .faq-icon::before {
+      content: '+';
+      display: block;
+      font-size: 20px; font-weight: 400;
+      color: var(--color-primary-dark);
+    }
+    .faq-trigger[aria-expanded="true"] .faq-icon::before { content: '\2212'; }
+    .faq-panel { padding: 0 0 var(--space-lg); }
+    .faq-panel p { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); }
+    .faq-panel a { color: var(--color-link); }
+
     /* =========================== FOOTER =========================== */
     footer {
       text-align: center;
@@ -790,6 +828,118 @@
         </div>
       </div>
     </section>
+
+    <!-- FAQ -->
+    <div class="divider"></div>
+    <section class="faq-section" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="card">
+          <h2 id="faq-title">
+            <span data-lang="de">Häufige Fragen</span>
+            <span data-lang="en">Frequently asked questions</span>
+          </h2>
+          <div class="faq-list">
+
+            <div class="faq-item">
+              <h3 class="faq-question">
+                <button type="button" class="faq-trigger" id="faq-q1" aria-expanded="false" aria-controls="faq-a1">
+                  <span data-lang="de">Ist Disce schon nutzbar?</span>
+                  <span data-lang="en">Is Disce available to use yet?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-a1" role="region" aria-labelledby="faq-q1" hidden>
+                <p>
+                  <span data-lang="de">Nein. Die nächste Produktstufe wird gerade entwickelt; eine Private Beta ist geplant. Ein öffentlich nutzbares Produkt gibt es derzeit nicht.</span>
+                  <span data-lang="en">No. The next product stage is being developed; a private beta is planned. There is no publicly available product at this time.</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <h3 class="faq-question">
+                <button type="button" class="faq-trigger" id="faq-q2" aria-expanded="false" aria-controls="faq-a2">
+                  <span data-lang="de">Was bedeutet „Interesse anmelden“?</span>
+                  <span data-lang="en">What does “register interest” mean?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-a2" role="region" aria-labelledby="faq-q2" hidden>
+                <p>
+                  <span data-lang="de">Du vermerkst, dass du später teilnehmen möchtest. Das ist keine Position in einer Warteliste, keine automatische Einladung und keine Zusage auf einen Zugang.</span>
+                  <span data-lang="en">You record that you would like to take part later. It is not a queue position, not an automatic invitation, and not a guarantee of access.</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <h3 class="faq-question">
+                <button type="button" class="faq-trigger" id="faq-q3" aria-expanded="false" aria-controls="faq-a3">
+                  <span data-lang="de">Wann startet die Private Beta?</span>
+                  <span data-lang="en">When will the private beta start?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-a3" role="region" aria-labelledby="faq-q3" hidden>
+                <p>
+                  <span data-lang="de">Ein fester öffentlicher Termin steht nicht fest. Wir melden uns bei relevanten Interessierten, wenn die Beta oder eine nächste Forschungsphase tatsächlich startet.</span>
+                  <span data-lang="en">There is no fixed public date. We will contact relevant interested people when the beta or a next research phase actually opens.</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <h3 class="faq-question">
+                <button type="button" class="faq-trigger" id="faq-q4" aria-expanded="false" aria-controls="faq-a4">
+                  <span data-lang="de">Läuft gerade eine Studie?</span>
+                  <span data-lang="en">Is a study currently recruiting?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-a4" role="region" aria-labelledby="faq-q4" hidden>
+                <p>
+                  <span data-lang="de">Nein. Cervus ist abgeschlossen. Die nächste Forschungsphase wird vorbereitet; eine Rekrutierung ist derzeit nicht offen.</span>
+                  <span data-lang="en">No. Cervus is completed. The next research phase is in preparation; recruitment is not currently open.</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <h3 class="faq-question">
+                <button type="button" class="faq-trigger" id="faq-q5" aria-expanded="false" aria-controls="faq-a5">
+                  <span data-lang="de">Was passiert mit meinen Angaben?</span>
+                  <span data-lang="en">What happens to my information?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-a5" role="region" aria-labelledby="faq-q5" hidden>
+                <p>
+                  <span data-lang="de">Sie dienen der Verwaltung deiner Interessenbekundung für die geplante Private Beta und die nächste Forschungsphase. Details stehen in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span>
+                  <span data-lang="en">They are used to manage your expression of interest in the planned private beta and the next research phase. Details are in the <a href="datenschutz.html">privacy policy</a>.</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <h3 class="faq-question">
+                <button type="button" class="faq-trigger" id="faq-q6" aria-expanded="false" aria-controls="faq-a6">
+                  <span data-lang="de">Kann ich mein Interesse zurückziehen?</span>
+                  <span data-lang="en">Can I withdraw my interest?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-a6" role="region" aria-labelledby="faq-q6" hidden>
+                <p>
+                  <span data-lang="de">Ja. Schreib uns eine E-Mail an <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a>, um dein Interesse jederzeit zurückzuziehen.</span>
+                  <span data-lang="en">Yes. Email us at <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a> to withdraw your interest at any time.</span>
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -975,6 +1125,19 @@
       }
       el.addEventListener('input', clearGroupErrors);
       el.addEventListener('change', clearGroupErrors);
+    });
+
+    // =========================== FAQ ACCORDION ===========================
+    // One small, multi-open accordion. Each trigger is a native button
+    // (Enter/Space work natively); aria-expanded is kept in sync with the
+    // answer's hidden state, so collapsed answers are never focusable.
+    document.querySelectorAll('.faq-trigger').forEach(function (trigger) {
+      trigger.addEventListener('click', function () {
+        var panel = document.getElementById(trigger.getAttribute('aria-controls'));
+        var expanded = trigger.getAttribute('aria-expanded') === 'true';
+        trigger.setAttribute('aria-expanded', String(!expanded));
+        if (panel) panel.hidden = expanded;
+      });
     });
   </script>
 

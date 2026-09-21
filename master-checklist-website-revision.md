@@ -59,7 +59,7 @@
 | — | — | — | **Founder correction (Philosophy restored)** | Founder overrides the former IA-01 interpretation: `philosophy.html` remains a regular, publicly discoverable secondary page, visually secondary to the primary CTA "Interesse anmelden / Register interest"; it is not removed, hidden, `noindex`ed or deferred, and its content/claims/status wording are unchanged. The "Philosophie / Philosophy" link was restored in the **header nav** at `index.html:47`, `kernel.html:42`, `philosophy.html:57`, `status.html:42`, `team.html:42`, `datenschutz.html:42`, `impressum.html:42`, and in the **footer "Seiten" nav** at `index.html:295`, `kernel.html:513`, `philosophy.html:468`, `status.html:291`, `team.html:182`, `datenschutz.html:154`, `impressum.html:134`. The pre-existing contextual homepage link (`index.html:78`) is preserved. `beta.html:42,83` was already correct and is unchanged. Valid Batch-A IA-01 outcomes retained: `kernel.html` stays the mechanism page, `status.html` is the canonical status page, and no page was removed/renamed/deleted. | — | — | — | — |
 | IA-02 | P2 | DONE | target IA §1, §5; `beta.html`; founder decision #2 | Decide `beta.html` role (keep deferred/unlinked, repurpose as status deep-link, or remove from scope) | Decision recorded; page stays `noindex`/unlinked until then | Founder sign-off | low | GATE-14 |
 | — | — | — | **Batch A note** | Closed by founder decision #2: `beta.html` remains deferred, unlinked, `noindex`, and outside the sitemap, reserved for a future real beta. Only the CONV-01 label change was applied (`beta.html:46,95`). | — | — | — | — |
-| IA-03 | P1 | OPEN-CODE | Sprint 4 §7; Sprint 3 §1.8; benchmark §3/§6; `js/site.js:42–64`; `css/experimental.css:1673–1682` | Add a small FAQ module on `waitlist.html` using the existing (unused) accordion; answer the conversion-relevant questions | Module answers the defined questions; accordion keyboard-operable; no new page created | Keyboard/manual; content review | low–med | A11Y-09 |
+| IA-03 | P1 | DONE | Sprint 4 §7; Sprint 3 §1.8; benchmark §3/§6; `waitlist.html` FAQ | Add a small FAQ module on `waitlist.html` using the existing (unused) accordion; answer the conversion-relevant questions | Module answers the defined questions; accordion keyboard-operable; no new page created | FAQ section added after the form/privacy area, before the footer; six Q&A on the six confirmed questions only, DE/EN via `data-lang`; native `<button>` + `aria-expanded`/`aria-controls`/`hidden`; links only to `datenschutz.html` and `mailto:bjarne.dudzus@disce.de`; **manual keyboard + content review required** | low–med | A11Y-09 |
 | IA-04 | P1 | DONE | target IA §2; Sprint 4 §1.4 | Enforce one funnel per intent: one homepage-primary route (professionals), secondary intents by direct email | No competing primary CTAs on the homepage | Visual review | low | CONV-01 |
 | — | — | — | **Batch A note** | Homepage hero primary CTA changed from `team.html` to `waitlist.html` with the interest-registration label (`index.html:77`), so the single lead-capture route is interest registration; team/about and partner/investor contexts remain as secondary nav/footer/mailto routes. | — | — | — | — |
 | IA-05 | P1 | DONE | locked #7; target IA §5; `index.html:308` | Place the Substack development-updates link as a clearly labeled **external** deep link in Status/About/Contact, not as a homepage-primary CTA | Link present in Status/Contact; not a primary CTA; no consent mechanism added | Visual review | low | — |
@@ -77,6 +77,8 @@
 | A11Y-05 | P1 | DONE | Sprint 3 §1.5 | Add a visually-hidden-until-focused skip-to-content link targeting `<main>` | Tab on load reveals skip link; it moves focus to main content | Skip link is first focusable element after `<body>` on 9/9 pages, targets existing `#main`, bilingual DE/EN; CSS `.skip-link` + `main:focus`; **keyboard/visual-focus test required** | low | A11Y-04 |
 | A11Y-06 | P0 | DONE | Sprint 3 §1.6; `css/experimental.css` ticker; `index.html` ticker; `js/site.js` | Add a keyboard-operable pause/stop control for the ticker, or make the logos a static row (content unchanged per locked #4) | Motion can be stopped or is absent; partner content unchanged; WCAG 2.2.2 met | **Option A (pause/resume)** implemented; native `<button>` with `aria-pressed` + DE/EN state label; `animation-play-state: paused`; reduced motion keeps `animation: none` and hides the control; partner markup/logos unchanged; **manual keyboard + reduced-motion test required** | low | — |
 | A11Y-07 | P1 | DONE | Sprint 3 §1.10 | Verify heading order and `<title>`/OG alignment per page | No skipped heading levels; title/OG match page role | Within-main skips fixed (`team.html` founder `h3`→`h2`; `philosophy.html` TOC `h4`→`h2`) and site-wide footer column headings `h4`→`h2`; now strictly `h1→h2→h3` on all editable pages. Title/OG audited — 2 factual mismatches reported (not edited). `beta.html` heading `h4`s left unchanged (out of scope). **Visual check of heading styling required** | low | POS-02 |
+| A11Y-08 | P1 | MEASURE-ONLY | Sprint 3 §1.13; benchmark §5 | Measure tap-target sizes and reflow at 320–430 px; fix only if a target is <24×24 or overflow occurs | No target <24×24; no horizontal scroll | Manual viewport test | low–med | CONV-01 |
+| A11Y-09 | P1 | DONE | Sprint 3 §1.8; `js/site.js`; `css/experimental.css` | Dispose of the dead accordion: repurpose for IA-03 or remove | No unused code (or clearly documented as reserved) | **Replaced/removed** — dead `.accordion-*` JS (`js/site.js:54–76`) and CSS (`css/experimental.css:1670–1682`) removed; one new accessible FAQ accordion implemented in `waitlist.html`; `grep` confirms no `.accordion-*` remnants remain; code review done | low | IA-03 |
 | A11Y-10 | P1 | DONE | Sprint 3 §1.9; `js/generative/registry.js` | Remove the dangling `kernel-loop` registry entry (or add the module if intended) | All registry keys resolve; no failed import | Stale `kernel-loop` entry removed; registry now resolves to existing `section-motif` + `dot-field` modules; page mounts use only `data-gen="dot-field"`; `node --check` passed; no-JS/reduced-motion untouched | low | — |
 
 ### 2.4 Performance (PERF)
@@ -235,6 +237,47 @@ Structural: exactly one `<main>` (and one `id="main"`) per public page (9/9); ev
 Source-level: waitlist invalid/clear paths reviewed (`aria-invalid` set then removed), busy state cleared on all four outcomes, success path clears busy then shows + focuses `#successMsg`; `node --check` passed for `js/site.js`, `js/generative/registry.js` and the extracted inline waitlist script.
 
 **Manual verification still required (cannot be performed here):** keyboard traversal (skip link, ticker control, form); one screen-reader pass (error summary + field association, success announcement, busy state); visual focus/skip-link review; ticker pause control review; form invalid/success/failure/retry paths; mobile viewport check; confirmation that heading re-tagging did not shift rendered typography.
+
+---
+
+## 2.11 Batch C execution log (before → after)
+
+Batch C = IA-03, A11Y-09. Batch A/B preserved. Files touched: `waitlist.html`, `js/site.js`, `css/experimental.css`, and this checklist only.
+
+### Decision: option B — replaced/removed, not repurposed
+
+The repo's only accordion was the dead `.accordion-*` code, mounted by no markup. Repurposing it would not have been a small change: it had **no** `aria-expanded`/`aria-controls`/ids/`hidden`; it used a single-open model; it animated `max-height` via inline styles; its collapsed panels (`max-height:0; overflow:hidden`) left links keyboard-focusable; and its styles lived only in `css/experimental.css`, which `waitlist.html` does not load. So the dead JS + CSS were removed and one small accessible FAQ accordion was implemented in `waitlist.html` (inline JS + CSS, matching that page's self-contained pattern). **Exactly one accordion implementation remains.**
+
+### Edits
+
+| Item | file:line | Before → After |
+|---|---|---|
+| A11Y-09 | `js/site.js:54–76` | dead `.accordion-trigger` handler (single-open, `max-height`, no ARIA) → removed |
+| A11Y-09 | `css/experimental.css:1670–1682` | dead `FAQ / ACCORDION` block (`.accordion-item`, `.accordion-trigger`, `.plus`, `.accordion-panel`, `.accordion-panel-inner`) → removed |
+| IA-03 | `waitlist.html:427–463` | *(none)* → inline `.faq-section` / `.faq-list` / `.faq-item` / `.faq-question` / `.faq-trigger` / `.faq-icon` / `.faq-panel` styles |
+| IA-03 | `waitlist.html:832–942` | *(none)* → FAQ `<section class="faq-section" aria-labelledby="faq-title">` placed after the form + privacy area, before `</main>`/footer; `<h2 id="faq-title">`; six `<h3 class="faq-question"><button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-aN">` + six `<div class="faq-panel" id="faq-aN" role="region" aria-labelledby="faq-qN" hidden>` |
+| IA-03 | `waitlist.html:1130–1141` | *(none)* → inline accordion JS toggling `aria-expanded` and the panel's `hidden` state |
+
+### Copy (the six confirmed questions only)
+
+| # | DE / EN question | Answer content |
+|---|---|---|
+| 1 | Ist Disce schon nutzbar? / Is Disce available to use yet? | No; next product stage in development, private beta planned, no publicly available product |
+| 2 | Was bedeutet „Interesse anmelden“? / What does “register interest” mean? | Records interest; not a queue position, not an automatic invitation, not a guarantee of access |
+| 3 | Wann startet die Private Beta? / When will the private beta start? | No fixed public date; contact when the beta or a next research phase opens |
+| 4 | Läuft gerade eine Studie? / Is a study currently recruiting? | No; Cervus completed; next phase in preparation; recruitment not currently open |
+| 5 | Was passiert mit meinen Angaben? / What happens to my information? | Used to manage the interest registration; links to `datenschutz.html` |
+| 6 | Kann ich mein Interesse zurückziehen? / Can I withdraw my interest? | Yes; email `bjarne.dudzus@disce.de` |
+
+Links in the FAQ: `datenschutz.html` (×2, DE+EN) and `mailto:bjarne.dudzus@disce.de` (×2, DE+EN) only. No Substack/newsletter/pricing/feature/timeline/priority-access/“first cohort”/study-selection content.
+
+### Verification
+
+Structural: six native `<button type="button" class="faq-trigger">` (all inside `<h3>`); six `aria-controls` values each resolving to exactly one `faq-aN` id; all answer ids unique; six panels `hidden` by default; button `id`s (`faq-qN`) used by `aria-labelledby`. `grep -rIn accordion` returns no `.accordion-*` selectors or JS (only a prose comment in the new FAQ block). Anchor balance in `waitlist.html`: 10/10. No duplicate IDs. FAQ heading order: `h2` (Häufige Fragen) → `h3` (questions). `data-lang` DE/EN balanced 13/13 in the FAQ region.
+
+Source-level: `node --check js/site.js` OK; extracted inline `waitlist.html` script OK. JS keeps `aria-expanded` and `hidden` in lock-step; collapsed answers are `hidden`, so no focusable content remains; native buttons give Enter/Space; no single-open restriction; no animation (reduced-motion safe).
+
+**Manual verification still required:** keyboard operation with Enter and Space; focus visibility on the FAQ buttons; open/close behaviour (multi-open); screen-reader announcement of expanded/collapsed state; mobile readability; language switching (DE/EN); the privacy (`datenschutz.html`) and withdrawal (`mailto:`) links.
 
 ---
 
