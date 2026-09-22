@@ -27,14 +27,26 @@ document.addEventListener('DOMContentLoaded', function () {
   // Duplicate ticker content for a seamless loop.
   // The keyframe travels to -50%, so the track must end up as exactly two
   // copies of the same run, and one run must be at least a viewport wide.
+  //
+  // The track already holds one run and every extra run is an identical copy,
+  // so the track width grows linearly: width(n) = n * (runWidth + gap) - gap.
+  // One width read plus the flex gap therefore describe every candidate run,
+  // so all reads happen before the single write. The previous version wrote
+  // innerHTML and then read scrollWidth on every iteration, forcing up to
+  // eight synchronous layouts (layout thrashing).
   var track = document.querySelector('.ticker-track');
   if (track) {
     var base = track.innerHTML;
+    var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    var runWidth = track.scrollWidth;
+    var viewport = window.innerWidth;
+    var copies = 1;
+    while (copies < 9 && copies * (runWidth + gap) - gap < viewport) {
+      copies++;
+    }
     var run = base;
-    track.innerHTML = run;
-    for (var i = 0; i < 8 && track.scrollWidth < window.innerWidth; i++) {
+    for (var i = 1; i < copies; i++) {
       run += base;
-      track.innerHTML = run;
     }
     track.innerHTML = run + run;
   }
