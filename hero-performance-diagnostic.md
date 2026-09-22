@@ -316,3 +316,45 @@ A Google PageSpeed Insights report for the deployed homepage established: the he
 - Viewport growth mobile→desktop after load does **not** mount the hero enhancement in this pass (no resize observer, by design); a normal reload mounts it at desktop width.
 - Manual: confirm the hero static plate is visible before the canvas appears on a real device, and that the canvas fades in without a visible jump.
 
+
+---
+
+## Hero Performance Pass 2b — dot-field offscreen-opacity fix (2026-09-22)
+
+**Symptom:** the page feels slow/stuttery while the hero is on screen; smooth once scrolled past it. Because the dot-field animation pauses via `IntersectionObserver` when off screen, the top-of-page slowness tracked exactly with the hero being visible. The prior attempts (Pass 1/2a) addressed load and scheduling but not this steady-state cost.
+
+**Root cause (measured, Firefox 156 WebDriver BiDi, localhost, 1440×900):**
+The animated canvas sits inside a mount with `opacity: 0.4` (`.dot-field--hero-dark`, `.dot-field--focal`). A mount opacity < 1 makes the browser render the element and its animating canvas into an **offscreen blend group that is re-rasterised every frame**. With the hero field animating, `requestAnimationFrame` intervals at the top of the page averaged **97.6 ms (~10 fps)**; scrolled past the hero (field paused) they were **17.4 ms (~57 fps)**.
+
+Frame-interval isolation at the top of the page:
+
+| Variant | mean frame | reading |
+|---|---:|---|
+| baseline (animation on) | 107.9 ms | ~9 fps |
+| animation off (`?gen-motion=off`) | 16.7 ms | ~60 fps |
+| canvas `display: none` (JS still runs) | 16.7 ms | composite-bound, not JS |
+| canvas `will-change: transform` | 74.3 ms | partial |
+| mount `will-change: transform` | 69.1 ms | partial |
+| mount `contain: paint` | 56.3 ms | partial |
+| **mount `opacity: 1`** | **16.7 ms** | the offscreen opacity group is the cost |
+
+A single JS `draw()` was separately measured at only ~5 ms (DPR 2) — so the bottleneck was compositing, not the draw loop.
+
+**Fix (CSS only, one source file + its minified twin):** carry the mount's `0.4` strength in the dot colours and drop the offscreen blend group while the canvas is live; the static plate keeps the mount opacity, so the look is unchanged.
+- `css/experimental.css` — `.dot-field--hero-dark`: `--dot-color-a/b` → `rgba(...)` at 0.4; added `.dot-field--hero-dark.is-gen-active { opacity: 1 }`.
+- `css/experimental.css` — `.dot-field--focal`: added `--dot-color-a/b` `rgba(...)` at 0.4; added `.dot-field--focal.is-gen-active { opacity: 1 }`.
+- `css/experimental.min.css` — both edits mirrored.
+
+No JS, markup, image, token, or algorithm change. The pulse, the static plate, reduced-motion, no-JS fallback, pointer reactive mask and offscreen/hidden pausing are all unchanged.
+
+**Result (re-measured, same harness):**
+
+| Condition | before | after |
+|---|---:|---:|
+| @top, static (hero visible) | mean 97.6 ms / max 117 ms | **mean 16.66 ms / max 17.1 ms** |
+| scroll @top | mean 118.5 ms / max 299 ms | **mean 16.67 ms** |
+| canvas active | yes | **yes (pulse preserved)** |
+
+Visual check: a rendered hero crop confirms the ochre halftone still reads at the same strength.
+
+**Limitations:** local headless Firefox only (software compositing), not deployed/field data; a deployed PageSpeed/Lighthouse rerun is still the authority. The same offscreen-opacity pattern was the only field configuration found; the light `.dot-field--hero` already used full opacity and needed no change.

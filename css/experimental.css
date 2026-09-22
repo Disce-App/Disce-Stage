@@ -196,7 +196,10 @@ p { color: var(--ink-soft); }
 
 .lede {
   font-size: var(--fs-600);
-  color: var(--muted);
+  /* Reading ink: the lede is the text most often set directly on the botanical
+     wash, so it uses the darker reading tone rather than --muted. Dark sections
+     override it (.hero / .bg-forest / .bg-ink / .cta-band). */
+  color: var(--reading-ink, var(--muted));
   max-width: 620px;
   line-height: 1.7;
 }
@@ -517,7 +520,42 @@ body::before {
 section { padding: var(--sp-84) 0; }
 section.tight { padding: var(--sp-56) 0; }
 .section-head { max-width: 680px; margin-bottom: var(--sp-48); }
-.section-head h2 { font-size: var(--fs-900); margin-bottom: var(--sp-16); }
+.section-head h2 { font-size: var(--fs-1000); margin-bottom: var(--sp-16); }
+
+/* WP H layout pass (A): the section head and the process rows share one
+   three-column grid — number | title | description — so the section lede lines
+   up exactly with the process descriptions and the heading with the row start.
+   Eyebrow and heading span the left two columns (flush to the wrap edge); the
+   lede sits in the third column, top-aligned with the heading. Kernel keeps its
+   own section system (excluded). Heads without a lede span the full width. */
+body:not(.page-kernel) .section-head {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr) minmax(0, 1.4fr);
+  grid-template-areas:
+    "eyebrow eyebrow ."
+    "title   title   lede";
+  column-gap: var(--sp-40);
+  align-items: start;
+  max-width: none;
+}
+body:not(.page-kernel) .section-head .eyebrow { grid-area: eyebrow; }
+body:not(.page-kernel) .section-head h2 { grid-area: title; margin-bottom: 0; }
+body:not(.page-kernel) .section-head .lede { grid-area: lede; margin-bottom: 0; max-width: none; }
+body:not(.page-kernel) .section-head:not(:has(.lede)) {
+  grid-template-columns: 1fr;
+  grid-template-areas: "eyebrow" "title";
+}
+@media (max-width: 900px) {
+  body:not(.page-kernel) .section-head {
+    grid-template-columns: 1fr;
+    grid-template-areas: "eyebrow" "title" "lede";
+    row-gap: var(--sp-16);
+  }
+}
+@media (max-width: 640px) {
+  /* Keep the section heading from dominating (and hyphenating) on phones. */
+  .section-head h2 { font-size: var(--fs-900); }
+}
 
 .divider { height: 2px; background: var(--legacy-ink); }
 
@@ -665,7 +703,43 @@ section.tight { padding: var(--sp-56) 0; }
 }
 
 .process-item h3 { font-size: var(--fs-600); margin-bottom: var(--sp-40); text-transform: none; }
-.process-item p { color: var(--muted); font-size: var(--fs-400); max-width: 600px; }
+.process-item p { color: var(--reading-ink, var(--muted)); font-size: var(--fs-400); max-width: 600px; }
+
+/* WP H layout pass (B): the row uses the same three-column grid as the section
+   head — number | title | description. `display: contents` promotes the h3 and
+   p out of the wrapper so they land in columns 2 and 3 without a markup change.
+   Kernel keeps its own treatment. */
+body:not(.page-kernel) .process-item {
+  grid-template-columns: 100px minmax(0, 1fr) minmax(0, 1.4fr);
+  column-gap: var(--sp-40);
+}
+body:not(.page-kernel) .process-item > div:not(.step-num) { display: contents; }
+body:not(.page-kernel) .process-item h3 { grid-column: 2; margin-bottom: 0; }
+body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
+@media (max-width: 760px) {
+  body:not(.page-kernel) .process-item {
+    grid-template-columns: 1fr;
+    row-gap: var(--sp-16);
+  }
+  body:not(.page-kernel) .process-item h3,
+  body:not(.page-kernel) .process-item p { grid-column: 1; }
+}
+
+/* Blocksatz: justified reading text (WP H). Hyphenation is on so justified
+   German/English lines don't open rivers. The hero and the centred closing band
+   stay as they are. */
+.lede,
+.prose p,
+.process-item p,
+.problem-card p,
+.persona-card p,
+.team-member-body p {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+.hero .lede { text-align: left; }
+.cta-band .lede { text-align: center; }
 /* Parenthetical meta line on process/team headings (was repeated inline). */
 .process-period { font-weight: 400; color: var(--muted); font-size: var(--fs-400); }
 /* Legal pages: English-only note under the German-authoritative text. */
@@ -767,8 +841,7 @@ section.tight { padding: var(--sp-56) 0; }
 
 /* Image-less band variant (Philosophy, after the motif rollout): the picture is
    gone, so the pull-quote card flows in the band instead of floating over an
-   image, and the band keeps its dark counterpoint surface. Scoped so the
-   image-bearing .band on Team is untouched. */
+   image, and the band keeps its dark counterpoint surface. */
 .band--text { padding: var(--sp-40) var(--sp-32); }
 .band--text .band-card {
   position: static;
@@ -827,8 +900,52 @@ section.tight { padding: var(--sp-56) 0; }
 .advisor-list { margin-top: var(--sp-52); border-top: 2px solid var(--legacy-ink); padding-top: 36px; }
 .advisor-row { display: grid; grid-template-columns: 260px 1fr; gap: var(--sp-24); padding: var(--sp-16) 0; border-bottom: 1.5px solid var(--line-soft); }
 .advisor-row .advisor-name { font-weight: 800; color: var(--legacy-ink); }
-.advisor-row .advisor-role { font-size: var(--fs-400); color: var(--muted); }
+.advisor-row .advisor-role { font-size: var(--fs-400); color: var(--reading-ink, var(--muted)); }
 @media (max-width: 640px) { .advisor-row { grid-template-columns: 1fr; gap: var(--sp-16); } }
+
+/* --------------------------------------------------------------------------
+   TEAM ROSTER — photo-free founder list (WP I)
+   The portraits were never supplied, so the founder cards become one ruled,
+   photo-free roster: information parity, no placeholder imagery. Each entry
+   leads with a monogram, then name, role and bio — the same ruled grid
+   language as .process-list / .advisor-row. Type-only, so there is no image
+   column to remove later; deleting this block and the .team-roster markup
+   leaves the page meaningful.
+   -------------------------------------------------------------------------- */
+.team-roster {
+  display: grid;
+  margin-top: var(--sp-40);
+  border-top: 2px solid var(--legacy-ink);
+}
+.team-member {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: var(--sp-24);
+  padding: var(--sp-32) 0;
+  border-bottom: 2px solid var(--legacy-ink);
+  align-items: start;
+}
+.team-member-mark {
+  font-family: var(--font-display);
+  font-size: var(--fs-900);
+  line-height: 1;
+  color: var(--green-dark);
+  -webkit-text-stroke: 1.5px var(--legacy-ink);
+}
+.team-member-body h3 { font-size: var(--fs-600); margin-bottom: var(--sp-12); text-transform: none; }
+.team-member-role {
+  display: block;
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green-dark);
+  margin-bottom: var(--sp-16);
+}
+.team-member-body p { color: var(--reading-ink, var(--muted)); font-size: var(--fs-400); max-width: 720px; }
+@media (max-width: 640px) {
+  .team-member { grid-template-columns: 1fr; gap: var(--sp-16); }
+}
 
 /* ==========================================================================
    STATUS BANNER (shared)
@@ -1756,7 +1873,7 @@ body:has(.phil-ambient) .prose .chapter-cover + p::first-letter {
 .footer-brand { font-family: var(--font-display); font-size: var(--fs-700); color: var(--legacy-paper); margin-bottom: var(--sp-12); text-transform: uppercase; }
 .footer-tag { font-size: var(--fs-400); max-width: 320px; color: var(--legacy-paper); }
 .footer-col h2, .footer-col h4 { color: var(--green); font-size: var(--fs-200); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--sp-16); font-family: var(--font-body); }
-.footer-col a { display: block; font-size: var(--fs-400); margin-bottom: var(--sp-12); color: var(--legacy-cream-75); }
+.footer-col a { display: block; min-height: 24px; font-size: var(--fs-400); margin-bottom: var(--sp-12); color: var(--legacy-cream-75); }
 .footer-col a:hover { color: var(--green); }
 .footer-bottom { border-top: 1px solid var(--legacy-cream-20); padding-top: 22px; display: flex; justify-content: space-between; font-size: var(--fs-200); color: var(--legacy-cream-50); flex-wrap: wrap; gap: var(--sp-12); }
 @media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr; } }
@@ -2021,6 +2138,7 @@ html:not(.pre-en) body:not(.lang-de):not(.lang-en) [data-lang="en"] { display: n
   font-size: var(--fs-200);
   font-weight: 800;
   letter-spacing: 0.06em;
+  min-height: 24px;
   padding: var(--sp-4) var(--sp-8);
   background: transparent;
   color: var(--muted);
@@ -3025,6 +3143,66 @@ body::after {
 }
 
 /* ==========================================================================
+   READING FIELD — legibility over the botanical wash (WP H / NEW-06)
+   The wash stays. Instead of a panel behind the text, ONE feathered paper
+   light sits above the wash and below all content (`html::after` — the only
+   layer that paints after the wash at the same negative z-index). It has no
+   border and no flat edge: it dissolves into the image, so the reading column
+   gets a calm paper field while the image stays visible at the page's outer
+   field. Paired with --reading-ink for text set directly on the wash. Layered
+   like the hero (image -> field -> type); nothing is boxed. Deletable: remove
+   this block and the page renders as before.
+   ========================================================================== */
+:root {
+  --reading-ink: var(--ink-soft);
+  --reading-field:
+    radial-gradient(150% 130% at 34% 46%,
+      rgba(247, 241, 227, 0.34) 0%,
+      rgba(247, 241, 227, 0.24) 42%,
+      rgba(247, 241, 227, 0.1) 68%,
+      rgba(247, 241, 227, 0.02) 86%,
+      rgba(247, 241, 227, 0) 96%);
+}
+html::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--reading-field);
+}
+@media (max-width: 1023px) {
+  html::after { display: none; }
+}
+/* Philosophy: keep the field off the right-hand arches pane, exactly as the
+   wash is masked, so the two never overlap. */
+@media (min-width: 1120px) {
+  html:has(.phil-ambient)::after {
+    --phil-pane: clamp(320px, 26vw, 380px);
+    -webkit-mask-image: linear-gradient(90deg,
+      #000 0%,
+      #000 calc(100% - var(--phil-pane) - 180px),
+      rgba(0, 0, 0, 0) calc(100% - var(--phil-pane) - 16px));
+    mask-image: linear-gradient(90deg,
+      #000 0%,
+      #000 calc(100% - var(--phil-pane) - 180px),
+      rgba(0, 0, 0, 0) calc(100% - var(--phil-pane) - 16px));
+  }
+}
+/* More-contrast preference: deepen the field and the reading ink. */
+@media (prefers-contrast: more) {
+  :root {
+    --reading-ink: var(--legacy-ink);
+    --reading-field:
+      radial-gradient(150% 130% at 34% 46%,
+        rgba(247, 241, 227, 0.92) 0%,
+        rgba(247, 241, 227, 0.78) 44%,
+        rgba(247, 241, 227, 0.42) 70%,
+        rgba(247, 241, 227, 0) 94%);
+  }
+}
+
+/* ==========================================================================
    GENERATIVE DOT FIELDS (js/generative/dot-field)
    Progressive enhancement. Each mount ships the matching static PNG as its
    background — the intended still — and the module covers it with an animated
@@ -3067,13 +3245,19 @@ body::after {
 /* Dark hero variant (homepage): the same bloom in the ochre accent, which the
    brief reserves for dark surfaces in place of the bright green (DESIGN-BRIEF
    §5). Sits above the scrim so it reads, below the copy grid. */
+/* WP E: a mount `opacity` < 1 turns the animated canvas into an offscreen
+   blend group that is re-rasterised every frame — the hero dropped to ~10 fps
+   while the field was on screen (~60 fps off screen). Carry the same strength
+   in the dot colours and drop the offscreen layer once the canvas is live; the
+   static plate keeps the mount opacity, so the look is unchanged. */
 .dot-field--hero-dark {
   z-index: 2;
   opacity: 0.4;
   background-image: url('../images/derived/dot-bloom-ochre.png');
-  --dot-color-a: var(--ochre);
-  --dot-color-b: var(--parchment);
+  --dot-color-a: rgba(227, 175, 80, 0.4);
+  --dot-color-b: rgba(213, 192, 157, 0.4);
 }
+.dot-field--hero-dark.is-gen-active { opacity: 1; }
 /* Focal field (arena): a single ripple in a section's upper-right whitespace. */
 .dot-field--focal {
   --dot-pitch: 18;
@@ -3089,7 +3273,11 @@ body::after {
   background-image: url('../images/derived/dot-arena-green.png');
   background-position: center;
   background-size: contain;
+  /* WP E: same offscreen-opacity fix as the dark hero field. */
+  --dot-color-a: rgba(79, 172, 78, 0.4);
+  --dot-color-b: rgba(53, 116, 53, 0.4);
 }
+.dot-field--focal.is-gen-active { opacity: 1; }
 /* A section that hosts a focal field: lift the copy above the (absolute) mount. */
 .has-focal { position: relative; }
 .has-focal > *:not(.dot-field) { position: relative; z-index: 1; }
