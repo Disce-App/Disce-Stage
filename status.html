@@ -68,9 +68,8 @@
 
 <section class="tight status-strip">
   <div class="wrap">
-    <!-- Status ledger: the current project anchors the row, the three dated
-         facts read as secondary columns. Re-anchored from "Validierung" to
-         Kernel v0 (Batch 3). -->
+    <!-- Status ledger: the current project anchors the row; the three dated
+         facts read as secondary columns. -->
     <div class="status-ledger">
       <div class="status-anchor">
         <div class="status-anchor-value"><span data-lang="de">Kernel v0 — in Entwicklung</span><span data-lang="en">Kernel v0 — in development</span></div>
@@ -87,7 +86,7 @@
         </div>
         <div class="status-fact">
           <div class="status-fact-value"><span data-lang="de">Gründung</span><span data-lang="en">Founding</span></div>
-          <div class="status-fact-label"><span data-lang="de">Geplant · Q4 2026</span><span data-lang="en">Planned · Q4 2026</span></div>
+          <div class="status-fact-label"><span data-lang="de">Geplantes Ziel · Q4 2026 (unverbindlich)</span><span data-lang="en">Planning target · Q4 2026 (non-binding)</span></div>
         </div>
       </div>
     </div>
@@ -103,19 +102,14 @@
       <p class="lede"><span data-lang="de">Der Entwicklungsstand von Disce gliedert sich in Projekte. Jedes Projekt hat einen klar definierten Auftrag; der Stand wird fortgeschrieben, sobald sich ein Status ändert.</span><span data-lang="en">The state of Disce's development is organized in projects. Each project has a clearly defined mandate; the status is updated as it changes.</span></p>
     </div>
 
-    <!-- PROJECT SPINE (structural overhaul). One sequence read top-to-bottom:
-         complete -> in progress -> planned. Every entry shows its detail; the
-         former hover/click disclosure, its reserved blank space and the "Mehr"
-         toggles are gone. The active Kernel v0 entry is the dark spotlight that
-         hosts the ouroboros emblem. Order preserved. -->
+    <!-- PROJECT SPINE. One sequence read top-to-bottom: complete -> in progress
+         -> planned. Every entry shows its detail. The active Kernel v0 entry is
+         the dark spotlight that hosts the ouroboros emblem. -->
     <div class="project-spine">
-      <!-- PERSISTENT WORLD TREE (2026-09-16). The larger world all projects take
-           place in, as one decorative substrate behind the whole spine — not a
-           project mark, so it never responds to hover or focus. Paper-coloured
-           artwork on transparent ground: it shows through the paper entries and
-           is painted over by the opaque green focus fields. aria-hidden, no
-           pointer interaction, no motion. Clipped to the spine, so it can never
-           reach the section head above or the roadmap below. -->
+      <!-- PERSISTENT WORLD TREE. The larger world all projects take place in,
+           as one decorative substrate behind the whole spine. Paper-coloured
+           artwork on transparent ground. aria-hidden, no pointer interaction,
+           no motion. Clipped to the spine. -->
       <div class="project-spine-tree" aria-hidden="true">
         <img src="images/DISCE_D02_r1_world-tree-paper-background.svg"
              alt="" width="2048" height="2048" decoding="async">
@@ -130,9 +124,9 @@
           <span class="project-period"><span data-lang="de">Mai – August 2026</span><span data-lang="en">May – August 2026</span></span>
         </div>
         <div class="project-body">
-          <p class="project-summary"><span data-lang="de">Forschungssandbox zur abgeschlossenen Masterarbeit; liefert den methodischen Rahmen der Validierung.</span><span data-lang="en">Research sandbox tied to the completed master's research; provides the methodological frame for validation.</span></p>
+          <p class="project-summary"><span data-lang="de">Forschungssandbox im Umfeld einer abgeschlossenen Masterarbeit; dient als methodischer Ausgangspunkt für die weitere Entwicklung.</span><span data-lang="en">Research sandbox connected to a completed master's thesis; serves as a methodological starting point for further development.</span></p>
           <div class="project-detail">
-            <p><span data-lang="de">Eine empirische Studie zu KI-gestütztem Sprachenlernen auf hohem Niveau, begleitend zur abgeschlossenen Masterarbeit. Methodik und Ergebnisse bilden den Ausgangspunkt der Validierungslinie; ein Folgeprojekt im Rahmen eines weiteren Masterstudiums setzt sie fort.</span><span data-lang="en">An empirical study of AI-supported language learning at an advanced level, accompanying the completed master's thesis. Its methodology and findings form the starting point of the validation line; a follow-up project within a second master's programme continues it.</span></p>
+            <p><span data-lang="de">Eine explorative Studie zu KI-gestütztem Lernen von professionellem Deutsch, begleitend zu einer abgeschlossenen Masterarbeit. Ihre Methodik ist der Ausgangspunkt der weiteren Entwicklungslinie; die Ergebnisse werden nicht öffentlich berichtet.</span><span data-lang="en">An exploratory study on AI-supported learning of professional German, accompanying a completed master's thesis. Its methodology is the starting point of the further development line; its results are not publicly reported.</span></p>
           </div>
         </div>
       </article>
@@ -196,75 +190,59 @@
           </div>
         </div>
       </article>
-      <!-- OPTIONAL PROJECT — Beta (Batch 3 §3). Not rendered by default; enable by
-           removing this comment wrapper. Convert to .project-entry and add a detail
-           paragraph when owner copy exists.
-      <article class="project-entry is-planned">
-        <h3 class="project-name">Beta</h3>
-        <div class="project-meta">
-          <span class="status-tag planned"><span data-lang="de">Geplant</span><span data-lang="en">Planned</span></span>
-        </div>
-        <div class="project-body">
-          <p class="project-summary"><span data-lang="de">Betaphase mit Pilotpartnerinnen und Pilotpartnern nach Abschluss der Nachweisführung.</span><span data-lang="en">Beta phase with pilot partners, following completion of the evidence base.</span></p>
-        </div>
-      </article>
-      -->
+      <!-- (Reserved for a future phase; not rendered.) -->
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- Long-range vision as the page's dark counterpoint (DESIGN-BRIEF §8).
-     The DACH map is a large, low-opacity parchment watermark anchored to the
-     right, masked from the alpha-preserving derivative so it carries no paper
-     box. It is decorative; the market caption keeps its existing copy. -->
+<!-- Long-range vision as the page's dark counterpoint. The map is a large,
+     low-opacity parchment watermark anchored to the right. It is decorative. -->
 <section class="bg-forest long-range no-halftone">
   <div class="long-range-map" aria-hidden="true"></div>
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow"><span data-lang="de">Langfristige Perspektive</span><span data-lang="en">Long-Range Vision</span></span>
       <h2><span data-lang="de">Vom Kernel zur sprachkulturellen Infrastruktur.</span><span data-lang="en">From the Kernel to language-culture infrastructure.</span></h2>
-      <p class="lede"><span data-lang="de">Über die aktuelle Entwicklung hinaus skizziert unsere interne Roadmap vier längere Abschnitte. Sie geben eine Richtung an, keine verbindlichen Termine, und stehen hier, um Partnern und möglichen Mitarbeitenden Anspruch und Reihenfolge zu vermitteln.</span><span data-lang="en">Beyond current development, our internal roadmap sketches four longer epochs. These are directional, not committed timelines, and are included here to give partners and prospective hires a sense of ambition and sequencing.</span></p>
+      <p class="lede"><span data-lang="de">Über die aktuelle Entwicklung hinaus skizziert unsere langfristige Perspektive vier Abschnitte. Sie geben eine Richtung an, keine verbindlichen Termine, und stehen hier, um die angestrebte Reihenfolge nachvollziehbar zu machen.</span><span data-lang="en">Beyond current development, our long-range perspective sketches four phases. These are directional, not committed timelines, and are included here to make the intended sequence understandable.</span></p>
     </div>
     <div class="process-list">
       <div class="process-item">
         <div class="step-num">I</div>
         <div>
-          <h3><span data-lang="de">Fundament &amp; Markteintritt</span><span data-lang="en">Foundation &amp; Market Entry</span> <span class="process-period"><span data-lang="de">· Jahre 1–2</span><span data-lang="en">· Years 1–2</span></span></h3>
-          <p><span data-lang="de">Kernmodule des Kernels (tägliche Wortentdeckung, Karteikarten mit verteilter Wiederholung, visuelle Fortschrittsanzeige), seine erste produktive Nutzung und eine früh engagierte Community.</span><span data-lang="en">Core Kernel modules (daily word discovery, spaced-repetition flashcards, visual progress tracking), its first productive use, and an early, engaged community.</span></p>
+          <h3><span data-lang="de">Fundament</span><span data-lang="en">Foundation</span> <span class="process-period"><span data-lang="de">· Jahre 1–2</span><span data-lang="en">· Years 1–2</span></span></h3>
+          <p><span data-lang="de">Die Grundfunktionen des Produkts, ihre erste Nutzung im beruflichen Alltag und der Aufbau einer ersten Nutzergruppe.</span><span data-lang="en">The product's core functions, their first use in professional life, and the building of an initial user group.</span></p>
         </div>
       </div>
       <div class="process-item">
         <div class="step-num">II</div>
         <div>
-          <h3><span data-lang="de">Kultur- &amp; Lernplattform</span><span data-lang="en">Culture &amp; Learning Platform</span> <span class="process-period"><span data-lang="de">· Jahre 2–3</span><span data-lang="en">· Years 2–3</span></span></h3>
-          <p><span data-lang="de">Eine interaktive Karte für Sprach- und Kulturrouten, erweiterte Lernspiele, ein Community-Marktplatz und adaptive, KI-gestützte Lernalgorithmen.</span><span data-lang="en">An interactive map for language and cultural journeys, expanded learning games, a community marketplace, and adaptive AI-driven learning algorithms.</span></p>
+          <h3><span data-lang="de">Ausbau &amp; Vertiefung</span><span data-lang="en">Expansion &amp; Depth</span> <span class="process-period"><span data-lang="de">· Jahre 2–3</span><span data-lang="en">· Years 2–3</span></span></h3>
+          <p><span data-lang="de">Ein breiteres Angebot an beruflichen Szenarien, weitere Lernformate und adaptive, KI-gestützte Lernalgorithmen.</span><span data-lang="en">A broader range of professional scenarios, additional learning formats, and adaptive, AI-supported learning algorithms.</span></p>
         </div>
       </div>
       <div class="process-item">
         <div class="step-num">III</div>
         <div>
-          <h3><span data-lang="de">Premium, KI &amp; Forschung</span><span data-lang="en">Premium, AI &amp; Research</span> <span class="process-period"><span data-lang="de">· Jahre 3–4</span><span data-lang="en">· Years 3–4</span></span></h3>
-          <p><span data-lang="de">Premium-Module, eine Creator-Ökonomie für eigene Inhalte, ein Live-KI-Tutor für Aussprache und Stil sowie vertiefte Forschungspartnerschaften.</span><span data-lang="en">Premium modules, a creator economy for original content, a live AI tutor for pronunciation and style, and deepened research partnerships.</span></p>
+          <h3><span data-lang="de">Forschung &amp; Tiefe</span><span data-lang="en">Research &amp; Depth</span> <span class="process-period"><span data-lang="de">· Jahre 3–4</span><span data-lang="en">· Years 3–4</span></span></h3>
+          <p><span data-lang="de">Vertiefte Rückmeldung zu Aussprache und Stil sowie vertiefte Forschungspartnerschaften.</span><span data-lang="en">Deeper feedback on pronunciation and style, and deeper research partnerships.</span></p>
         </div>
       </div>
       <div class="process-item">
         <div class="step-num">IV</div>
         <div>
-          <h3><span data-lang="de">KI-Infrastruktur &amp; globale Skalierung</span><span data-lang="en">AI Infrastructure &amp; Global Scale</span> <span class="process-period"><span data-lang="de">· ab Jahr 4</span><span data-lang="en">· Year 4+</span></span></h3>
-          <p><span data-lang="de">Eigene europäische Recheninfrastruktur, ein übertragbares Plattformmodell für weitere Sprachen und Disce als internationales Zentrum für Sprachforschung.</span><span data-lang="en">Proprietary European compute infrastructure, an exportable platform model for additional languages, and Disce as an international center for language research.</span></p>
+          <h3><span data-lang="de">Internationale Perspektive</span><span data-lang="en">International Perspective</span> <span class="process-period"><span data-lang="de">· ab Jahr 4</span><span data-lang="en">· Year 4+</span></span></h3>
+          <p><span data-lang="de">Ein übertragbares Modell für weitere berufliche Kontexte und Sprachen, mit eigener Recheninfrastruktur.</span><span data-lang="en">A transferable model for further professional contexts and languages, with own compute infrastructure.</span></p>
         </div>
       </div>
     </div>
-    <p class="region-caption"><span class="region-caption-dot" aria-hidden="true"></span><span data-lang="de">Primärmarkt: DACH</span><span data-lang="en">Primary market: DACH</span></p>
+    <p class="region-caption"><span class="region-caption-dot" aria-hidden="true"></span><span data-lang="de">Fokus: deutschsprachiger Raum</span><span data-lang="en">Focus: German-speaking region</span></p>
   </div>
 </section>
 
-<!-- CLOSING BAND — reference template for the site-wide waitlist CTA (Round 2 §4).
-     Kept static and self-contained (markup = .cta-band + .cta-band-bg; styles in
-     the CTA BAND block of css/experimental.css) so it can be lifted into a shared
-     component for Philosophy, Team and Beta without page-specific coupling. -->
+<!-- CLOSING BAND — the closing call to register interest. Kept static and
+     self-contained (markup = .cta-band + .cta-band-bg). -->
 <section class="cta-band">
   <picture class="cta-band-bg">
     <source type="image/avif" sizes="100vw"
@@ -289,7 +267,7 @@
     <div class="footer-grid">
       <div>
         <div class="footer-brand">DISCE</div>
-        <p class="footer-tag"><span data-lang="de">KI-gestütztes Deutschlernen für fortgeschrittene Lernende. Auf dem Weg zur Gründung, Berlin / Potsdam.</span><span data-lang="en">AI-powered German learning for advanced learners. Building toward incorporation, Berlin / Potsdam.</span></p>
+        <p class="footer-tag"><span data-lang="de">Professionelles Deutsch für internationale Fachkräfte. Auf dem Weg zur Gründung, Berlin / Potsdam.</span><span data-lang="en">Professional German for international professionals. Building toward incorporation, Berlin / Potsdam.</span></p>
       </div>
       <div class="footer-col">
         <h2><span data-lang="de">Seiten</span><span data-lang="en">Site</span></h2>
