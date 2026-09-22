@@ -77,7 +77,8 @@
 | A11Y-05 | P1 | DONE | Sprint 3 §1.5 | Add a visually-hidden-until-focused skip-to-content link targeting `<main>` | Tab on load reveals skip link; it moves focus to main content | Skip link is first focusable element after `<body>` on 9/9 pages, targets existing `#main`, bilingual DE/EN; CSS `.skip-link` + `main:focus`; **keyboard/visual-focus test required** | low | A11Y-04 |
 | A11Y-06 | P0 | DONE | Sprint 3 §1.6; `css/experimental.css` ticker; `index.html` ticker; `js/site.js` | Add a keyboard-operable pause/stop control for the ticker, or make the logos a static row (content unchanged per locked #4) | Motion can be stopped or is absent; partner content unchanged; WCAG 2.2.2 met | **Option A (pause/resume)** implemented; native `<button>` with `aria-pressed` + DE/EN state label; `animation-play-state: paused`; reduced motion keeps `animation: none` and hides the control; partner markup/logos unchanged; **manual keyboard + reduced-motion test required** | low | — |
 | A11Y-07 | P1 | DONE | Sprint 3 §1.10 | Verify heading order and `<title>`/OG alignment per page | No skipped heading levels; title/OG match page role | Within-main skips fixed (`team.html` founder `h3`→`h2`; `philosophy.html` TOC `h4`→`h2`) and site-wide footer column headings `h4`→`h2`; now strictly `h1→h2→h3` on all editable pages. Title/OG audited — 2 factual mismatches reported (not edited). `beta.html` heading `h4`s left unchanged (out of scope). **Visual check of heading styling required** | low | POS-02 |
-| A11Y-08 | P1 | MEASURE-ONLY | Sprint 3 §1.13; benchmark §5 | Measure tap-target sizes and reflow at 320–430 px; fix only if a target is <24×24 or overflow occurs | No target <24×24; no horizontal scroll | Manual viewport test | low–med | CONV-01 |
+| A11Y-08 | P1 | MEASURE-ONLY | Sprint 3 §1.13; benchmark §5 | Measure tap-target sizes and reflow at 320–430 px; fix only if a target is <24×24 or overflow occurs | No target <24×24; no horizontal scroll | **Measured** (headless Firefox 156 / WebDriver BiDi, localhost, 2026-09-21) at 320/375/430 px: index, waitlist, kernel, status, team = **0 px horizontal overflow**; **philosophy.html @320 px = 3 px overflow** (`.eyebrow` span; originally outside the Batch E permitted file set → corrected in the post-Batch-E reflow fix, see note). All undersized controls on index/waitlist pass the WCAG 2.5.8 **spacing exception** (0 without exception at every width). Retained MEASURE-ONLY. | low–med | CONV-01 |
+| — | — | — | **A11Y-08 fix note (post-Batch-E reflow correction)** | **Root cause:** the `philosophy.html` hero eyebrow "Unternehmensphilosophie" is an `inline-flex` (7 px diamond + 40 px gap + one long unbreakable uppercase word ≈ 223 px); its min-content width (≈ 279 px) exceeded the `.wrap` content box (≈ 244 px) at 320 px, and `.page-hero--art` sets `overflow: visible`, so it added **3 px** to document scroll width. **Fix** (`css/experimental.css`, `.eyebrow`): added `max-width: 100%` and `overflow-wrap: anywhere` — a narrow, reusable guard; no content hidden/truncated/removed, no fixed widths, no copy/design change; wrapping only occurs when the label would otherwise exceed the container. **Re-measured** (headless Firefox 156 / BiDi, localhost, fresh profile, cache-busted, 2026-09-21): philosophy @320 **docSW 308 ≤ innerWidth 320, overflow 0** (eyebrow wraps to two lines, right edge 276, fully visible); philosophy @375 and @430 overflow 0; index/waitlist @320 overflow 0; all six public pages @320/375/430 overflow 0 (no regression). **Remaining manual check:** human mobile legibility of the two-line eyebrow at 320 px. | — | — | — | — |
 | A11Y-09 | P1 | DONE | Sprint 3 §1.8; `js/site.js`; `css/experimental.css` | Dispose of the dead accordion: repurpose for IA-03 or remove | No unused code (or clearly documented as reserved) | **Replaced/removed** — dead `.accordion-*` JS (`js/site.js:54–76`) and CSS (`css/experimental.css:1670–1682`) removed; one new accessible FAQ accordion implemented in `waitlist.html`; `grep` confirms no `.accordion-*` remnants remain; code review done | low | IA-03 |
 | A11Y-10 | P1 | DONE | Sprint 3 §1.9; `js/generative/registry.js` | Remove the dangling `kernel-loop` registry entry (or add the module if intended) | All registry keys resolve; no failed import | Stale `kernel-loop` entry removed; registry now resolves to existing `section-motif` + `dot-field` modules; page mounts use only `data-gen="dot-field"`; `node --check` passed; no-JS/reduced-motion untouched | low | — |
 
@@ -85,12 +86,13 @@
 
 | ID | Prio | Status | Source | Action | Acceptance | Validation | Effort | Depends |
 |---|---|---|---|---|---|---|---|---|
-| PERF-01 | P1 | OPEN-CODE | Sprint 3 §1.7; `css/experimental.css:13`; `waitlist.html:33,40` | Add font `rel="preload"` for above-the-fold faces; dedup the duplicate `@font-face` declarations (without breaking the self-contained waitlist page) | No external font request; identical rendering; preload paths resolve | Lighthouse + visual diff | low–med | DEF-03 |
-| PERF-02 | P1 | MEASURE-ONLY | Sprint 3 §3; benchmark §5 | Measure LCP ≤ 2.5 s and CLS ≤ 0.1 (lab) | Report recorded; no claim without measurement | Lighthouse / PageSpeed Insights | low | GATE-14 |
-| PERF-03 | P1 | MEASURE-ONLY | Sprint 3 §3; benchmark §5 | Measure INP ≤ 200 ms (field once traffic exists) | Report recorded | web-vitals / CrUX | low | GATE-14 |
-| PERF-04 | P1 | MEASURE-ONLY | Sprint 3 §3; benchmark §5 | Measure AA contrast on hero/dark bands/form/footer | 4.5:1 normal, 3:1 large | axe / contrast checker | low | — |
-| PERF-05 | P1 | MEASURE-ONLY | Sprint 3 §3 | Run full keyboard-path measurement (nav, language switch, form, success/error) | All paths operable | Manual keyboard + SR | low | A11Y-01…05 |
-| PERF-06 | P1 | MEASURE-ONLY | Sprint 3 §3 | Mobile viewport checks (320–430 px; hero/form/CTA readable) | No overflow; CTA obvious | DevTools + one real device | low | CONV-01 |
+| PERF-01 | P1 | DONE | Sprint 3 §1.7; `css/experimental.css:13`; `waitlist.html` | Add font `rel="preload"` for above-the-fold faces; dedup the duplicate `@font-face` declarations (without breaking the self-contained waitlist page) | No external font request; identical rendering; preload paths resolve | Preload added for the above-the-fold **headline** face only: `index.html:14` → `fonts/newsreader-roman-var.woff2` (matches `css/experimental.css:41`); `waitlist.html:16` → `fonts/noto-serif-var.woff2` (matches the inline `@font-face` at `:49`). Resource-timing check (BiDi) shows exactly **one** entry per face → no duplicate request; fonts stay self-hosted; `font-display: swap` and rendering unchanged. Declaration **dedup deferred** — coupled to DEF-03 (waitlist remains self-contained). No runtime LCP improvement was measured. | low–med | DEF-03 |
+| PERF-02 | P1 | DONE | Sprint 3 §3; benchmark §5 | Measure LCP ≤ 2.5 s and CLS ≤ 0.1 (lab) | Report recorded; no claim without measurement | **Measured** (headless Firefox 156 / BiDi, local `python3 -m http.server` on `http://127.0.0.1:8300`, 2026-09-21; viewports 1280×900 and 375×812): index LCP 74 ms / 39 ms, waitlist LCP 59 ms / 22 ms; CLS 0 at both viewports for both pages. Both under the 2.5 s / 0.1 thresholds. **Limitation:** localhost + warm cache + no CPU/network throttling → not a production guarantee; re-measure with throttled Lighthouse/PageSpeed before launch. | low | GATE-14 |
+| — | — | — | **Hero Performance Pass 1 (PageSpeed-driven, 2026-09-21)** | Deployed PSI established the hero `<img>` as the LCP element (≈240 ms resource load delay + ≈240 ms download + ≈80 ms render delay; ~670 KiB image-delivery savings) with oversized decorative assets. Implemented: (1) **one responsive AVIF hero preload** (`index.html:19–21`) mirroring the hero AVIF `<source>` exactly — cold-cache check: exactly one hero request at 320/375/390/430/1440 px, AVIF only, no WebP/PNG fallback fetch; (2) **partner logos** `loading="lazy" decoding="async"` + intrinsic `width`/`height` (`index.html:299–301`); (3) **decorative assets modernized** via the existing approved pipeline (`images/derived/goethe-{360,720}`, `wittgenstein-{360,720}`, `antlers-green-{28,56}`, AVIF+WebP, alpha preserved, masters untouched) wired via `<picture>` (`index.html:47–56`, `:62–66`) with one layout-preserving rule (`css/experimental.css:252`). Local cold 390 px eager image bytes **1,007,989 → 106,480** (≈ −880 KiB); partner logos no longer fetched before scroll. **Deployed LCP target not claimed** (local Firefox BiDi only). Detail: `hero-performance-diagnostic.md`. **Follow-up: re-run PageSpeed Insights on the deployed site after this commit before considering R5/R7/R8 or CSS/font architecture changes.** | — | — | — | — |
+| PERF-03 | P1 | MEASURE-ONLY | Sprint 3 §3; benchmark §5 | Measure INP ≤ 200 ms (field once traffic exists) | Report recorded | **Retained MEASURE-ONLY.** Repository contains no `web-vitals`/field-measurement setup (grep for `web-vitals`/`gtag`/analytics code: none). **"Field data unavailable; evaluate only after public traffic exists."** INP ≤ 200 ms kept as a future validation target, not a present claim. No measurement script added (out of scope). | low | GATE-14 |
+| PERF-04 | P1 | MEASURE-ONLY | Sprint 3 §3; benchmark §5 | Measure AA contrast on hero/dark bands/form/footer | 4.5:1 normal, 3:1 large | **Partial measurement** (live `getComputedStyle` + WCAG contrast formula, headless Firefox 156, 1280×900; 25 sampled pairings): all pass — lowest 6.44:1 (ticker label), form/trust/FAQ ≥ 10:1, hero h1 7.74:1, CTA 16.32:1, footer links 16.32:1, skip link 17.35:1. **Caveat:** backgrounds are computed-style ancestor colours, not pixel-sampled over the photographic hero; no dedicated contrast-checker tool exists locally → retained MEASURE-ONLY pending visual/pixel and focus-state confirmation. Manual procedure in §2.13. | low | — |
+| PERF-05 | P1 | MEASURE-ONLY | Sprint 3 §3 | Run full keyboard-path measurement (nav, language switch, form, success/error) | All paths operable | **Partial rendered test** (headless Firefox 156 / BiDi `input.performActions`): first Tab focuses `.skip-link`, which becomes visible (settled transform none, top 8 px, height 46 px) on index/waitlist/philosophy; index order skip → brand → nav; waitlist order skip → language toggle → back-link → first_name. Full invalid/corrected/success/API-failure journey and a screen-reader pass were **not** run → retained MEASURE-ONLY until the founder confirms the manual sequence in §2.13. | low | A11Y-01…05 |
+| PERF-06 | P1 | DONE | Sprint 3 §3 | Mobile viewport checks (320–430 px; hero/form/CTA readable) | No overflow; CTA obvious | **Measured** (headless Firefox 156 / BiDi, localhost, 2026-09-21) at 320/375/430 px for index + waitlist: **0 px horizontal overflow**; hero h1, primary CTA, ticker toggle, form label, trust block and FAQ trigger all present and within the viewport with sane font sizes (index h1 36 px / CTA 57 px tall / ticker toggle 35 px tall; waitlist h1 28 px / CTA 48 px tall / FAQ trigger 52 px tall). **Residual:** human legibility/visual check not performed. | low | CONV-01 |
 
 ### 2.5 Conversion (CONV)
 
@@ -114,9 +116,9 @@
 | ID | Prio | Status | Source | Action | Acceptance | Validation | Effort | Depends |
 |---|---|---|---|---|---|---|---|---|
 | TRUST-01 | P0 | DONE | Sprint 4 §5; target IA §5; `waitlist.html` form | Add a compact trust/status block near the form: status, data-use summary, privacy deep link, contact, completed-Cervus context | Block present; privacy linked; no security/availability overclaim | `waitlist.html:753–770` compact `.trust-block` added inside the form card, below the form: status (Cervus complete as Proof of Principle; next prototype in development; private beta planned), interest clarity (no queue position / fixed access date / access guarantee), data-use summary, `datenschutz.html` link, and `mailto:bjarne.dudzus@disce.de` contact/withdrawal. No security/availability claim; no new CTA. Styled subordinate (`.trust-block` `:420–431`). **Manual content + keyboard review required** | low–med | CONV-03 |
-| TRUST-02 | P1 | OPEN-FOUNDER | Sprint 3 §2; founder decision #5 | Decide the product-evidence strategy: raise the Kernel architecture plate as labeled evidence and/or supply a real prototype artifact / anonymized output | Decision recorded; artifacts supplied (if any) | Founder sign-off | low | — |
-| — | — | — | **Founder decision (Batch A, later Batch E)** | No new public product artifact at this stage; existing Kernel architecture communication remains the current conceptual mechanism representation; no testimonial approved; prototype screenshots only later when a stable, truthful artifact exists and is labeled "prototype in development"; no evidence asset may imply current access, public availability, validated efficacy, or product readiness. **Not implemented in Batch A.** | — | — | — | — |
-| TRUST-03 | P1 | OPEN-CODE | Sprint 3 §2; target IA §3; `kernel.html:142–220,217–219`; founder decision #5 | Implement the chosen evidence placement (e.g., label the existing architecture plate as a figure with its textual equivalent) | Evidence artifact visible and truthful; no availability implication | Founder sign-off + visual review | medium | TRUST-02 |
+| TRUST-02 | P1 | DONE | Sprint 3 §2; founder decision #5; Batch E founder decision | Decide the product-evidence strategy: raise the Kernel architecture plate as labeled evidence and/or supply a real prototype artifact / anonymized output | Decision recorded; artifacts supplied (if any) | **Decision recorded (Batch E):** "Current evidence strategy: retain existing Kernel conceptual architecture; no additional public artifact is approved at this stage." No prototype screenshot, testimonial, anonymized Cervus output, evidence card or visual proof module is to be added; a future stable prototype screenshot may be considered only when a real, truthful, reviewable artifact exists; nothing may imply live access, public availability, validated efficacy, product readiness, or active beta participation. | low | — |
+| — | — | — | **Founder decision (Batch A, confirmed Batch E)** | Retained: no new public product artifact at this stage; existing Kernel architecture communication remains the current conceptual mechanism representation; no testimonial approved; prototype screenshots only later when a stable, truthful artifact exists and is labeled "prototype in development"; no evidence asset may imply current access, public availability, validated efficacy, or product readiness. Confirmed as the Batch E evidence decision. | — | — | — | — |
+| TRUST-03 | P1 | DEFERRED | Sprint 3 §2; target IA §3; `kernel.html:142–220,217–219`; founder decision #5 | Implement the chosen evidence placement (e.g., label the existing architecture plate as a figure with its textual equivalent) | Evidence artifact visible and truthful; no availability implication | **Deferred by the Batch E founder decision: no new public evidence placement.** `kernel.html` copy, product claims and visual evidence layout left unchanged. Reopens only when a stable, truthful founder-supplied artifact exists (with TRUST-02). | medium | TRUST-02 |
 | TRUST-04 | P1 | DONE | Sprint 4 §4; `waitlist.html` consent/purpose surfaces | Final check that the single-purpose contact consent still suffices (no new scopes; no consent manager) | Consent text matches purpose; no new consent mechanism | Source-level consistency audit passed: the sole required consent (`waitlist.html:701–704`) is limited to being contacted when the planned private beta / next research phase opens, states no fixed commitment and no queue position; the trust block, success message, FAQ, privacy summary and `datenschutz.html:104` purpose all describe the same interest-registration purpose; **no** newsletter/marketing scope, recruitment claim, access/scheduling/selection promise, or consent manager was added. See the OPEN-LEGAL note below | low | GATE-12 |
 | — | — | — | **OPEN-LEGAL (TRUST-04)** | This item confirms source-level consistency only and does **not** close legal review. Final legal review of the consent/privacy wording (GATE-12) and mailbox verification (GATE-11) remain open and are not resolved in code. | — | — | — | — |
 | TRUST-05 | P2 | OPEN-CODE | Sprint 4 §8 | Use the claim register as a pre-publish verification reference | Each public claim type checked against its evidence pointer | Manual check | low | — |
@@ -340,6 +342,93 @@ Accessibility regression: labels intact; `node --check` OK for `js/site.js` and 
 Copy/status: no availability, open-recruitment, beta-admission, queue, first-cohort, fixed-date, or efficacy claim in edited surfaces; "Proof of Visibility" absent from public HTML; Kernel glossed at its page hero and Cervus framed as a completed Proof of Principle.
 
 **Manual verification still required:** rendered browser/mobile review of the homepage hero and `kernel.html` hero; keyboard operation of the trimmed form; screen-reader check of success + error summary after field removal; actual form submission against the live worker/Airtable (payload acceptance of an omitted `german_level`/`source_channel` and of the removed fields); visual review of the trust block and heading re-tagging; legal review (GATE-12) and mailbox verification (GATE-11).
+
+---
+
+## 2.13 Batch E execution log (measurement & evidence)
+
+Batch E = TRUST-02, TRUST-03, PERF-01, A11Y-08, PERF-02…06. Files touched: `index.html`, `waitlist.html`, this checklist.
+
+### 2.13.1 PERF-01 — font preload (decision option A)
+
+A safe, clearly local, above-the-fold headline-face preload is separable from the deferred DEF-03 design-system migration, so option A was implemented minimally:
+
+- `index.html:14` → `<link rel="preload" href="fonts/newsreader-roman-var.woff2" as="font" type="font/woff2" crossorigin>` (hero headline face; exact URL of `css/experimental.css:41`).
+- `waitlist.html:16` → `<link rel="preload" href="fonts/noto-serif-var.woff2" as="font" type="font/woff2" crossorigin>` (hero headline face; exact URL of the inline `@font-face` `:49`).
+- **No duplicate request:** resource-timing check (`performance.getEntriesByType('resource')`) shows exactly one entry per face (`newsreader-roman-var.woff2`, `noto-serif-var.woff2`).
+- Body/Inter and the other faces were deliberately **not** preloaded (heavier; no measured benefit). `@font-face` declaration **dedup** remains deferred under **DEF-03** (waitlist stays self-contained; its Inter weight range intentionally differs). No runtime LCP improvement is claimed.
+
+### 2.13.2 Measurement environment (real, local, no installation)
+
+- Headless **Firefox 156.0** (`firefox --headless --remote-debugging-port=9333`), WebDriver **BiDi** endpoint `ws://127.0.0.1:9333/session`, driven by a dependency-free Node 24 client using the built-in `WebSocket`.
+- Local static server `python3 -m http.server 8300 --bind 127.0.0.1` from the repo root.
+- Date: 2026-09-21. Scripts kept outside the repo (`/tmp/opencode`).
+- **Not available locally:** Lighthouse, PageSpeed Insights, axe, pa11y, Puppeteer/Playwright, geckodriver. No package was installed.
+- **Limitations:** localhost response times, warm cache, headless, and **no CPU/network throttling** → performance numbers are indicative, not production-representative.
+
+### 2.13.3 A11Y-08 — reflow & tap targets (measured)
+
+| Page | 320 px | 375 px | 430 px |
+|---|---|---|---|
+| index.html | overflow 0 | 0 | 0 |
+| waitlist.html | 0 | 0 | 0 |
+| kernel.html | 0 | 0 | 0 |
+| status.html | 0 | 0 | 0 |
+| team.html | 0 | 0 | 0 |
+| philosophy.html | 0 (was **3 px**; fixed post-Batch-E) | 0 | 0 |
+
+Undersized controls (index n=12, waitlist n=5–6) all pass the WCAG 2.5.8 spacing exception (0 without exception at every width). **Resolved post-Batch-E:** the `philosophy.html` 3 px overflow at 320 px was fixed in `.eyebrow` (`max-width: 100%` + `overflow-wrap: anywhere`) and re-measured to 0 px on all six pages (see the A11Y-08 fix note). Retained MEASURE-ONLY (strict "no target <24×24" is met only via the spacing exception).
+
+### 2.13.4 PERF-02 — LCP & CLS (measured)
+
+| Page | 1280×900 | 375×812 |
+|---|---|---|
+| index.html | LCP 74 ms · CLS 0 | LCP 39 ms · CLS 0 |
+| waitlist.html | LCP 59 ms · CLS 0 | LCP 22 ms · CLS 0 |
+
+Both pages are under LCP ≤ 2.5 s and CLS ≤ 0.1 in this local lab. **Follow-up:** re-measure with throttled Lighthouse/PageSpeed before launch, e.g. `npx lighthouse http://localhost:8000/index.html --only-categories=performance --preset=desktop` (run later; not installed in this batch).
+
+### 2.13.5 PERF-03 — INP
+
+Retained MEASURE-ONLY. No `web-vitals`/field setup exists in the repo. **Field data unavailable; evaluate only after public traffic exists.** INP ≤ 200 ms remains a future target.
+
+### 2.13.6 PERF-04 — contrast (partial measurement)
+
+Method: live `getComputedStyle` colour + WCAG relative-luminance formula in the rendered page (headless Firefox, 1280×900). 25 pairings sampled; all pass:
+
+- lowest 6.44:1 — ticker label (green on ink); hero h1 7.74:1; hero lede 12.91:1; primary CTA 16.32:1; nav/footer links 16.32:1; form label 17.16:1; trust line 11.35:1; FAQ trigger 17.16:1; FAQ panel 10.25:1; privacy text 11.35:1; skip link 17.35:1.
+- **Caveat:** backgrounds are computed-style ancestor colours, **not** pixel samples over the photographic hero, and focus/hover states were not measured. No dedicated contrast-checker tool exists locally → retained MEASURE-ONLY.
+- **Manual procedure (founder):** open each page in a real browser; use DevTools/axe contrast tool or a pixel eyedropper on the hero over its scrim, dark bands, CTA, form error text, trust block, ticker toggle, FAQ, footer, and the focused skip link; confirm ≥ 4.5:1 normal / ≥ 3:1 large.
+
+### 2.13.7 PERF-05 — keyboard (partial rendered test)
+
+Measured with BiDi `input.performActions` (Tab): first Tab focuses `.skip-link`, which becomes visible when settled (transform none, top 8 px, height 46 px) on index/waitlist/philosophy; index order = skip → brand → nav; waitlist order = skip → language toggle → back-link → first_name. The full invalid/corrected/success/API-failure journey and a screen-reader pass were **not** run → retained MEASURE-ONLY.
+
+**Final manual keyboard sequence (founder):** (1) first Tab reveals skip link, Enter moves focus to `<main>`; (2) header nav, language switch (DE/EN), homepage CTA; (3) ticker pause/resume control; (4) waitlist: submit empty → error summary announced + focus, each field reachable with its error; (5) correct fields → submit → success state announced + focused; (6) simulate API failure → error message + retry; (7) FAQ open/close with Enter and Space; (8) privacy + withdrawal links; (9) footer navigation.
+
+### 2.13.8 PERF-06 — mobile viewports (measured)
+
+index + waitlist at 320/375/430 px: **0 px horizontal overflow**; hero h1, primary CTA, ticker toggle, form label, trust block and FAQ trigger present and within the viewport with sane sizes (index h1 36 px, CTA 57 px tall, ticker toggle 35 px tall; waitlist h1 28 px, CTA 48 px tall, FAQ trigger 52 px tall). Residual: human legibility/visual confirmation.
+
+### 2.13.9 TRUST-02 / TRUST-03
+
+TRUST-02 DONE — founder evidence decision recorded (retain existing Kernel conceptual architecture; no additional public artifact approved). TRUST-03 set to **DEFERRED** — no new evidence placement; `kernel.html` copy, claims and layout unchanged. No release gate closed.
+
+### 2.13.10 Residual manual verification
+
+- Throttled Lighthouse/PageSpeed LCP/CLS/INP re-run (pre-launch).
+- Pixel/visual contrast confirmation, including hero over imagery and focus states.
+- Full keyboard journey + one screen-reader pass (PERF-05 sequence).
+- Human mobile-legibility review of index/waitlist.
+- `philosophy.html` 320 px overflow — **resolved** post-Batch-E via the `.eyebrow` reflow guard (re-measured 0 px).
+
+### 2.13.11 Hero Performance Pass 2a — deferred decorative hero dot-field (post-Batch-E)
+
+- **Target:** a main-thread / initial-paint mitigation for the hero — **not** a claimed deployed LCP fix.
+- **Change:** `js/generative/loader.js` — `.dot-field--hero` mounts are deferred: wait for `window.load`, then `requestIdleCallback({ timeout: 1500 })`, with a `setTimeout(1500)` fallback; skipped at ≤768 px (matches the CSS `display:none`); `WeakSet` duplicate-mount guard; no hero mount scheduled when absent. Non-hero mounts, reduced-motion, no-JS fallback, registry semantics and error handling unchanged; no `hidden` added, so the static dot plate stays visible immediately.
+- **Validation (local Firefox BiDi, cold profile; not deployed data):** desktop 1440 — hero canvas absent at DOMContentLoaded, exactly one after load+idle (~195 ms), CLS 0, no console errors; hero-only `datenschutz.html` 1440 — the module import itself is deferred (79 ms vs DOMContentLoaded at 54 ms); mobile 390 — no hero canvas, and on a hero-only page **no `dot-field` module import at all**; `?gen-motion=off` — no canvas, static preserved; `.dot-field--focal` mounts still operate; hero image request/preload unchanged (exactly one).
+- **Local timing:** hero canvas is now created after load+idle instead of during the DOMContentLoaded pass (on `index.html` the module import remains early because the below-fold focal mount imports it, unchanged).
+- **Follow-up:** re-run PageSpeed Insights on the deployed site after commit; manual device check of the static→canvas handoff. Detail: `hero-performance-diagnostic.md` (Pass 2a). No release/legal gate altered.
 
 ---
 

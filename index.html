@@ -8,6 +8,17 @@
 <title data-title-de="Disce — Sag, was Du meinst." data-title-en="Disce — Say what you mean.">Disce — Sag, was Du meinst.</title>
 <script>try{if(localStorage.getItem('disce-lang')==='en'){document.documentElement.className+=' pre-en';document.documentElement.lang='en';}}catch(e){}</script>
 <link rel="stylesheet" href="css/experimental.css">
+<!-- PERF-01: preload the self-hosted hero headline face (Newsreader roman).
+     Exact same URL as the @font-face src in css/experimental.css, so the
+     @font-face fetch reuses this response (no duplicate request). -->
+<link rel="preload" href="fonts/newsreader-roman-var.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Hero Performance Pass 1 (Phase 1): responsive preload for the LCP hero
+     image. Mirrors the AVIF <source> srcset/sizes in the hero <picture>
+     exactly, so the preload and the picture resolve to the same candidate
+     (no second fetch). WebP/PNG fallbacks are deliberately not preloaded. -->
+<link rel="preload" as="image" type="image/avif" fetchpriority="high"
+  imagesrcset="images/derived/DISCE_C01_r1_arena-stag-bordeaux-768.avif 768w, images/derived/DISCE_C01_r1_arena-stag-bordeaux-1280.avif 1280w, images/derived/DISCE_C01_r1_arena-stag-bordeaux-1376.avif 1376w"
+  imagesizes="100vw">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="images/derived/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -33,14 +44,26 @@
 <a class="skip-link" href="#main"><span data-lang="de">Zum Inhalt springen</span><span data-lang="en">Skip to content</span></a>
 
 <div class="portrait-layer" aria-hidden="true">
-  <img class="portrait-goethe" src="images/goethe.png" alt="">
-  <img class="portrait-wittgenstein" src="images/wittgenstein.png" alt="">
+  <picture>
+    <source type="image/avif" sizes="360px" srcset="images/derived/goethe-360.avif 360w, images/derived/goethe-720.avif 720w">
+    <source type="image/webp" sizes="360px" srcset="images/derived/goethe-360.webp 360w, images/derived/goethe-720.webp 720w">
+    <img class="portrait-goethe" src="images/goethe.png" alt="" width="360" height="360" decoding="async">
+  </picture>
+  <picture>
+    <source type="image/avif" sizes="360px" srcset="images/derived/wittgenstein-360.avif 360w, images/derived/wittgenstein-720.avif 720w">
+    <source type="image/webp" sizes="360px" srcset="images/derived/wittgenstein-360.webp 360w, images/derived/wittgenstein-720.webp 720w">
+    <img class="portrait-wittgenstein" src="images/wittgenstein.png" alt="" width="360" height="360" decoding="async">
+  </picture>
 </div>
 
 <header class="site-header">
   <div class="wrap nav">
     <a href="index.html" class="brand">
-      <img class="brand-mark" src="images/antlers-green.png" alt="" aria-hidden="true">
+      <picture>
+        <source type="image/avif" sizes="28px" srcset="images/derived/antlers-green-28.avif 28w, images/derived/antlers-green-56.avif 56w">
+        <source type="image/webp" sizes="28px" srcset="images/derived/antlers-green-28.webp 28w, images/derived/antlers-green-56.webp 56w">
+        <img class="brand-mark" src="images/antlers-green.png" alt="" aria-hidden="true" width="28" height="28" decoding="async">
+      </picture>
       DISCE
     </a>
     <button class="nav-toggle" aria-label="Navigation / Menu" aria-expanded="false" aria-controls="site-nav">☰</button>
@@ -273,9 +296,9 @@
   <div class="ticker-label"><span data-lang="de">Strategische Partner &amp; Ökosystem</span><span data-lang="en">Strategic Partners &amp; Ecosystem</span></div>
   <div class="ticker-viewport">
     <div class="ticker-track">
-      <div class="ticker-logo"><img src="images/partners/stromgold-logo.png" alt="StromGold"></div>
-      <div class="ticker-logo"><img src="images/partners/potsdam-startup-service.jpg" alt="University of Potsdam, Potsdam Transfer Startup Service"></div>
-      <div class="ticker-logo"><img src="images/partners/gruenden-in-brandenburg.jpg" alt="Gründen in Brandenburg, WFBB"></div>
+      <div class="ticker-logo"><img src="images/partners/stromgold-logo.png" alt="StromGold" width="1953" height="300" loading="lazy" decoding="async"></div>
+      <div class="ticker-logo"><img src="images/partners/potsdam-startup-service.jpg" alt="University of Potsdam, Potsdam Transfer Startup Service" width="1258" height="429" loading="lazy" decoding="async"></div>
+      <div class="ticker-logo"><img src="images/partners/gruenden-in-brandenburg.jpg" alt="Gründen in Brandenburg, WFBB" width="800" height="305" loading="lazy" decoding="async"></div>
       <div class="ticker-logo"></div>
       <div class="ticker-logo"></div>
       <div class="ticker-logo"></div>
