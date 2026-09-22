@@ -27,6 +27,15 @@
 <link rel="preload" as="image" type="image/avif" fetchpriority="high"
   imagesrcset="images/derived/DISCE_C01_r1_arena-stag-bordeaux-412.avif 412w, images/derived/DISCE_C01_r1_arena-stag-bordeaux-480.avif 480w, images/derived/DISCE_C01_r1_arena-stag-bordeaux-768.avif 768w, images/derived/DISCE_C01_r1_arena-stag-bordeaux-1280.avif 1280w, images/derived/DISCE_C01_r1_arena-stag-bordeaux-1376.avif 1376w"
   imagesizes="100vw">
+<!-- PERF: modulepreload the generative dot-field chain so loader.js ->
+     registry.js -> dot-field/index.js -> composition/reactive/tokens are
+     fetched in parallel instead of discovered sequentially at run time. -->
+<link rel="modulepreload" href="js/generative/loader.js">
+<link rel="modulepreload" href="js/generative/registry.js">
+<link rel="modulepreload" href="js/generative/dot-field/index.js">
+<link rel="modulepreload" href="js/generative/dot-field/composition.js">
+<link rel="modulepreload" href="js/generative/dot-field/reactive.js">
+<link rel="modulepreload" href="js/generative/tokens.js">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="images/derived/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
