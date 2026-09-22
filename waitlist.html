@@ -4,26 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex, nofollow">
-  <title>CERVUS Study — Join the Waitlist | Disce</title>
-<meta name="description" content="Help us shape the future of language learning. Sign up for our study — no commitment yet.">
+  <title>Interesse anmelden — Private Beta in Vorbereitung | Disce</title>
+<meta name="description" content="DISCE entwickelt die nächste Produktstufe. Trag dein Interesse an der geplanten Private Beta ein — unverbindlich, ohne Wartelistenplatz und ohne festen Termin.">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="images/derived/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
+<!-- PERF-01: preload the self-hosted hero headline face (Noto Serif).
+     Exact same URL as the inline @font-face src below, so the @font-face
+     fetch reuses this response (no duplicate request). -->
+<link rel="preload" href="fonts/noto-serif-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="canonical" href="https://weltvorstellung.de/waitlist.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Disce">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="de_DE">
-<meta property="og:title" content="CERVUS Study — Join the Waitlist | Disce">
-<meta property="og:description" content="Help us shape the future of language learning. Sign up for our study — no commitment yet.">
+<meta property="og:title" content="Interesse anmelden — Private Beta in Vorbereitung | Disce">
+<meta property="og:description" content="DISCE entwickelt die nächste Produktstufe. Trag dein Interesse an der geplanten Private Beta ein — unverbindlich, ohne Wartelistenplatz und ohne festen Termin.">
 <meta property="og:url" content="https://weltvorstellung.de/waitlist.html">
 <meta property="og:image" content="https://weltvorstellung.de/images/derived/og-disce-1200x630.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="CERVUS Study — Join the Waitlist | Disce">
-<meta name="twitter:description" content="Help us shape the future of language learning. Sign up for our study — no commitment yet.">
+<meta name="twitter:title" content="Interesse anmelden — Private Beta in Vorbereitung | Disce">
+<meta name="twitter:description" content="DISCE entwickelt die nächste Produktstufe. Trag dein Interesse an der geplanten Private Beta ein — unverbindlich, ohne Wartelistenplatz und ohne festen Termin.">
 <meta name="twitter:image" content="https://weltvorstellung.de/images/derived/og-disce-1200x630.jpg">
   <style>
     /* =========================== SELF-HOSTED FONTS ===========================
@@ -294,14 +298,6 @@
       cursor: pointer;
     }
 
-    /* Availability checkboxes */
-    .availability-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-sm) var(--space-lg);
-    }
-    .availability-grid .checkbox-label { font-size: 14px; }
-
     /* Error state */
     .form-error {
       display: none;
@@ -315,6 +311,20 @@
       border-color: var(--color-error);
       border-width: 2px;
     }
+
+    /* Form-level error summary (A11Y-01) */
+    .form-error-summary {
+      display: none;
+      margin-bottom: var(--space-xl);
+      padding: var(--space-md) var(--space-lg);
+      border-radius: var(--radius-md);
+      background-color: #fff3f3;
+      color: var(--color-error);
+      border: 1px solid #f5c6c6;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .form-error-summary.show { display: block; }
 
     /* Optional tag */
     .label-optional {
@@ -389,6 +399,7 @@
       border: 1px solid #f5c6c6;
     }
     .submit-feedback.show { display: block; }
+    .submit-feedback a { color: inherit; text-decoration: underline; }
 
     /* =========================== PRIVACY SECTION =========================== */
     .privacy-section { padding: 0 0 var(--space-3xl); }
@@ -409,6 +420,57 @@
     }
     .privacy-text a { color: var(--color-link); text-decoration: none; }
     .privacy-text a:hover { text-decoration: underline; }
+
+    /* =========================== TRUST / STATUS BLOCK (TRUST-01) =========================== */
+    .trust-block {
+      margin-top: var(--space-xl);
+      padding: var(--space-lg) var(--space-xl);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-white);
+      display: flex; flex-direction: column; gap: var(--space-sm);
+    }
+    .trust-line { font-size: 13px; line-height: 1.55; color: var(--color-text-secondary); }
+    .trust-block a { color: var(--color-link); text-decoration: none; }
+    .trust-block a:hover { text-decoration: underline; }
+
+    /* =========================== FAQ ACCORDION =========================== */
+    .faq-section { padding: 0 0 var(--space-3xl); }
+    .faq-section .card { animation-delay: 0.6s; }
+    .faq-section h2 {
+      font-family: var(--font-heading);
+      font-size: 24px; font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: var(--space-lg);
+      text-align: center;
+    }
+    .faq-list { display: flex; flex-direction: column; }
+    .faq-item { border-bottom: 1px solid var(--color-border); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question { margin: 0; }
+    .faq-trigger {
+      width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--space-lg);
+      padding: var(--space-lg) 0;
+      background: none; border: none;
+      font-family: var(--font-body);
+      font-size: 16px; font-weight: 600;
+      color: var(--color-text);
+      text-align: left;
+      cursor: pointer;
+    }
+    .faq-icon { flex-shrink: 0; line-height: 1; }
+    .faq-icon::before {
+      content: '+';
+      display: block;
+      font-size: 20px; font-weight: 400;
+      color: var(--color-primary-dark);
+    }
+    .faq-trigger[aria-expanded="true"] .faq-icon::before { content: '\2212'; }
+    .faq-panel { padding: 0 0 var(--space-lg); }
+    .faq-panel p { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); }
+    .faq-panel a { color: var(--color-link); }
 
     /* =========================== FOOTER =========================== */
     footer {
@@ -433,7 +495,6 @@
       .language-toggle { top: 15px; right: 15px; width: 42px; height: 42px; font-size: 13px; }
       .back-link { top: 15px; left: 15px; font-size: 13px; }
       .hero-logo { width: 90px; height: 90px; }
-      .availability-grid { grid-template-columns: 1fr; }
     }
 
     /* =========================== ACCESSIBILITY =========================== */
@@ -441,6 +502,26 @@
       outline: 2px solid var(--color-text);
       outline-offset: 2px;
     }
+    /* Skip link (A11Y-05): hidden until keyboard focus, then clearly visible. */
+    .skip-link {
+      position: fixed;
+      top: 8px; left: 8px;
+      z-index: 2000;
+      padding: 10px 16px;
+      background: var(--color-text);
+      color: var(--color-white);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 2px solid var(--color-white);
+      border-radius: var(--radius-sm);
+      transform: translateY(-200%);
+      transition: transform 120ms ease-out;
+    }
+    .skip-link:focus { transform: translateY(0); outline: 3px solid var(--color-white); outline-offset: 2px; }
+    /* Programmatic skip-link target: no full-page focus ring. */
+    main:focus { outline: none; }
     @media (prefers-reduced-motion: reduce) {
       * {
         animation-duration: 0.01ms !important;
@@ -451,6 +532,8 @@
 </head>
 
 <body>
+
+  <a class="skip-link" href="#main"><span data-lang="de">Zum Inhalt springen</span><span data-lang="en">Skip to content</span></a>
 
   <!-- Language Toggle -->
   <button class="language-toggle" id="langToggle" aria-label="Switch to English / Auf Englisch umschalten" aria-pressed="false" title="Switch language">
@@ -472,17 +555,17 @@
     <div class="container">
       <img src="images/antlers-black.png" alt="Disce Logo" class="hero-logo" />
       <h1>
-        <span data-lang="de">Sei dabei – Pilotstudie</span>
-        <span data-lang="en">Join us – Pilot Study</span>
+        <span data-lang="de">Interesse anmelden</span>
+        <span data-lang="en">Register interest</span>
       </h1>
       <p class="subtitle">
-        <span data-lang="de">Hilf uns, die Zukunft des Sprachlernens zu gestalten. Melde dich unverbindlich für unsere Studie an.</span>
-        <span data-lang="en">Help us shape the future of language learning. Sign up for our study — no commitment yet.</span>
+        <span data-lang="de">Die Private Beta ist in Vorbereitung. Trag dein Interesse ein — unverbindlich, ohne Wartelistenplatz und ohne festen Termin.</span>
+        <span data-lang="en">The private beta is in preparation. Register your interest — non-binding, without a queue position or a fixed date.</span>
       </p>
     </div>
   </header>
 
-  <main>
+  <main id="main" tabindex="-1">
     <div class="divider"></div>
 
     <!-- STUDY INFO -->
@@ -490,49 +573,42 @@
       <div class="container">
         <div class="card">
           <h2>
-            <span data-lang="de">Worum geht's?</span>
-            <span data-lang="en">What is this study?</span>
+            <span data-lang="de">Worum geht es?</span>
+            <span data-lang="en">What is this?</span>
           </h2>
 
           <p class="info-text">
-            <span data-lang="de"><strong>Disce</strong> erforscht, wie KI-gestütztes Feedback beim Deutschsprechen helfen kann. In unserer Pilotstudie hältst du vier kurze Monologe (je 60–90 Sek.) zu einem Bewerbungsgespräch-Szenario — und bekommst anschließend individuelles Feedback.</span>
-            <span data-lang="en"><strong>Disce</strong> explores how AI-powered feedback can help you improve your spoken German. In our pilot study, you'll deliver four short monologues (60–90 sec. each) in a job-interview scenario — and receive personalized feedback.</span>
+            <span data-lang="de"><strong>Disce</strong> entwickelt die nächste Produktstufe. Die Proof-of-Principle-Studie <strong>Cervus</strong> ist abgeschlossen; die Private Beta ist geplant. Auf dieser Seite kannst du unverbindlich dein Interesse anmelden. Es gibt keine Warteliste mit Position und keinen festen Starttermin.</span>
+            <span data-lang="en"><strong>Disce</strong> is developing its next product stage. The <strong>Cervus</strong> proof-of-principle study is complete; the private beta is planned. On this page you can register your interest. There is no queue position and no fixed start date.</span>
           </p>
 
           <ul class="details-list">
             <li>
               <span class="icon">🎯</span>
               <span>
-                <span data-lang="de"><strong>Wer kann mitmachen?</strong> Alle, die Deutsch als Fremdsprache sprechen (Niveau B2–C1).</span>
-                <span data-lang="en"><strong>Who can join?</strong> Anyone who speaks German as a foreign language (level B2–C1).</span>
+                <span data-lang="de"><strong>Wer ist angesprochen?</strong> Internationale Fachkräfte in Deutschland mit Deutschkenntnissen auf Niveau B2–C1 (Selbsteinschätzung).</span>
+                <span data-lang="en"><strong>Who is this for?</strong> International professionals in Germany with German at level B2–C1 (self-assessment).</span>
               </span>
             </li>
             <li>
               <span class="icon">📅</span>
               <span>
-                <span data-lang="de"><strong>Wann?</strong> Die Studie startet Mitte Juni 2026. Du setzt dich jetzt auf die Warteliste und wir melden uns bei dir.</span>
-                <span data-lang="en"><strong>When?</strong> The study starts mid-June 2026. Sign up for the waitlist now and we'll contact you.</span>
+                <span data-lang="de"><strong>Was passiert nach der Anmeldung?</strong> Wir vermerken dein Interesse. Wir melden uns, wenn die Private Beta oder die nächste Studie tatsächlich startet.</span>
+                <span data-lang="en"><strong>What happens after registering?</strong> We record your interest. We will contact you when the private beta or the next study actually opens.</span>
               </span>
             </li>
             <li>
               <span class="icon">💻</span>
               <span>
-                <span data-lang="de"><strong>Wo?</strong> Komplett online im Browser — du brauchst nur ein Mikrofon.</span>
-                <span data-lang="en"><strong>Where?</strong> Entirely online in your browser — you just need a microphone.</span>
-              </span>
-            </li>
-            <li>
-              <span class="icon">🎁</span>
-              <span>
-                <span data-lang="de"><strong>Vergütung:</strong> Amazon-Gutschein (7–10 €) nach Abschluss der Studie.</span>
-                <span data-lang="en"><strong>Compensation:</strong> Amazon voucher (€7–10) after completing the study.</span>
+                <span data-lang="de"><strong>Gibt es einen festen Termin?</strong> Nein. Ein Starttermin steht nicht fest, und es gibt keine garantierte Rückmeldung.</span>
+                <span data-lang="en"><strong>Is there a fixed date?</strong> No. No start date is set, and there is no guaranteed response.</span>
               </span>
             </li>
             <li>
               <span class="icon">⏱️</span>
               <span>
-                <span data-lang="de"><strong>Aufwand:</strong> ca. 25–30 Minuten, einmalig.</span>
-                <span data-lang="en"><strong>Time:</strong> approx. 25–30 minutes, one-time session.</span>
+                <span data-lang="de"><strong>Was bedeutet das für dich?</strong> Die Anmeldung ist unverbindlich und dauert nur wenige Minuten.</span>
+                <span data-lang="en"><strong>What does it involve?</strong> Registering is non-binding and takes only a few minutes.</span>
               </span>
             </li>
           </ul>
@@ -547,15 +623,21 @@
       <div class="container">
         <div class="card">
           <h2>
-            <span data-lang="de">📝 Auf die Warteliste setzen</span>
-            <span data-lang="en">📝 Join the Waitlist</span>
+            <span data-lang="de">📝 Interesse anmelden</span>
+            <span data-lang="en">📝 Register interest</span>
           </h2>
           <p class="form-intro">
-            <span data-lang="de">Trag dich ein — wir melden uns im Juni zur Terminbestätigung.</span>
-            <span data-lang="en">Fill in the form — we'll reach out in June to confirm your slot.</span>
+            <span data-lang="de">Trag dich ein — wir melden uns, wenn die Private Beta oder die nächste Studie tatsächlich startet. Eine feste Zusage oder ein Termin ist damit nicht verbunden.</span>
+            <span data-lang="en">Fill in the form — we'll reach out when the private beta or the next study actually opens. This does not imply a fixed date or guaranteed access.</span>
           </p>
 
           <form id="waitlistForm" novalidate>
+
+            <!-- Form-level error summary: announced on invalid submit (A11Y-01). -->
+            <div class="form-error-summary" id="formErrorSummary" role="alert" tabindex="-1">
+              <span data-lang="de">Bitte korrigiere die markierten Felder, um fortzufahren.</span>
+              <span data-lang="en">Please correct the highlighted fields to continue.</span>
+            </div>
 
             <!-- First Name -->
             <div class="form-group" id="group-first_name">
@@ -566,8 +648,9 @@
               </label>
               <input type="text" id="first_name" name="first_name"
                 autocomplete="given-name"
+                aria-describedby="first_name-error"
                 placeholder="Maria" />
-              <div class="form-error">
+              <div class="form-error" id="first_name-error">
                 <span data-lang="de">Bitte gib deinen Vornamen ein.</span>
                 <span data-lang="en">Please enter your first name.</span>
               </div>
@@ -582,22 +665,26 @@
               </label>
               <input type="email" id="email" name="email"
                 autocomplete="email"
+                aria-describedby="email-error"
                 placeholder="maria@example.com" />
-              <div class="form-error">
+              <div class="form-error" id="email-error">
                 <span data-lang="de">Bitte gib eine gültige E-Mail-Adresse ein.</span>
                 <span data-lang="en">Please enter a valid email address.</span>
               </div>
             </div>
 
-            <!-- German Level -->
+            <!-- German Level (optional) -->
             <div class="form-group" id="group-german_level">
               <label for="german_level">
                 <span data-lang="de">Deutsch-Niveau (Selbsteinschätzung)</span>
                 <span data-lang="en">German level (self-assessment)</span>
-                <span class="required">*</span>
+                <span class="label-optional">
+                  <span data-lang="de">(optional)</span>
+                  <span data-lang="en">(optional)</span>
+                </span>
               </label>
               <select id="german_level" name="german_level">
-                <option value="" disabled selected>
+                <option value="" selected>
                   <!-- shown via JS per language -->
                 </option>
                 <option value="A1">A1</option>
@@ -607,117 +694,85 @@
                 <option value="C1">C1</option>
                 <option value="C2">C2</option>
               </select>
-              <div class="form-error">
-                <span data-lang="de">Bitte wähle dein Niveau aus.</span>
-                <span data-lang="en">Please select your level.</span>
-              </div>
-            </div>
-
-            <!-- Availability in June -->
-            <div class="form-group" id="group-availability_june">
-              <label>
-                <span data-lang="de">Verfügbarkeit im Juni 2026</span>
-                <span data-lang="en">Availability in June 2026</span>
-                <span class="required">*</span>
-              </label>
-              <div class="availability-grid">
-                <label class="checkbox-label">
-                  <input type="checkbox" name="availability_june" value="Early June" />
-                  <span>
-                    <span data-lang="de">Anfang Juni</span>
-                    <span data-lang="en">Early June</span>
-                  </span>
-                </label>
-                <label class="checkbox-label">
-                  <input type="checkbox" name="availability_june" value="Mid June" />
-                  <span>
-                    <span data-lang="de">Mitte Juni</span>
-                    <span data-lang="en">Mid June</span>
-                  </span>
-                </label>
-                <label class="checkbox-label">
-                  <input type="checkbox" name="availability_june" value="Late June" />
-                  <span>
-                    <span data-lang="de">Ende Juni</span>
-                    <span data-lang="en">Late June</span>
-                  </span>
-                </label>
-                <label class="checkbox-label">
-                  <input type="checkbox" name="availability_june" value="Flexible" />
-                  <span>
-                    <span data-lang="de">Flexibel</span>
-                    <span data-lang="en">Flexible</span>
-                  </span>
-                </label>
-              </div>
-              <div class="form-error">
-                <span data-lang="de">Bitte wähle mindestens eine Option.</span>
-                <span data-lang="en">Please select at least one option.</span>
-              </div>
             </div>
 
             <div class="form-divider"></div>
 
-            <!-- Required checkboxes -->
+            <!-- Required consent -->
             <div class="form-group" id="group-checkboxes">
               <div class="checkbox-group">
                 <label class="checkbox-label">
-                  <input type="checkbox" id="has_microphone" name="has_microphone" />
+                  <input type="checkbox" id="consent_contact" name="consent_contact" aria-describedby="checkbox-error" />
                   <span>
-                    <span data-lang="de">Ich habe ein funktionierendes Mikrofon und einen ruhigen Raum. <span class="required">*</span></span>
-                    <span data-lang="en">I have a working microphone and a reasonably quiet space. <span class="required">*</span></span>
-                  </span>
-                </label>
-                <label class="checkbox-label">
-                  <input type="checkbox" id="consent_contact" name="consent_contact" />
-                  <span>
-                    <span data-lang="de">Ich stimme zu, für diese Studie kontaktiert zu werden. <span class="required">*</span></span>
-                    <span data-lang="en">I agree to be contacted for this study. <span class="required">*</span></span>
+                    <span data-lang="de">Ich stimme zu, dass DISCE mich kontaktiert, wenn die geplante Private Beta oder die nächste Forschungsphase tatsächlich startet. Es entsteht keine feste Zusage und kein Wartelistenplatz. <span class="required">*</span></span>
+                    <span data-lang="en">I agree that DISCE may contact me when the planned private beta or the next research phase actually starts. This creates no fixed commitment and no queue position. <span class="required">*</span></span>
                   </span>
                 </label>
               </div>
               <div class="form-error" id="checkbox-error">
-                <span data-lang="de">Bitte bestätige beide Punkte, um fortzufahren.</span>
-                <span data-lang="en">Please confirm both items to continue.</span>
+                <span data-lang="de">Bitte bestätige die Kontaktaufnahme, um fortzufahren.</span>
+                <span data-lang="en">Please confirm the contact consent to continue.</span>
               </div>
             </div>
 
             <div class="form-divider"></div>
 
-            <!-- Optional: How did you hear about this -->
+            <!-- Optional free text: context / interest / questions -->
             <div class="form-group">
               <label for="source_channel">
-                <span data-lang="de">Wie hast du von uns erfahren?</span>
-                <span data-lang="en">How did you hear about this?</span>
+                <span data-lang="de">Kontext, Interesse oder Fragen</span>
+                <span data-lang="en">Context, interest, or questions</span>
                 <span class="label-optional">
                   <span data-lang="de">(optional)</span>
                   <span data-lang="en">(optional)</span>
                 </span>
               </label>
               <input type="text" id="source_channel" name="source_channel"
-                placeholder="LinkedIn, Uni, Freunde, ..." />
+                placeholder="Kontext, Fragen zur Private Beta" />
             </div>
 
             <!-- Submit -->
             <button type="submit" class="btn-primary" id="submitBtn">
-              <div class="spinner" id="spinner"></div>
+              <div class="spinner" id="spinner" aria-hidden="true"></div>
               <span class="btn-text">
-                <span data-lang="de">Auf die Warteliste →</span>
-                <span data-lang="en">Join the waitlist →</span>
+                <span data-lang="de">Interesse anmelden →</span>
+                <span data-lang="en">Register interest →</span>
               </span>
             </button>
 
-            <!-- Feedback messages -->
-            <div class="submit-feedback success" id="successMsg">
-              <span data-lang="de">✓ Du bist auf der Liste! Wir melden uns im Juni. Danke!</span>
-              <span data-lang="en">✓ You're on the list! We'll be in touch in June. Thank you!</span>
-            </div>
-            <div class="submit-feedback error-msg" id="errorMsg">
-              <span data-lang="de">⚠ Etwas ist schiefgelaufen. Bitte versuche es erneut oder schreib uns direkt.</span>
-              <span data-lang="en">⚠ Something went wrong. Please try again or contact us directly.</span>
-            </div>
-
           </form>
+
+          <!-- Feedback messages. Kept outside the form: the form is hidden on
+               success, so a confirmation inside it could never be shown, read or
+               focused (A11Y-02). -->
+          <div class="submit-feedback success" id="successMsg" role="status" tabindex="-1">
+            <span data-lang="de">✓ Danke! Dein Interesse ist vermerkt. Wir melden uns, wenn die geplante Private Beta oder die nächste Forschungsphase tatsächlich startet. Das ist keine Wartelistenposition, keine automatische Einladung, keine Zugangszusage und kein fester Termin. Details stehen in der <a href="datenschutz.html">Datenschutzerklärung</a>; du kannst dein Interesse jederzeit per E-Mail an <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a> korrigieren oder zurückziehen.</span>
+            <span data-lang="en">✓ Thank you! Your interest is noted. We will contact you when the planned private beta or the next research phase actually opens. This is not a queue position, not an automatic invitation, not a guarantee of access, and not a fixed date. Details are in the <a href="datenschutz.html">privacy policy</a>; you can correct or withdraw your interest at any time by emailing <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a>.</span>
+          </div>
+          <div class="submit-feedback error-msg" id="errorMsg" role="alert">
+            <span data-lang="de">⚠ Etwas ist schiefgelaufen. Bitte versuche es erneut oder schreib uns direkt.</span>
+            <span data-lang="en">⚠ Something went wrong. Please try again or contact us directly.</span>
+          </div>
+
+          <!-- Compact trust / status block, subordinate to the form (TRUST-01). -->
+          <div class="trust-block">
+            <p class="trust-line">
+              <span data-lang="de"><strong>Status:</strong> Cervus ist als Proof of Principle abgeschlossen; der nächste Prototyp wird entwickelt; eine Private Beta ist geplant.</span>
+              <span data-lang="en"><strong>Status:</strong> Cervus is complete as a proof of principle; the next prototype is being developed; a private beta is planned.</span>
+            </p>
+            <p class="trust-line">
+              <span data-lang="de"><strong>Interesse anmelden:</strong> keine Wartelistenposition, kein fester Zugangstermin und keine Zusage auf einen Zugang.</span>
+              <span data-lang="en"><strong>Registering interest:</strong> no queue position, no fixed access date, and no guarantee of access.</span>
+            </p>
+            <p class="trust-line">
+              <span data-lang="de"><strong>Deine Angaben:</strong> werden genutzt, um deine Interessenbekundung für die geplante Private Beta und die nächste Forschungsphase zu verwalten. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span>
+              <span data-lang="en"><strong>Your information:</strong> is used to manage your expression of interest in the planned private beta and the next research phase. Details in the <a href="datenschutz.html">privacy policy</a>.</span>
+            </p>
+            <p class="trust-line">
+              <span data-lang="de">Fragen, Korrektur oder Widerruf: <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a></span>
+              <span data-lang="en">Questions, corrections, or withdrawal: <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a></span>
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -734,20 +789,132 @@
           </h3>
           <p class="privacy-text">
             <span data-lang="de">
-              Deine Daten (Name, E-Mail, Deutsch-Niveau, Verfügbarkeit) werden ausschließlich zum Zweck der Rekrutierung für diese Studie erhoben und verarbeitet. Sie werden in einer geschützten Datenbank (Airtable) gespeichert und nicht an Dritte weitergegeben. Nach Abschluss der Rekrutierungsphase werden Daten von Personen, die nicht an der Studie teilnehmen, innerhalb von 4 Wochen gelöscht.<br><br>
+              Deine Daten (Name, E-Mail, optional Deutsch-Niveau und ein freiwilliges Freitextfeld) werden ausschließlich zum Zweck der Verwaltung deiner Interessenbekundung für die geplante Private Beta und die nächste Forschungsphase erhoben und verarbeitet. Sie werden in einer geschützten Datenbank (Airtable) gespeichert und nicht an Dritte weitergegeben. Nach Abschluss der Interessenbekundungsphase werden Daten von Personen, für die keine weitere Kontaktaufnahme vorgesehen ist, innerhalb von 4 Wochen gelöscht.<br><br>
               Du kannst deine Eintragung jederzeit widerrufen, indem du uns eine E-Mail schreibst.
               Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).<br><br>
-              Verantwortlich: Bjarne Dudzus · BSP Business &amp; Law School Berlin ·
-              <a href="mailto:bjarne.dudzus@student.businessschool-berlin.de">bjarne.dudzus@student.businessschool-berlin.de</a>
+              Verantwortlich: Bjarne Dudzus ·
+              <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a>
             </span>
             <span data-lang="en">
-              Your data (name, email, German level, availability) is collected and processed solely for the purpose of recruiting participants for this study. It is stored in a secure database (Airtable) and will not be shared with third parties. After the recruitment phase, data from individuals who do not participate will be deleted within 4 weeks.<br><br>
+              Your data (name, email, optionally German level and a voluntary free-text field) is collected and processed solely for the purpose of managing your expression of interest in the planned private beta and the next research phase. It is stored in a secure database (Airtable) and will not be shared with third parties. After the interest-registration phase, data from individuals for whom no further contact is planned will be deleted within 4 weeks.<br><br>
               You can withdraw your registration at any time by sending us an email.
               Legal basis: Art. 6(1)(a) GDPR (consent).<br><br>
-              Responsible: Bjarne Dudzus · BSP Business &amp; Law School Berlin ·
-              <a href="mailto:bjarne.dudzus@student.businessschool-berlin.de">bjarne.dudzus@student.businessschool-berlin.de</a>
+              Responsible: Bjarne Dudzus ·
+              <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a>
             </span>
           </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <div class="divider"></div>
+    <section class="faq-section" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="card">
+          <h2 id="faq-title">
+            <span data-lang="de">Häufige Fragen</span>
+            <span data-lang="en">Frequently asked questions</span>
+          </h2>
+          <div class="faq-list">
+
+            <div class="faq-item">
+              <h3 class="faq-question">
+                <button type="button" class="faq-trigger" id="faq-q1" aria-expanded="false" aria-controls="faq-a1">
+                  <span data-lang="de">Ist Disce schon nutzbar?</span>
+                  <span data-lang="en">Is Disce available to use yet?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-a1" role="region" aria-labelledby="faq-q1" hidden>
+                <p>
+                  <span data-lang="de">Nein. Die nächste Produktstufe wird gerade entwickelt; eine Private Beta ist geplant. Ein öffentlich nutzbares Produkt gibt es derzeit nicht.</span>
+                  <span data-lang="en">No. The next product stage is being developed; a private beta is planned. There is no publicly available product at this time.</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <h3 class="faq-question">
+                <button type="button" class="faq-trigger" id="faq-q2" aria-expanded="false" aria-controls="faq-a2">
+                  <span data-lang="de">Was bedeutet „Interesse anmelden“?</span>
+                  <span data-lang="en">What does “register interest” mean?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-a2" role="region" aria-labelledby="faq-q2" hidden>
+                <p>
+                  <span data-lang="de">Du vermerkst, dass du später teilnehmen möchtest. Das ist keine Position in einer Warteliste, keine automatische Einladung und keine Zusage auf einen Zugang.</span>
+                  <span data-lang="en">You record that you would like to take part later. It is not a queue position, not an automatic invitation, and not a guarantee of access.</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <h3 class="faq-question">
+                <button type="button" class="faq-trigger" id="faq-q3" aria-expanded="false" aria-controls="faq-a3">
+                  <span data-lang="de">Wann startet die Private Beta?</span>
+                  <span data-lang="en">When will the private beta start?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-a3" role="region" aria-labelledby="faq-q3" hidden>
+                <p>
+                  <span data-lang="de">Ein fester öffentlicher Termin steht nicht fest. Wir melden uns bei relevanten Interessierten, wenn die Beta oder eine nächste Forschungsphase tatsächlich startet.</span>
+                  <span data-lang="en">There is no fixed public date. We will contact relevant interested people when the beta or a next research phase actually opens.</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <h3 class="faq-question">
+                <button type="button" class="faq-trigger" id="faq-q4" aria-expanded="false" aria-controls="faq-a4">
+                  <span data-lang="de">Läuft gerade eine Studie?</span>
+                  <span data-lang="en">Is a study currently recruiting?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-a4" role="region" aria-labelledby="faq-q4" hidden>
+                <p>
+                  <span data-lang="de">Nein. Cervus ist abgeschlossen. Die nächste Forschungsphase wird vorbereitet; eine Rekrutierung ist derzeit nicht offen.</span>
+                  <span data-lang="en">No. Cervus is completed. The next research phase is in preparation; recruitment is not currently open.</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <h3 class="faq-question">
+                <button type="button" class="faq-trigger" id="faq-q5" aria-expanded="false" aria-controls="faq-a5">
+                  <span data-lang="de">Was passiert mit meinen Angaben?</span>
+                  <span data-lang="en">What happens to my information?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-a5" role="region" aria-labelledby="faq-q5" hidden>
+                <p>
+                  <span data-lang="de">Sie dienen der Verwaltung deiner Interessenbekundung für die geplante Private Beta und die nächste Forschungsphase. Details stehen in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span>
+                  <span data-lang="en">They are used to manage your expression of interest in the planned private beta and the next research phase. Details are in the <a href="datenschutz.html">privacy policy</a>.</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <h3 class="faq-question">
+                <button type="button" class="faq-trigger" id="faq-q6" aria-expanded="false" aria-controls="faq-a6">
+                  <span data-lang="de">Kann ich mein Interesse zurückziehen?</span>
+                  <span data-lang="en">Can I withdraw my interest?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="faq-a6" role="region" aria-labelledby="faq-q6" hidden>
+                <p>
+                  <span data-lang="de">Ja. Schreib uns eine E-Mail an <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a>, um dein Interesse jederzeit zurückzuziehen.</span>
+                  <span data-lang="en">Yes. Email us at <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a> to withdraw your interest at any time.</span>
+                </p>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
@@ -801,46 +968,57 @@
       const spinner   = document.getElementById('spinner');
       const successMsg = document.getElementById('successMsg');
       const errorMsg   = document.getElementById('errorMsg');
+      const errorSummary = document.getElementById('formErrorSummary');
+
+      // Any pending busy state from a previous attempt is cleared up front.
+      form.setAttribute('aria-busy', 'false');
 
       // --- Validation ---
       let valid = true;
 
-      function setError(groupId, hasError) {
+      // Toggle a field group's visible error state and keep its controls'
+      // aria-invalid in sync (A11Y-01). aria-describedby is set in the markup.
+      function setError(groupId, hasError, controls) {
         const group = document.getElementById(groupId);
         if (!group) return;
         group.classList.toggle('has-error', hasError);
+        (controls || []).forEach(function (control) {
+          if (hasError) control.setAttribute('aria-invalid', 'true');
+          else control.removeAttribute('aria-invalid');
+        });
         if (hasError) valid = false;
       }
 
       // First name
-      const firstName = form.first_name.value.trim();
-      setError('group-first_name', !firstName);
+      const firstNameInput = form.first_name;
+      const firstName = firstNameInput.value.trim();
+      setError('group-first_name', !firstName, [firstNameInput]);
 
       // Email
-      const email = form.email.value.trim();
+      const emailInput = form.email;
+      const email = emailInput.value.trim();
       const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      setError('group-email', !emailOk);
+      setError('group-email', !emailOk, [emailInput]);
 
-      // German level
-      const level = form.german_level.value;
-      setError('group-german_level', !level);
+      // German level (optional — no validation; an empty value is allowed)
+      const levelSelect = form.german_level;
+      const level = levelSelect.value;
 
-      // Availability (at least one checkbox)
-      const availability = Array.from(form.querySelectorAll('input[name="availability_june"]:checked')).map(cb => cb.value);
-      setError('group-availability_june', availability.length === 0);
+      // Required consent
+      const hasConsentInput = document.getElementById('consent_contact');
+      const hasConsent = hasConsentInput.checked;
+      setError('group-checkboxes', !hasConsent, [hasConsentInput]);
 
-      // Required checkboxes
-      const hasMic     = document.getElementById('has_microphone').checked;
-      const hasConsent = document.getElementById('consent_contact').checked;
-      const cbGroup    = document.getElementById('group-checkboxes');
-      if (!hasMic || !hasConsent) {
-        cbGroup.classList.add('has-error');
-        valid = false;
-      } else {
-        cbGroup.classList.remove('has-error');
+      if (!valid) {
+        // Announce the summary and move focus to it, so keyboard users land on
+        // the guidance rather than the first invalid control (A11Y-01).
+        if (errorSummary) {
+          errorSummary.classList.add('show');
+          errorSummary.focus();
+        }
+        return;
       }
-
-      if (!valid) return;
+      if (errorSummary) errorSummary.classList.remove('show');
 
       // Clear previous messages
       successMsg.classList.remove('show');
@@ -849,6 +1027,7 @@
       // --- Loading state ---
       submitBtn.disabled = true;
       submitBtn.classList.add('loading');
+      form.setAttribute('aria-busy', 'true');   // A11Y-03
 
       // --- Build Airtable record ---
       const sourceChannel = form.source_channel.value.trim();
@@ -856,14 +1035,14 @@
       const langPref = isEn ? 'English' : 'German';
 
       const fields = {
-        'first_name':          firstName,
-        'email':               email,
-        'german_level':        level,
-        'availability_june':   availability,   // array → Airtable multiple select
-        'has_microphone':      hasMic,
-        'consent_contact':     hasConsent,
-        'language_pref':       langPref,
+        'first_name':      firstName,
+        'email':           email,
+        'consent_contact': hasConsent,
+        'language_pref':   langPref,
       };
+      // Optional fields are sent only when provided, so the payload no longer
+      // carries study-scheduling or qualification data (CONV-05).
+      if (level) fields['german_level'] = level;
       if (sourceChannel) fields['source_channel'] = sourceChannel;
 
       // --- Airtable API call ---
@@ -883,27 +1062,51 @@
           throw new Error('API error ' + response.status);
         }
 
-        // Success!
+        // Success! Clear busy, then reveal and focus the confirmation so a
+        // screen reader announces it and keyboard focus lands on it (A11Y-02).
+        form.setAttribute('aria-busy', 'false');
         form.style.display = 'none';
         successMsg.classList.add('show');
+        successMsg.focus();
 
       } catch (err) {
         console.error(err);
+        form.setAttribute('aria-busy', 'false');
         submitBtn.disabled = false;
         submitBtn.classList.remove('loading');
         errorMsg.classList.add('show');
       }
     });
 
-    // Clear error on field interaction
+    // Clear a field group's error state (visible class + aria-invalid) as soon
+    // as the user edits it, and retire the summary once no error group remains.
     document.querySelectorAll('input, select').forEach(function (el) {
-      el.addEventListener('input', function () {
+      function clearGroupErrors() {
         const group = this.closest('.form-group');
-        if (group) group.classList.remove('has-error');
-      });
-      el.addEventListener('change', function () {
-        const group = this.closest('.form-group');
-        if (group) group.classList.remove('has-error');
+        if (!group) return;
+        group.classList.remove('has-error');
+        group.querySelectorAll('[aria-invalid="true"]').forEach(function (control) {
+          control.removeAttribute('aria-invalid');
+        });
+        const summary = document.getElementById('formErrorSummary');
+        if (summary && !document.querySelector('.form-group.has-error')) {
+          summary.classList.remove('show');
+        }
+      }
+      el.addEventListener('input', clearGroupErrors);
+      el.addEventListener('change', clearGroupErrors);
+    });
+
+    // =========================== FAQ ACCORDION ===========================
+    // One small, multi-open accordion. Each trigger is a native button
+    // (Enter/Space work natively); aria-expanded is kept in sync with the
+    // answer's hidden state, so collapsed answers are never focusable.
+    document.querySelectorAll('.faq-trigger').forEach(function (trigger) {
+      trigger.addEventListener('click', function () {
+        var panel = document.getElementById(trigger.getAttribute('aria-controls'));
+        var expanded = trigger.getAttribute('aria-expanded') === 'true';
+        trigger.setAttribute('aria-expanded', String(!expanded));
+        if (panel) panel.hidden = expanded;
       });
     });
   </script>

@@ -176,6 +176,12 @@ p { color: var(--ink-soft); }
   text-transform: uppercase;
   color: var(--green-dark);
   margin-bottom: var(--sp-16);
+  /* Reflow guard: a long unbreakable eyebrow word (e.g. the German
+     "Unternehmensphilosophie") would otherwise set a min-content width wider
+     than the container at ~320px and overflow. `anywhere` lets the intrinsic
+     minimum shrink so the label wraps inside the wrap; no content is hidden. */
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 .eyebrow::before {
   content: '';
@@ -240,6 +246,10 @@ body::before {
   text-transform: uppercase;
 }
 .brand .brand-mark { width: var(--sp-28); height: var(--sp-28); flex-shrink: 0; }
+/* Hero Performance Pass 1: the brand mark is now wrapped in <picture> for the
+   AVIF/WebP srcset. Keep the wrapper the flex item and non-shrinking so the
+   header layout is unchanged. */
+.brand picture { display: inline-flex; flex-shrink: 0; }
 
 /* Gap and horizontal link padding were reduced from sp-40 / sp-16 to sp-24 /
    sp-12 to make room for the fifth nav item ("Der Kernel"). Measured against
@@ -807,7 +817,7 @@ section.tight { padding: var(--sp-56) 0; }
 .team-card { background: var(--legacy-paper); }
 .team-card .portrait { width: 100%; aspect-ratio: 5/6; object-fit: cover; background: var(--cream-dim); filter: grayscale(100%) contrast(1.05); }
 .team-card .team-body { padding: var(--sp-24) var(--sp-24) var(--sp-24); border-top: 2px solid var(--legacy-ink); }
-.team-card h3 { font-size: var(--fs-600); margin-bottom: var(--sp-16); text-transform: none; }
+.team-card h2, .team-card h3 { font-size: var(--fs-600); margin-bottom: var(--sp-16); text-transform: none; font-family: var(--font-body); font-weight: 800; }
 .team-card .role { font-size: var(--fs-100); color: var(--green-dark); font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: var(--sp-16); display: block; }
 .team-card p { font-size: var(--fs-300); color: var(--muted); }
 
@@ -1432,7 +1442,7 @@ section.tight { padding: var(--sp-56) 0; }
    PHILOSOPHY — long-form prose
    ========================================================================== */
 .philosophy-toc { background: var(--legacy-paper); border: 2px solid var(--legacy-ink); padding: var(--sp-28) var(--sp-32); margin-bottom: var(--sp-12); position: relative; }
-.philosophy-toc h4 { font-size: var(--fs-200); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: var(--sp-16); font-family: var(--font-body); font-weight: 800; }
+.philosophy-toc h2, .philosophy-toc h4 { font-size: var(--fs-200); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: var(--sp-16); font-family: var(--font-body); font-weight: 800; }
 .philosophy-toc ol { list-style: none; display: grid; gap: var(--sp-40); }
 .philosophy-toc a { font-size: var(--fs-400); color: var(--legacy-ink); font-weight: 600; }
 .philosophy-toc a:hover { color: var(--green-dark); }
@@ -1668,20 +1678,6 @@ body:has(.phil-ambient) .prose .chapter-cover + p::first-letter {
 @media (max-width: 1119px) { .phil-ambient { display: none; } }
 
 /* ==========================================================================
-   FAQ / ACCORDION
-   ========================================================================== */
-.accordion-item { border-bottom: 2px solid var(--legacy-ink); }
-.accordion-trigger {
-  width: 100%; display: flex; justify-content: space-between; align-items: center;
-  background: none; border: none; text-align: left; padding: var(--sp-20) 0;
-  font-size: var(--fs-500); font-weight: 800; color: var(--legacy-ink); cursor: pointer;
-}
-.accordion-trigger .plus { font-size: var(--fs-700); color: var(--green-dark); transition: transform var(--dur-base) var(--ease); }
-.accordion-item.open .plus { transform: rotate(45deg); }
-.accordion-panel { max-height: 0; overflow: hidden; transition: max-height var(--dur-slow) var(--ease); }
-.accordion-panel-inner { padding-bottom: 22px; color: var(--muted); font-size: var(--fs-400); max-width: 620px; }
-
-/* ==========================================================================
    CTA BAND / bordered call-out (the QR-frame motif)
    ========================================================================== */
 .cta-band { text-align: center; padding: var(--sp-76) 0; }
@@ -1724,7 +1720,33 @@ body:has(.phil-ambient) .prose .chapter-cover + p::first-letter {
 .ticker-logo img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; filter: none; }
 .ticker-logo:empty { display: none; }
 @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
+/* Pause/resume control (A11Y-06, WCAG 2.2.2). The track can be stopped; the
+   control is hidden when reduced motion already removes the animation. */
+.ticker-toggle {
+  display: block;
+  margin: var(--sp-20) auto 0;
+  position: relative;
+  z-index: 1;
+  padding: var(--sp-8) var(--sp-16);
+  background: transparent;
+  color: var(--legacy-paper);
+  border: 2px solid var(--green);
+  font-family: var(--font-body);
+  font-size: var(--fs-200);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.ticker-toggle:hover { background: var(--green); color: var(--legacy-ink); }
+.ticker-toggle-text--play { display: none; }
+.ticker-section.is-paused .ticker-track { animation-play-state: paused; }
+.ticker-section.is-paused .ticker-toggle-text--pause { display: none; }
+.ticker-section.is-paused .ticker-toggle-text--play { display: inline; }
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+  .ticker-section .ticker-toggle { display: none; }
+}
 
 /* ==========================================================================
    FOOTER
@@ -1733,7 +1755,7 @@ body:has(.phil-ambient) .prose .chapter-cover + p::first-letter {
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--sp-40); padding-bottom: 40px; }
 .footer-brand { font-family: var(--font-display); font-size: var(--fs-700); color: var(--legacy-paper); margin-bottom: var(--sp-12); text-transform: uppercase; }
 .footer-tag { font-size: var(--fs-400); max-width: 320px; color: var(--legacy-paper); }
-.footer-col h4 { color: var(--green); font-size: var(--fs-200); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--sp-16); font-family: var(--font-body); }
+.footer-col h2, .footer-col h4 { color: var(--green); font-size: var(--fs-200); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--sp-16); font-family: var(--font-body); }
 .footer-col a { display: block; font-size: var(--fs-400); margin-bottom: var(--sp-12); color: var(--legacy-cream-75); }
 .footer-col a:hover { color: var(--green); }
 .footer-bottom { border-top: 1px solid var(--legacy-cream-20); padding-top: 22px; display: flex; justify-content: space-between; font-size: var(--fs-200); color: var(--legacy-cream-50); flex-wrap: wrap; gap: var(--sp-12); }
@@ -1911,6 +1933,29 @@ body:has(.phil-ambient) .prose .chapter-cover + p::first-letter {
 .site-footer *:focus-visible,
 .hero-panel *:focus-visible,
 .ticker-section *:focus-visible { outline-color: var(--legacy-paper); }
+
+/* Skip link (A11Y-05). Hidden until keyboard focus, then a clearly visible,
+   high-contrast chip that jumps to the page's <main> landmark. The outline is
+   parchment so it reads on the ink chip. */
+.skip-link {
+  position: fixed;
+  top: var(--sp-8);
+  left: var(--sp-8);
+  z-index: 2000;
+  padding: 10px var(--sp-16);
+  background: var(--legacy-ink);
+  color: var(--legacy-paper);
+  font-family: var(--font-body);
+  font-size: var(--fs-400);
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid var(--green);
+  transform: translateY(-200%);
+  transition: transform 120ms ease-out;
+}
+.skip-link:focus { transform: translateY(0); outline: 3px solid var(--legacy-paper); outline-offset: 2px; }
+/* Programmatic skip-link target: no full-page focus ring. */
+main:focus { outline: none; }
 
 /* Diamond accent used near select headlines */
 .diamond-accent {

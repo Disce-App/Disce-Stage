@@ -8,6 +8,17 @@
 <title data-title-de="Disce — Sag, was Du meinst." data-title-en="Disce — Say what you mean.">Disce — Sag, was Du meinst.</title>
 <script>try{if(localStorage.getItem('disce-lang')==='en'){document.documentElement.className+=' pre-en';document.documentElement.lang='en';}}catch(e){}</script>
 <link rel="stylesheet" href="css/experimental.css">
+<!-- PERF-01: preload the self-hosted hero headline face (Newsreader roman).
+     Exact same URL as the @font-face src in css/experimental.css, so the
+     @font-face fetch reuses this response (no duplicate request). -->
+<link rel="preload" href="fonts/newsreader-roman-var.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Hero Performance Pass 1 (Phase 1): responsive preload for the LCP hero
+     image. Mirrors the AVIF <source> srcset/sizes in the hero <picture>
+     exactly, so the preload and the picture resolve to the same candidate
+     (no second fetch). WebP/PNG fallbacks are deliberately not preloaded. -->
+<link rel="preload" as="image" type="image/avif" fetchpriority="high"
+  imagesrcset="images/derived/DISCE_C01_r1_arena-stag-bordeaux-768.avif 768w, images/derived/DISCE_C01_r1_arena-stag-bordeaux-1280.avif 1280w, images/derived/DISCE_C01_r1_arena-stag-bordeaux-1376.avif 1376w"
+  imagesizes="100vw">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="images/derived/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -30,15 +41,29 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main"><span data-lang="de">Zum Inhalt springen</span><span data-lang="en">Skip to content</span></a>
+
 <div class="portrait-layer" aria-hidden="true">
-  <img class="portrait-goethe" src="images/goethe.png" alt="">
-  <img class="portrait-wittgenstein" src="images/wittgenstein.png" alt="">
+  <picture>
+    <source type="image/avif" sizes="360px" srcset="images/derived/goethe-360.avif 360w, images/derived/goethe-720.avif 720w">
+    <source type="image/webp" sizes="360px" srcset="images/derived/goethe-360.webp 360w, images/derived/goethe-720.webp 720w">
+    <img class="portrait-goethe" src="images/goethe.png" alt="" width="360" height="360" decoding="async">
+  </picture>
+  <picture>
+    <source type="image/avif" sizes="360px" srcset="images/derived/wittgenstein-360.avif 360w, images/derived/wittgenstein-720.avif 720w">
+    <source type="image/webp" sizes="360px" srcset="images/derived/wittgenstein-360.webp 360w, images/derived/wittgenstein-720.webp 720w">
+    <img class="portrait-wittgenstein" src="images/wittgenstein.png" alt="" width="360" height="360" decoding="async">
+  </picture>
 </div>
 
 <header class="site-header">
   <div class="wrap nav">
     <a href="index.html" class="brand">
-      <img class="brand-mark" src="images/antlers-green.png" alt="" aria-hidden="true">
+      <picture>
+        <source type="image/avif" sizes="28px" srcset="images/derived/antlers-green-28.avif 28w, images/derived/antlers-green-56.avif 56w">
+        <source type="image/webp" sizes="28px" srcset="images/derived/antlers-green-28.webp 28w, images/derived/antlers-green-56.webp 56w">
+        <img class="brand-mark" src="images/antlers-green.png" alt="" aria-hidden="true" width="28" height="28" decoding="async">
+      </picture>
       DISCE
     </a>
     <button class="nav-toggle" aria-label="Navigation / Menu" aria-expanded="false" aria-controls="site-nav">☰</button>
@@ -48,7 +73,7 @@
       <a href="kernel.html"><span data-lang="de">Der Kernel</span><span data-lang="en">The Kernel</span></a>
       <a href="team.html"><span data-lang="de">Team</span><span data-lang="en">Our Team</span></a>
       <a href="status.html"><span data-lang="de">Entwicklungsstand</span><span data-lang="en">Development Status</span></a>
-      <a href="waitlist.html" class="nav-cta"><span data-lang="de">Auf die Warteliste</span><span data-lang="en">Join the Waitlist</span></a>
+      <a href="waitlist.html" class="nav-cta"><span data-lang="de">Interesse anmelden</span><span data-lang="en">Register interest</span></a>
       <div class="lang-switch" role="group" aria-label="Sprache / Language">
         <button type="button" data-set-lang="de" aria-pressed="true">DE</button>
         <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
@@ -57,6 +82,8 @@
     </nav>
   </div>
 </header>
+
+<main id="main" tabindex="-1">
 
 <!-- ============================= HERO ============================= -->
 <section class="hero">
@@ -70,11 +97,11 @@
   <div class="dot-field dot-field--hero dot-field--hero-dark" data-gen="dot-field" data-field="bloom" data-seed="dot-bloom" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow"><span data-lang="de">Vor der Gründung · Berlin / Potsdam</span><span data-lang="en">Pre-Incorporation · Berlin / Potsdam</span></span>
+      <span class="eyebrow"><span data-lang="de">Für internationale Fachkräfte in Deutschland</span><span data-lang="en">For international professionals in Germany</span></span>
       <h1><span data-lang="de">Sag, was<br>Du meinst.</span><span data-lang="en">Say what<br>you mean.</span></h1>
-      <p class="lede" style="margin-top: 8px;"><span data-lang="de">Disce ist ein Gründungsteam, das den Fall für KI-gestütztes Deutschlernen auf fortgeschrittenem Niveau (B2–C2) aufbaut. Wir stellen uns Investorinnen und Investoren, Hochschulpartnern und der Berliner Gründungsszene vor, bevor die Gesellschaft eingetragen wird.</span><span data-lang="en">Disce is a founding team building the case for AI-powered advanced German learning (B2–C2). We're introducing ourselves to investors, university partners, and the Berlin founder ecosystem ahead of incorporation.</span></p>
+      <p class="lede" style="margin-top: 8px;"><span data-lang="de">Disce ist ein KI-gestütztes System für berufliches Deutsch: Diagnose, gezieltes Training und Rückmeldung für Situationen, die über die Karriere entscheiden — Bewerbungsgespräch, Berufsalltag und der nächste Karriereschritt. Das Proof of Principle (Cervus) ist abgeschlossen; der nächste Prototyp wird entwickelt, eine Private Beta ist geplant.</span><span data-lang="en">Disce is an AI-supported system for professional German: diagnosis, targeted practice, and feedback for the situations that decide a career — the job interview, day-to-day work, and the next career step. The Cervus proof of principle is complete; the next prototype is in development and a private beta is planned.</span></p>
       <div class="hero-actions">
-        <a href="team.html" class="btn-primary"><span data-lang="de">Das Team</span><span data-lang="en">Meet the Team</span></a>
+        <a href="waitlist.html" class="btn-primary"><span data-lang="de">Interesse anmelden</span><span data-lang="en">Register interest</span></a>
         <a href="philosophy.html" class="btn-secondary"><span data-lang="de">Unsere Philosophie</span><span data-lang="en">Read Our Philosophy</span></a>
       </div>
       <figure class="glass-card glass-testimonial">
@@ -87,7 +114,7 @@
       <div class="stat-row"><span class="stat-label"><span data-lang="de">Ansatz</span><span data-lang="en">Approach</span></span><span class="stat-value"><span data-lang="de">Wirkungsorientiert, KI-personalisiert</span><span data-lang="en">Outcome-oriented, AI-personalized</span></span></div>
       <div class="stat-row"><span class="stat-label"><span data-lang="de">Bereiche</span><span data-lang="en">Domains</span></span><span class="stat-value"><span data-lang="de">Klinisch · Beruflich</span><span data-lang="en">Clinical · Professional</span></span></div>
       <div class="stat-row"><span class="stat-label"><span data-lang="de">Phase</span><span data-lang="en">Stage</span></span><span class="stat-value"><span data-lang="de">Validierung / Pre-Seed</span><span data-lang="en">Validation / Pre-Seed</span></span></div>
-      <div class="stat-row"><span class="stat-label"><span data-lang="de">Pilotphase</span><span data-lang="en">Pilot Phase</span></span><span class="stat-value"><span data-lang="de">Abgeschlossen, Auswertung läuft</span><span data-lang="en">Completed, evaluation ongoing</span></span></div>
+      <div class="stat-row"><span class="stat-label"><span data-lang="de">Proof of Principle</span><span data-lang="en">Proof of Principle</span></span><span class="stat-value"><span data-lang="de">Cervus — abgeschlossen</span><span data-lang="en">Cervus — completed</span></span></div>
       <div class="stat-row"><span class="stat-label"><span data-lang="de">Team</span><span data-lang="en">Team</span></span><span class="stat-value"><span data-lang="de">5 Gründer + CTO-Suche</span><span data-lang="en">5 Founders + CTO Search</span></span></div>
     </div>
   </div>
@@ -253,11 +280,11 @@
   </picture>
   <div class="wrap" style="display:flex; flex-direction:column; align-items:center;">
     <span class="eyebrow"><span data-lang="de">Mitmachen</span><span data-lang="en">Get Involved</span></span>
-    <h2><span data-lang="de">Die Entwicklung verfolgen oder Teil der Beta werden.</span><span data-lang="en">Follow the build, or join the beta.</span></h2>
-    <p class="lede"><span data-lang="de">Disce steht vor der Eintragung mitten in der Validierung. Verfolgen Sie den Entwicklungsstand oder tragen Sie sich in die Warteliste ein, um zur ersten Kohorte zu gehören.</span><span data-lang="en">Disce is in active validation ahead of incorporation. Track our development status, or join the waitlist to be part of the earliest cohort.</span></p>
+    <h2><span data-lang="de">Die Entwicklung verfolgen oder Interesse anmelden.</span><span data-lang="en">Follow the build, or register interest.</span></h2>
+    <p class="lede"><span data-lang="de">Disce steht vor der Eintragung mitten in der Validierung. Verfolgen Sie den Entwicklungsstand oder melden Sie unverbindlich Ihr Interesse an der geplanten Private Beta an.</span><span data-lang="en">Disce is in active validation ahead of incorporation. Track the development status, or register your interest in the planned private beta.</span></p>
     <div class="cta-frame">
       <div class="cta-frame-inner" style="display:flex; gap:14px; flex-wrap:wrap; justify-content:center;">
-        <a href="waitlist.html" class="btn-primary"><span data-lang="de">Auf die Warteliste</span><span data-lang="en">Join the Waitlist</span></a>
+        <a href="waitlist.html" class="btn-primary"><span data-lang="de">Interesse anmelden</span><span data-lang="en">Register interest</span></a>
         <a href="status.html" class="btn-secondary"><span data-lang="de">Entwicklungsstand ansehen</span><span data-lang="en">See Development Status</span></a>
       </div>
     </div>
@@ -269,9 +296,9 @@
   <div class="ticker-label"><span data-lang="de">Strategische Partner &amp; Ökosystem</span><span data-lang="en">Strategic Partners &amp; Ecosystem</span></div>
   <div class="ticker-viewport">
     <div class="ticker-track">
-      <div class="ticker-logo"><img src="images/partners/stromgold-logo.png" alt="StromGold"></div>
-      <div class="ticker-logo"><img src="images/partners/potsdam-startup-service.jpg" alt="University of Potsdam, Potsdam Transfer Startup Service"></div>
-      <div class="ticker-logo"><img src="images/partners/gruenden-in-brandenburg.jpg" alt="Gründen in Brandenburg, WFBB"></div>
+      <div class="ticker-logo"><img src="images/partners/stromgold-logo.png" alt="StromGold" width="1953" height="300" loading="lazy" decoding="async"></div>
+      <div class="ticker-logo"><img src="images/partners/potsdam-startup-service.jpg" alt="University of Potsdam, Potsdam Transfer Startup Service" width="1258" height="429" loading="lazy" decoding="async"></div>
+      <div class="ticker-logo"><img src="images/partners/gruenden-in-brandenburg.jpg" alt="Gründen in Brandenburg, WFBB" width="800" height="305" loading="lazy" decoding="async"></div>
       <div class="ticker-logo"></div>
       <div class="ticker-logo"></div>
       <div class="ticker-logo"></div>
@@ -280,7 +307,13 @@
       <div class="ticker-logo"></div>
     </div>
   </div>
+  <button type="button" class="ticker-toggle" id="tickerToggle" aria-pressed="false">
+    <span class="ticker-toggle-text ticker-toggle-text--pause"><span data-lang="de">Bewegung anhalten</span><span data-lang="en">Pause motion</span></span>
+    <span class="ticker-toggle-text ticker-toggle-text--play"><span data-lang="de">Bewegung fortsetzen</span><span data-lang="en">Play motion</span></span>
+  </button>
 </div>
+
+</main>
 
 <footer class="site-footer">
   <div class="wrap">
@@ -290,7 +323,7 @@
         <p class="footer-tag"><span data-lang="de">KI-gestütztes Deutschlernen für fortgeschrittene Lernende. Auf dem Weg zur Gründung, Berlin / Potsdam.</span><span data-lang="en">AI-powered German learning for advanced learners. Building toward incorporation, Berlin / Potsdam.</span></p>
       </div>
       <div class="footer-col">
-        <h4><span data-lang="de">Seiten</span><span data-lang="en">Site</span></h4>
+        <h2><span data-lang="de">Seiten</span><span data-lang="en">Site</span></h2>
         <a href="index.html"><span data-lang="de">Start</span><span data-lang="en">Home</span></a>
         <a href="philosophy.html"><span data-lang="de">Philosophie</span><span data-lang="en">Philosophy</span></a>
         <a href="kernel.html"><span data-lang="de">Der Kernel</span><span data-lang="en">The Kernel</span></a>
@@ -298,13 +331,13 @@
         <a href="status.html"><span data-lang="de">Entwicklungsstand</span><span data-lang="en">Development Status</span></a>
       </div>
       <div class="footer-col">
-        <h4><span data-lang="de">Rechtliches</span><span data-lang="en">Legal</span></h4>
+        <h2><span data-lang="de">Rechtliches</span><span data-lang="en">Legal</span></h2>
         <a href="impressum.html">Impressum</a>
         <a href="datenschutz.html">Datenschutzerkl&auml;rung</a>
       </div>
       <div class="footer-col">
-        <h4><span data-lang="de">Kontakt</span><span data-lang="en">Connect</span></h4>
-        <a href="waitlist.html"><span data-lang="de">Auf die Warteliste</span><span data-lang="en">Join the Waitlist</span></a>
+        <h2><span data-lang="de">Kontakt</span><span data-lang="en">Connect</span></h2>
+        <a href="waitlist.html"><span data-lang="de">Interesse anmelden</span><span data-lang="en">Register interest</span></a>
         <a href="https://disce.substack.com" target="_blank" rel="noopener">Substack</a>
         <a href="mailto:bjarne.dudzus@disce.de"><span data-lang="de">Kontakt</span><span data-lang="en">Contact</span></a>
       </div>

@@ -39,29 +39,17 @@ document.addEventListener('DOMContentLoaded', function () {
     track.innerHTML = run + run;
   }
 
-  // Accordion (FAQ-style)
-  document.querySelectorAll('.accordion-trigger').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var item = btn.closest('.accordion-item');
-      var panel = item.querySelector('.accordion-panel');
-      var isOpen = item.classList.contains('open');
-
-      document.querySelectorAll('.accordion-item.open').forEach(function (openItem) {
-        if (openItem !== item) {
-          openItem.classList.remove('open');
-          openItem.querySelector('.accordion-panel').style.maxHeight = null;
-        }
-      });
-
-      if (isOpen) {
-        item.classList.remove('open');
-        panel.style.maxHeight = null;
-      } else {
-        item.classList.add('open');
-        panel.style.maxHeight = panel.scrollHeight + 'px';
-      }
+  // Ticker pause/resume (A11Y-06, WCAG 2.2.2). Wired only when the page
+  // renders both the ticker and its control; reduced-motion hides the control.
+  var tickerSection = document.querySelector('.ticker-section');
+  var tickerToggle = document.querySelector('.ticker-toggle');
+  if (tickerSection && tickerToggle) {
+    tickerToggle.addEventListener('click', function () {
+      var paused = !tickerSection.classList.contains('is-paused');
+      tickerSection.classList.toggle('is-paused', paused);
+      tickerToggle.setAttribute('aria-pressed', String(paused));
     });
-  });
+  }
 
   // Language. German is the default; a stored choice wins over it.
   // No browser sniffing: a first-time visitor always gets German.
