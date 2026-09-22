@@ -90,7 +90,7 @@
      Tokenized so the two registers are named and tuned in one place. */
   --grain-film: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --grain-film-opacity: 0.05;
-  --grain-paper: url('../images/paper-grain.webp');
+  --grain-paper: url('../images/derived/paper-grain.webp');
   --grain-paper-size: 192px 192px;
   /* Applied paper grain: the paper surfaces paint this token. The kernel page
      opts out (see body.page-kernel) because its baked ghost field must carry
