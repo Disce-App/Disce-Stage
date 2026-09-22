@@ -15,21 +15,21 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('../fonts/archivo-black-400.woff2') format('woff2');
+  src: url('../fonts/archivo-black-400.subset.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400 800;
   font-display: swap;
-  src: url('../fonts/inter-var.woff2') format('woff2');
+  src: url('../fonts/inter-var.subset.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Newsreader';
   font-style: italic;
   font-weight: 500;
   font-display: swap;
-  src: url('../fonts/newsreader-italic-var.woff2') format('woff2');
+  src: url('../fonts/newsreader-italic-var.subset.woff2') format('woff2');
 }
 /* Newsreader roman (DESIGN-BRIEF §6/§13): display serif for the dark hero.
    Loaded only when the hero headline asks for it, so no other page pays for it. */
@@ -38,7 +38,7 @@
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
-  src: url('../fonts/newsreader-roman-var.woff2') format('woff2');
+  src: url('../fonts/newsreader-roman-var.subset.woff2') format('woff2');
 }
 
 :root {
