@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="DISCE entwickelt die nächste Produktstufe. Trag dein Interesse an der geplanten Private Beta ein — unverbindlich, ohne Wartelistenplatz und ohne festen Termin.">
-<title data-title-de="Interesse anmelden — Private Beta in Vorbereitung | Disce" data-title-en="Register interest — Private Beta in preparation | Disce">Interesse anmelden — Private Beta in Vorbereitung | Disce</title>
+<meta name="description" content="DISCE entwickelt die nächste Produktstufe. Trag dein Interesse an der geplanten Private Beta ein: unverbindlich, ohne Wartelistenplatz und ohne festen Termin.">
+<title data-title-de="Interesse anmelden · Private Beta in Vorbereitung · Disce" data-title-en="Register interest · Private Beta in preparation · Disce">Interesse anmelden · Private Beta in Vorbereitung · Disce</title>
 <script>try{if(localStorage.getItem('disce-lang')==='en'){document.documentElement.className+=' pre-en';document.documentElement.lang='en';}}catch(e){}</script>
 <link rel="stylesheet" href="css/experimental.min.css">
+<!-- PERF parity: preload the above-the-fold display face (PERF-01). -->
+<link rel="preload" href="fonts/archivo-black-400.subset.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="images/derived/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -17,19 +19,19 @@
 <meta property="og:site_name" content="Disce">
 <meta property="og:locale" content="de_DE">
 <meta property="og:locale:alternate" content="en_US">
-<meta property="og:title" content="Interesse anmelden — Private Beta in Vorbereitung | Disce">
-<meta property="og:description" content="DISCE entwickelt die nächste Produktstufe. Trag dein Interesse an der geplanten Private Beta ein — unverbindlich, ohne Wartelistenplatz und ohne festen Termin.">
+<meta property="og:title" content="Interesse anmelden · Private Beta in Vorbereitung · Disce">
+<meta property="og:description" content="DISCE entwickelt die nächste Produktstufe. Trag dein Interesse an der geplanten Private Beta ein: unverbindlich, ohne Wartelistenplatz und ohne festen Termin.">
 <meta property="og:url" content="https://weltvorstellung.de/waitlist.html">
 <meta property="og:image" content="https://weltvorstellung.de/images/derived/og-disce-1200x630.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Interesse anmelden — Private Beta in Vorbereitung | Disce">
-<meta name="twitter:description" content="DISCE entwickelt die nächste Produktstufe. Trag dein Interesse an der geplanten Private Beta ein — unverbindlich, ohne Wartelistenplatz und ohne festen Termin.">
+<meta name="twitter:title" content="Interesse anmelden · Private Beta in Vorbereitung · Disce">
+<meta name="twitter:description" content="DISCE entwickelt die nächste Produktstufe. Trag dein Interesse an der geplanten Private Beta ein: unverbindlich, ohne Wartelistenplatz und ohne festen Termin.">
 <meta name="twitter:image" content="https://weltvorstellung.de/images/derived/og-disce-1200x630.jpg">
 <style>
 /* ==========================================================================
-   WAITLIST — page-specific components.
+   WAITLIST: page-specific components.
    The shared design system (css/experimental.min.css) provides tokens, chrome
    (header/footer/nav/lang-switch), typography, buttons, sections, focus and
    motion. This block only styles what the shared sheet does not define: the
@@ -48,7 +50,7 @@ body.page-waitlist::after {
   opacity: 0.25;
 }
 
-/* Intro — plain page title on the paper background (no hero band). */
+/* Intro: plain page title on the paper background (no hero band). */
 .wl-intro h1 { font-size: var(--fs-1000); line-height: 1.05; margin-bottom: var(--sp-16); }
 .wl-subtitle { color: var(--muted); font-size: var(--fs-600); line-height: 1.7; max-width: 620px; }
 
@@ -67,7 +69,27 @@ body.page-waitlist::after {
 .info-text { font-size: var(--fs-500); color: var(--ink-soft); margin-bottom: var(--sp-24); }
 .details-list { list-style: none; display: flex; flex-direction: column; gap: var(--sp-16); }
 .details-list li { display: flex; align-items: flex-start; gap: var(--sp-16); font-size: var(--fs-400); color: var(--ink-soft); line-height: 1.55; }
-.details-list .icon { flex-shrink: 0; font-size: var(--fs-700); line-height: 1.2; }
+/* Brand diamond marker (same 7px rotated square as .eyebrow::before) replaces
+   the former emoji icons. */
+.details-list li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  margin-top: 8px;
+  background: var(--green);
+  transform: rotate(45deg);
+}
+
+/* Spam honeypot: kept in the DOM but moved off-screen and out of the
+   accessibility tree (wrapper aria-hidden, control not focusable). */
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 
 /* Form */
 .form-intro { font-size: var(--fs-400); color: var(--muted); margin-bottom: var(--sp-24); }
@@ -197,8 +219,8 @@ body.page-waitlist::after {
           <span data-lang="en">Register interest</span>
         </h1>
         <p class="wl-subtitle">
-          <span data-lang="de">Die Private Beta ist in Vorbereitung. Trag dein Interesse ein — unverbindlich, ohne Wartelistenplatz und ohne festen Termin.</span>
-          <span data-lang="en">The private beta is in preparation. Register your interest — non-binding, without a queue position or a fixed date.</span>
+          <span data-lang="de">Die Private Beta ist in Vorbereitung. Trag dein Interesse ein: unverbindlich, ohne Wartelistenplatz und ohne festen Termin.</span>
+          <span data-lang="en">The private beta is in preparation. Register your interest: non-binding, without a queue position or a fixed date.</span>
         </p>
       </div>
     </div>
@@ -221,28 +243,24 @@ body.page-waitlist::after {
 
           <ul class="details-list">
             <li>
-              <span class="icon">🎯</span>
               <span>
                 <span data-lang="de"><strong>Wer ist angesprochen?</strong> Internationale Fachkräfte in Deutschland mit Deutschkenntnissen auf Niveau B2–C2 (Selbsteinschätzung).</span>
                 <span data-lang="en"><strong>Who is this for?</strong> International professionals in Germany with German at level B2–C2 (self-assessment).</span>
               </span>
             </li>
             <li>
-              <span class="icon">📅</span>
               <span>
                 <span data-lang="de"><strong>Was passiert nach der Anmeldung?</strong> Wir vermerken dein Interesse. Wir melden uns, wenn die Private Beta oder die nächste Studie tatsächlich startet.</span>
                 <span data-lang="en"><strong>What happens after registering?</strong> We record your interest. We will contact you when the private beta or the next study actually opens.</span>
               </span>
             </li>
             <li>
-              <span class="icon">💻</span>
               <span>
                 <span data-lang="de"><strong>Gibt es einen festen Termin?</strong> Nein. Ein Starttermin steht nicht fest, und es gibt keine garantierte Rückmeldung.</span>
                 <span data-lang="en"><strong>Is there a fixed date?</strong> No. No start date is set, and there is no guaranteed response.</span>
               </span>
             </li>
             <li>
-              <span class="icon">⏱️</span>
               <span>
                 <span data-lang="de"><strong>Was bedeutet das für dich?</strong> Die Anmeldung ist unverbindlich und dauert nur wenige Minuten.</span>
                 <span data-lang="en"><strong>What does it involve?</strong> Registering is non-binding and takes only a few minutes.</span>
@@ -260,15 +278,25 @@ body.page-waitlist::after {
       <div class="container">
         <div class="wl-card">
           <h2>
-            <span data-lang="de">📝 Interesse anmelden</span>
-            <span data-lang="en">📝 Register interest</span>
+            <span data-lang="de">Interesse anmelden</span>
+            <span data-lang="en">Register interest</span>
           </h2>
           <p class="form-intro">
-            <span data-lang="de">Trag dich ein — wir melden uns, wenn die Private Beta oder die nächste Studie tatsächlich startet. Eine feste Zusage oder ein Termin ist damit nicht verbunden.</span>
-            <span data-lang="en">Fill in the form — we'll reach out when the private beta or the next study actually opens. This does not imply a fixed date or guaranteed access.</span>
+            <span data-lang="de">Trag dich ein. Wir melden uns, wenn die Private Beta oder die nächste Studie tatsächlich startet. Eine feste Zusage oder ein Termin ist damit nicht verbunden.</span>
+            <span data-lang="en">Fill in the form. We will reach out when the private beta or the next study actually opens. This does not imply a fixed date or guaranteed access.</span>
           </p>
 
           <form id="waitlistForm" novalidate>
+
+            <!-- Spam protection (dependency-free): an off-screen honeypot plus a
+                 time-trap. Both are invisible to real visitors and assistive
+                 tech (aria-hidden wrapper, non-focusable control) and are never
+                 sent to the API; only naive bots fill or beat them. -->
+            <div class="hp-field" aria-hidden="true">
+              <label for="website">Website</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+            <input type="hidden" id="form_ts" name="form_ts" value="" />
 
             <!-- Form-level error summary: announced on invalid submit (A11Y-01). -->
             <div class="form-error-summary" id="formErrorSummary" role="alert" tabindex="-1">
@@ -383,12 +411,12 @@ body.page-waitlist::after {
                success, so a confirmation inside it could never be shown, read or
                focused (A11Y-02). -->
           <div class="submit-feedback success" id="successMsg" role="status" tabindex="-1">
-            <span data-lang="de">✓ Danke! Dein Interesse ist vermerkt. Wir melden uns, wenn die geplante Private Beta oder die nächste Forschungsphase tatsächlich startet. Das ist keine Wartelistenposition, keine automatische Einladung, keine Zugangszusage und kein fester Termin. Details stehen in der <a href="datenschutz.html">Datenschutzerklärung</a>; du kannst dein Interesse jederzeit per E-Mail an <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a> korrigieren oder zurückziehen.</span>
-            <span data-lang="en">✓ Thank you! Your interest is noted. We will contact you when the planned private beta or the next research phase actually opens. This is not a queue position, not an automatic invitation, not a guarantee of access, and not a fixed date. Details are in the <a href="datenschutz.html">privacy policy</a>; you can correct or withdraw your interest at any time by emailing <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a>.</span>
+            <span data-lang="de">Danke! Dein Interesse ist vermerkt. Wir melden uns, wenn die geplante Private Beta oder die nächste Forschungsphase tatsächlich startet. Das ist keine Wartelistenposition, keine automatische Einladung, keine Zugangszusage und kein fester Termin. Details stehen in der <a href="datenschutz.html">Datenschutzerklärung</a>; du kannst dein Interesse jederzeit per E-Mail an <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a> korrigieren oder zurückziehen.</span>
+            <span data-lang="en">Thank you! Your interest is noted. We will contact you when the planned private beta or the next research phase actually opens. This is not a queue position, not an automatic invitation, not a guarantee of access, and not a fixed date. Details are in the <a href="datenschutz.html">privacy policy</a>; you can correct or withdraw your interest at any time by emailing <a href="mailto:bjarne.dudzus@disce.de">bjarne.dudzus@disce.de</a>.</span>
           </div>
           <div class="submit-feedback error-msg" id="errorMsg" role="alert">
-            <span data-lang="de">⚠ Etwas ist schiefgelaufen. Bitte versuche es erneut oder schreib uns direkt.</span>
-            <span data-lang="en">⚠ Something went wrong. Please try again or contact us directly.</span>
+            <span data-lang="de">Etwas ist schiefgelaufen. Bitte versuche es erneut oder schreib uns direkt.</span>
+            <span data-lang="en">Something went wrong. Please try again or contact us directly.</span>
           </div>
 
           <!-- Compact trust / status block, subordinate to the form (TRUST-01). -->
@@ -420,7 +448,7 @@ body.page-waitlist::after {
     <div class="wrap">
       <div class="container">
         <div class="wl-card">
-          <h3>🔒
+          <h3>
             <span data-lang="de">Datenschutzhinweis</span>
             <span data-lang="en">Privacy Notice</span>
           </h3>
@@ -596,6 +624,13 @@ body.page-waitlist::after {
 
 <script src="js/site.js"></script>
 <script>
+  // Spam time-trap: record when the form was rendered. A submission arriving
+  // faster than a human could fill the required fields is treated as a bot.
+  (function () {
+    var ts = document.getElementById('form_ts');
+    if (ts) ts.value = String(Date.now());
+  })();
+
   // =========================== LANGUAGE-DEPENDENT SELECT PLACEHOLDER ==========
   // The shared js/site.js owns language switching (body.lang-de / body.lang-en).
   // The empty first <option> cannot carry a data-lang span, so its label is set
@@ -605,7 +640,7 @@ body.page-waitlist::after {
       var sel = document.getElementById('german_level');
       if (!sel) return;
       var isEn = document.body.classList.contains('lang-en');
-      sel.options[0].text = isEn ? '— Please select —' : '— Bitte wählen —';
+      sel.options[0].text = isEn ? 'Please select' : 'Bitte wählen';
     }
     setPlaceholder();
     document.querySelectorAll('.lang-switch button').forEach(function (b) {
@@ -654,7 +689,7 @@ body.page-waitlist::after {
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     setError('group-email', !emailOk, [emailInput]);
 
-    // German level (optional — no validation; an empty value is allowed)
+    // German level (optional: no validation; an empty value is allowed)
     const levelSelect = form.german_level;
     const level = levelSelect.value;
 
@@ -673,6 +708,18 @@ body.page-waitlist::after {
       return;
     }
     if (errorSummary) errorSummary.classList.remove('show');
+
+    // --- Spam check (honeypot + time-trap) ---
+    // A filled honeypot, or a submit faster than ~2.5 s, indicates a bot. Stop
+    // without contacting the API and show the generic retry message, so a rare
+    // false positive still gets feedback. The honeypot is never sent.
+    var honeypot = form.website ? form.website.value.trim() : '';
+    var startedAt = parseInt(form.form_ts && form.form_ts.value, 10);
+    var tooFast = !isNaN(startedAt) && (Date.now() - startedAt) < 2500;
+    if (honeypot || tooFast) {
+      errorMsg.classList.add('show');
+      return;
+    }
 
     // Clear previous messages
     successMsg.classList.remove('show');

@@ -4,7 +4,7 @@
 // Variation in every generative visual derives from an explicit seed (see the
 // plan's seed strategy): the same seed must always produce the same output.
 
-// FNV-1a 32-bit — turns a stable string id into a numeric seed.
+// FNV-1a 32-bit – turns a stable string id into a numeric seed.
 export function hashSeed(value) {
   const str = String(value);
   let hash = 0x811c9dc5;
@@ -15,7 +15,7 @@ export function hashSeed(value) {
   return hash >>> 0;
 }
 
-// mulberry32 — small, fast, good enough for visual jitter.
+// mulberry32 – small, fast, good enough for visual jitter.
 export function mulberry32(seed) {
   let a = seed >>> 0;
   return function next() {

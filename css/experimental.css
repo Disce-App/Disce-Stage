@@ -1,8 +1,8 @@
 /* ==========================================================================
-   DISCE — EXPERIMENTAL IDENTITY
+   DISCE – EXPERIMENTAL IDENTITY
    Halftone / duotone poster system, adapted from the Disce event flyers.
    Built for an investor- and partner-facing pre-product company, not a
-   product marketing site — the visual language should read as confident
+   product marketing site – the visual language should read as confident
    graphic design, not SaaS-template.
    ========================================================================== */
 
@@ -205,7 +205,7 @@ p { color: var(--ink-soft); }
 }
 
 /* ==========================================================================
-   MARGIN RULE — the flyer's full-height left-edge line
+   MARGIN RULE – the flyer's full-height left-edge line
    ========================================================================== */
 body::before {
   content: '';
@@ -315,7 +315,7 @@ body::before {
 }
 
 /* ==========================================================================
-   HERO — Phase 5 image-led rework (DESIGN-BRIEF §5–§8, §13)
+   HERO – Phase 5 image-led rework (DESIGN-BRIEF §5–§8, §13)
    Full-bleed key visual served via <picture> (AVIF -> WebP -> master PNG),
    a left-weighted dark scrim tuned for AA copy, a ~5% film-grain overlay,
    the Newsreader roman display serif on the headline, and two darkened
@@ -448,7 +448,7 @@ body::before {
   background:
     linear-gradient(180deg, rgba(213, 192, 157, 0.07), rgba(213, 192, 157, 0.03)),
     rgba(18, 51, 41, 0.66);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  box-shadow: 6px 6px 0 var(--legacy-ink);
   color: var(--legacy-paper);
 }
 
@@ -462,7 +462,7 @@ body::before {
     linear-gradient(180deg, rgba(213, 192, 157, 0.07), rgba(213, 192, 157, 0.03)),
     rgba(18, 51, 41, 0.66);
   border: 1px solid rgba(213, 192, 157, 0.30);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  box-shadow: 6px 6px 0 var(--legacy-ink);
   overflow: hidden;
 }
 
@@ -523,7 +523,7 @@ section.tight { padding: var(--sp-56) 0; }
 .section-head h2 { font-size: var(--fs-1000); margin-bottom: var(--sp-16); }
 
 /* WP H layout pass (A): the section head and the process rows share one
-   three-column grid — number | title | description — so the section lede lines
+   three-column grid – number | title | description – so the section lede lines
    up exactly with the process descriptions and the heading with the row start.
    Eyebrow and heading span the left two columns (flush to the wrap edge); the
    lede sits in the third column, top-aligned with the heading. Kernel keeps its
@@ -706,7 +706,7 @@ body:not(.page-kernel) .section-head:not(:has(.lede)) {
 .process-item p { color: var(--reading-ink, var(--muted)); font-size: var(--fs-400); max-width: 600px; }
 
 /* WP H layout pass (B): the row uses the same three-column grid as the section
-   head — number | title | description. `display: contents` promotes the h3 and
+   head – number | title | description. `display: contents` promotes the h3 and
    p out of the wrapper so they land in columns 2 and 3 without a markup change.
    Kernel keeps its own treatment. */
 body:not(.page-kernel) .process-item {
@@ -748,7 +748,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
 @media (max-width: 640px) { .process-item { grid-template-columns: 1fr; gap: var(--sp-40); } }
 
 /* ==========================================================================
-   MEDIA CARDS — 4:3 brand visuals in light content sections (DESIGN-BRIEF §7/§9)
+   MEDIA CARDS – 4:3 brand visuals in light content sections (DESIGN-BRIEF §7/§9)
    Two-up bordered cards, square corners, no motion, no backdrop-filter. The
    images are decorative (alt=""); the fixed aspect-ratio plus explicit
    width/height attributes keep the grid at zero layout shift. Unlike the
@@ -776,7 +776,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
 @media (max-width: 700px) { .media-card-grid { grid-template-columns: 1fr; } }
 
 /* ==========================================================================
-   IMAGE BANDS — clean full-width visuals with no overlaid copy (§7/§9)
+   IMAGE BANDS – clean full-width visuals with no overlaid copy (§7/§9)
    The <picture> stays in normal flow and the <img> carries explicit
    width/height, so the band reserves its aspect ratio before the image
    decodes and contributes zero layout shift. No scrim and no grain: nothing
@@ -790,7 +790,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
 .band picture, .band img { display: block; width: 100%; height: auto; }
 
 /* ==========================================================================
-   BAND TEXT CARDS — split-band treatment (§7/§8)
+   BAND TEXT CARDS – split-band treatment (§7/§8)
    The band image stays full-bleed and decorative; a paper card sits over the
    calm side of each master. Square corners, 2 px ink hairline, the established
    hero-card shadow language; no blur, no glass, no full-band scrim. On desktop
@@ -806,7 +806,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
   max-width: calc(100% - var(--sp-64));
   background: var(--paper);
   border: 2px solid var(--ink);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  box-shadow: 6px 6px 0 var(--legacy-ink);
   padding: var(--sp-24) var(--sp-28);
   z-index: 2;
 }
@@ -904,10 +904,10 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
 @media (max-width: 640px) { .advisor-row { grid-template-columns: 1fr; gap: var(--sp-16); } }
 
 /* --------------------------------------------------------------------------
-   TEAM ROSTER — photo-free founder list (WP I)
+   TEAM ROSTER – photo-free founder list (WP I)
    The portraits were never supplied, so the founder cards become one ruled,
    photo-free roster: information parity, no placeholder imagery. Each entry
-   leads with a monogram, then name, role and bio — the same ruled grid
+   leads with a monogram, then name, role and bio – the same ruled grid
    language as .process-list / .advisor-row. Type-only, so there is no image
    column to remove later; deleting this block and the .team-roster markup
    leaves the page meaningful.
@@ -1052,7 +1052,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
 }
 
 /* Project spine (structural overhaul, 2026-09-15). The four projects are one
-   sequence read top-to-bottom — complete -> in progress -> planned. Each entry
+   sequence read top-to-bottom – complete -> in progress -> planned. Each entry
    shows its full detail; the former hover/click disclosure, its reserved blank
    space and the "Mehr" toggles are gone. The active Kernel v0 entry carries the
    dark spotlight that will host the ouroboros plate. */
@@ -1078,7 +1078,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
   isolation: isolate;
   margin-top: var(--sp-40);
 }
-/* Top separator rule — same bleed as every field. Sits above the substrate. */
+/* Top separator rule – same bleed as every field. Sits above the substrate. */
 .project-spine::before {
   content: '';
   position: absolute;
@@ -1092,7 +1092,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
 }
 /* --------------------------------------------------------------------------
    WORLD-TREE SUBSTRATE (2026-09-16). One persistent decorative layer behind the
-   entire project spine: the larger world the projects take place in — not a
+   entire project spine: the larger world the projects take place in – not a
    project mark, so it never answers to hover, focus, pointer or scroll. The
    paper entries are transparent, so it stays visible through them; the opaque
    green focus fields are painted above it, so a focused project covers it. The
@@ -1120,7 +1120,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
   opacity: 0.055;
 }
 /* Wide layout only: the spine is wider than it is tall in proportion, so the
-   engraving can be scaled (uniformly — no distortion) until it spans
+   engraving can be scaled (uniformly – no distortion) until it spans
    Cervus -> Asgard instead of sitting as a small centred stamp. The transform is
    anchored off-centre to the right so the trunk sits clear of the reading
    column and it never reads as a centred hero image. Static: no transition. */
@@ -1180,7 +1180,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
   padding-top: var(--sp-16);
 }
 
-/* Spotlight — Kernel v0. The single dark counterpoint inside the light
+/* Spotlight – Kernel v0. The single dark counterpoint inside the light
    sequence, bleeding to the wrap edges; the ouroboros plate mounts at its
    centre once the master visual lands. */
 .project-entry.is-spotlight {
@@ -1203,7 +1203,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
    hairline above it would poke out at its corners. Its separator now comes
    from the shared full-bleed ::after rule, so no exception is needed. */
 
-/* Kernel ouroboros — free engraved artefact (asset class D, R2 forest variant).
+/* Kernel ouroboros – free engraved artefact (asset class D, R2 forest variant).
    No frame, no cream canvas, transparent ground, so the engraving merges into
    the --green-forest spotlight field. Square reserved area (aspect-ratio +
    explicit img dimensions) keeps CLS at zero; object-fit: contain never crops
@@ -1280,7 +1280,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
 
 /* ==========================================================================
    PROJECT FOCUS FIELDS (2026-09-16)
-   Forest green here means "currently in focus" — never "in development". The
+   Forest green here means "currently in focus" – never "in development". The
    actual status stays carried only by the existing status dot, label and date.
    The field is painted by an absolutely positioned ::before layer, so switching
    focus changes only background-color / color / opacity and never reflows. The
@@ -1301,7 +1301,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
   pointer-events: none;
   transition: opacity var(--project-field-fade) var(--ease);
 }
-/* Bottom separator rule — the entry box already carries the shared bleed, so
+/* Bottom separator rule – the entry box already carries the shared bleed, so
    this rule and the field have identical left/right extents. */
 .project-entry::after {
   content: '';
@@ -1334,7 +1334,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
               box-shadow var(--project-text-fade) var(--ease);
 }
 
-/* Atmospheric visual layer — decorative, behind the copy, one shared system.
+/* Atmospheric visual layer – decorative, behind the copy, one shared system.
    Fully hidden on paper; it fades in only with its own focused green field. */
 .project-focus {
   position: absolute;
@@ -1352,7 +1352,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
   bottom: calc(-1 * var(--sp-32));
 }
 /* Cervus: the existing Disce antler signet used as an alpha mask. It only ever
-   appears on the green field, so the fill is parchment, period — there is no
+   appears on the green field, so the fill is parchment, period – there is no
    ink state to animate through. The source PNG is never modified, and no
    filter, blend mode or gradient is used. */
 .project-focus-visual--antler {
@@ -1441,7 +1441,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
   .project-spine:hover .project-entry.is-spotlight:not(:hover) .kernel-ouroboros img { opacity: 0; }
 }
 
-/* Reduced motion: every focus change is immediate — no opacity animation. */
+/* Reduced motion: every focus change is immediate – no opacity animation. */
 @media (prefers-reduced-motion: reduce) {
   .project-entry::before,
   .project-focus,
@@ -1455,11 +1455,11 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
 }
 
 /* --------------------------------------------------------------------------
-   Generative visual — seeded section motif (Batch 2, Philosophy). One system
+   Generative visual – seeded section motif (Batch 2, Philosophy). One system
    reused across the essay headings: a bandwidth of contour hairlines whose
    count, undulation and ochre accent derive from base seed + section id. The
    plate ships hidden and is mounted by JS, aria-hidden and text-free, so the
-   no-JS render is unchanged. Static for now — motion is a later batch.
+   no-JS render is unchanged. Static for now – motion is a later batch.
    -------------------------------------------------------------------------- */
 .gen-motif { margin: 0 0 var(--sp-8); }
 .gen-motif-svg { display: block; width: 100%; height: auto; }
@@ -1556,7 +1556,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
 }
 
 /* ==========================================================================
-   PHILOSOPHY — long-form prose
+   PHILOSOPHY – long-form prose
    ========================================================================== */
 .philosophy-toc { background: var(--legacy-paper); border: 2px solid var(--legacy-ink); padding: var(--sp-28) var(--sp-32); margin-bottom: var(--sp-12); position: relative; }
 .philosophy-toc h2, .philosophy-toc h4 { font-size: var(--fs-200); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: var(--sp-16); font-family: var(--font-body); font-weight: 800; }
@@ -1584,7 +1584,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
 .prose .attrib { font-size: var(--fs-300); color: var(--muted); margin-top: -14px; margin-bottom: var(--sp-24); }
 
 /* ==========================================================================
-   PHILOSOPHY — CHAPTER COVERS (DESIGN-BRIEF §6/§7)
+   PHILOSOPHY – CHAPTER COVERS (DESIGN-BRIEF §6/§7)
    Each essay chapter opens with a small 21:9 plate that carries its headline,
    replacing the retired seeded line-motif (the .gen-motif mounts are gone, so
    the section-motif module no longer draws anything here). The plate is inside
@@ -1621,7 +1621,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
 }
 /* Copy block: the chapter kicker (small uppercase) stacked above the serif
    title, both overlaid at the foot of the plate. A soft local gradient sits
-   behind the block so the text clears AA over any crop — a wash, not an
+   behind the block so the text clears AA over any crop – a wash, not an
    opaque box. Kicker and title share the same left edge. */
 .chapter-cover-copy {
   position: absolute;
@@ -1629,7 +1629,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
   z-index: 2;
   padding: var(--sp-48) var(--sp-24) var(--sp-20);
   /* Local wash: transparent at the top edge, deepening under the kicker and
-     title so both clear AA over any crop — a gradient, never an opaque box.
+     title so both clear AA over any crop – a gradient, never an opaque box.
      It reaches ~0.82 by the kicker line, which keeps the brightest possible
      image pixel behind the text at ≤0.15 luminance. */
   background: linear-gradient(180deg,
@@ -1665,7 +1665,7 @@ body:not(.page-kernel) .process-item p { grid-column: 3; max-width: none; }
 }
 
 /* ==========================================================================
-   PHILOSOPHY — LONG-FORM TYPE (DESIGN-BRIEF §6)
+   PHILOSOPHY – LONG-FORM TYPE (DESIGN-BRIEF §6)
    Reading refinements scoped to the Philosophy essay so the legal pages that
    share .prose keep their current styling. The prose column stays 740px (so
    every chapter cover keeps its exact rendered size); line length is instead
@@ -1705,10 +1705,10 @@ body:has(.phil-ambient) .prose blockquote {
 }
 
 /* Editorial drop cap on every chapter opening: the first body paragraph after
-   each .chapter-cover plate, targeted structurally — no per-paragraph class.
+   each .chapter-cover plate, targeted structurally – no per-paragraph class.
    The glyph is the site's serif display face (Newsreader) in muted forest
    green, set to span three text lines: 6.05em at a 0.85 line-height =
-   3 × 1.72em. Pure ::first-letter — the prose text and the screen-reader
+   3 × 1.72em. Pure ::first-letter – the prose text and the screen-reader
    output are untouched. Reduced to ~2 lines at ≤640px. */
 body:has(.phil-ambient) .prose .chapter-cover + p::first-letter {
   float: left;
@@ -1726,7 +1726,7 @@ body:has(.phil-ambient) .prose .chapter-cover + p::first-letter {
 }
 
 /* ==========================================================================
-   PHILOSOPHY — AMBIENT PANE (DESIGN-BRIEF §7)
+   PHILOSOPHY – AMBIENT PANE (DESIGN-BRIEF §7)
    A single, page-level desktop visual for the long-form Philosophy prose, not
    a per-section illustration. A fixed, full-height image area sits flush at the
    right viewport edge, ~320-380px wide, entirely outside the 740px prose zone,
@@ -1734,7 +1734,7 @@ body:has(.phil-ambient) .prose .chapter-cover + p::first-letter {
 
    The printed paper mat is cropped away in the pipeline (DESIGN-BRIEF §9);
    the motif bleeds to the right edge and its left edge dissolves into the page
-   paper through a broad, non-linear feathered mask — no hard vertical edge, no
+   paper through a broad, non-linear feathered mask – no hard vertical edge, no
    blur on the motif. Below 1120px there is no image treatment at all.
    ========================================================================== */
 .phil-ambient {
@@ -1900,13 +1900,13 @@ body:has(.phil-ambient) .prose .chapter-cover + p::first-letter {
 .page-hero .eyebrow, .page-hero .lede { position: relative; z-index: 1; }
 
 /* ==========================================================================
-   PHILOSOPHY HERO — FULL-WIDTH ART (DESIGN-BRIEF §6/§7)
+   PHILOSOPHY HERO – FULL-WIDTH ART (DESIGN-BRIEF §6/§7)
    The Philosophy hero opens on a full-bleed plate from the same artwork family
    as the homepage hero (images/PHIL_hero_stag-moon-skyline, 2048x512, 4:1):
    a left-weighted --green-deep scrim, Newsreader display copy in parchment, and
    ~5% grain. The artwork is masked at its bottom edge so its last 150px fade to
    transparent and dissolve into the following vision band's solid --green-deep
-   — a mask on the image layer, not a gradient on any background container.
+   – a mask on the image layer, not a gradient on any background container.
 
    The markup ships statically in philosophy.html (.page-hero--art); the
    halftone dots it replaces are retired. The hero has no box border, so the
@@ -1952,7 +1952,7 @@ body:has(.phil-ambient) .prose .chapter-cover + p::first-letter {
     #000 calc(100% - 150px),
     rgba(0, 0, 0, 0) 100%);
 }
-/* The vision band keeps its solid --green-deep fill — the same value the image
+/* The vision band keeps its solid --green-deep fill – the same value the image
    mask fades toward, so there is no colour discontinuity at full transparency.
    Its top padding is raised so the pull-quote card sits entirely below the
    mask's fade range, on solid green. */
@@ -2155,7 +2155,7 @@ html:not(.pre-en) body:not(.lang-de):not(.lang-en) [data-lang="en"] { display: n
 }
 
 /* ==========================================================================
-   320PX CONTAINMENT — long compounds & intrinsic min-content
+   320PX CONTAINMENT – long compounds & intrinsic min-content
    Long, unbreakable words (mostly German compounds, e.g. in display headings)
    and flex/grid children floored at `min-width: auto` could push the document
    wider than the viewport. These rules only take effect when a word cannot fit
@@ -2186,7 +2186,7 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
 }
 
 /* ==========================================================================
-   CTA BAND — Phase 4 image-pipeline proof (DESIGN-BRIEF Section 9)
+   CTA BAND – Phase 4 image-pipeline proof (DESIGN-BRIEF Section 9)
    Full-bleed background served via <picture> (AVIF -> WebP -> master PNG),
    a scrim tuned for WCAG AA overlaid copy, and a ~5% film-grain overlay.
    Every added layer is absolutely positioned, so the section keeps its
@@ -2234,7 +2234,7 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
 .cta-band:has(.cta-band-bg) .lede { color: var(--legacy-paper); }
 
 /* ==========================================================================
-   CORRIDOR INTERSTITIAL — Phase 5 dark interstitial (DESIGN-BRIEF §7)
+   CORRIDOR INTERSTITIAL – Phase 5 dark interstitial (DESIGN-BRIEF §7)
    Full-bleed key visual served via <picture> (AVIF -> WebP -> master PNG),
    a strong left-weighted scrim so the copy clears AA while the stag and lit
    doorway stay readable, and a ~5% film-grain overlay. Every added layer is
@@ -2329,7 +2329,7 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
 }
 
 /* ==========================================================================
-   BETA HERO — one-screen C08 heron band (DESIGN-BRIEF §7/§13)
+   BETA HERO – one-screen C08 heron band (DESIGN-BRIEF §7/§13)
    The key visual is absolutely positioned behind a one-screen-high section,
    so it contributes zero layout shift. A soft cream scrim on the left keeps
    the dark copy AA-safe while the sun, heron and ground band stay visible.
@@ -2389,7 +2389,7 @@ h1, h2, h3, h4, .prose, .lede { overflow-wrap: break-word; }
 }
 
 /* ==========================================================================
-   KERNEL PAGE — hero (body.page-kernel)
+   KERNEL PAGE – hero (body.page-kernel)
    Full-bleed panorama (the golden archway) as the hero surface, with the copy
    on a flat parchment panel. Light-surface text values, the documented light
    eyebrow variant, the default light buttons, and the same paper grain as the
@@ -2489,9 +2489,9 @@ body.page-kernel .kernel-hero .lede {
    (AA). Documented deviation, AA-driven. */
 body.page-kernel .kernel-hero .eyebrow { color: var(--green-forest); }
 /* No box: the copy sits directly on the panorama. Legibility comes from the
-   scrim below — a flat gradient in the image's own paper tone, not a panel.
+   scrim below – a flat gradient in the image's own paper tone, not a panel.
    Flex column (like the index hero's copy cell) so the child margins do NOT
-   collapse — that is what makes the eyebrow/h1/lede/actions gaps identical to
+   collapse – that is what makes the eyebrow/h1/lede/actions gaps identical to
    the homepage's rhythm. */
 body.page-kernel .kernel-hero-copy {
   position: relative;
@@ -2528,7 +2528,7 @@ body.page-kernel .kernel-hero-copy {
   }
 }
 /* Mobile (<=768): the horizontal scrim cannot cover a full-width text column
-   while keeping the arch visible, so we use the documented fallback — the text
+   while keeping the arch visible, so we use the documented fallback – the text
    block sits on the panorama's own paper tone, above a shortened image band
    that keeps the arch. Rendered and measured. */
 @media (max-width: 768px) {
@@ -2551,12 +2551,12 @@ body.page-kernel .kernel-hero-copy {
 }
 
 /* ==========================================================================
-   KERNEL PAGE — RUNTIME ARCHITECTURE PLATE (body.page-kernel)
+   KERNEL PAGE – RUNTIME ARCHITECTURE PLATE (body.page-kernel)
    A static, token-styled inline SVG rendered from the runtime architecture
    model (source: disce-kernel-architecture.json, an untracked artifact).
    Informative, not decorative, but hidden from the a11y tree: the bilingual
    <figcaption> is the DOM textual equivalent (implementation plan, Slot A
-   pattern). No JS, no raster, no motion — this SVG is its own static and
+   pattern). No JS, no raster, no motion – this SVG is its own static and
    reduced-motion fallback. Labels stay legible by scrolling the plate inside
    its own region on narrow viewports instead of shrinking the type.
 
@@ -2613,9 +2613,9 @@ body.page-kernel .arch-caption { margin-top: var(--sp-16); font-size: var(--fs-4
 }
 
 /* ==========================================================================
-   KERNEL PAGE — CONSOLIDATED CARD SYSTEM (body.page-kernel)
+   KERNEL PAGE – CONSOLIDATED CARD SYSTEM (body.page-kernel)
    One canonical card for the whole page: square corners, 2px ink border,
-   paper fill, equal padding and internal rhythm, hard offset-shadow hover —
+   paper fill, equal padding and internal rhythm, hard offset-shadow hover  – 
    the ".persona-card" language applied to every card grid (the three
    problem grids and the four-layer grid).
 
@@ -2664,14 +2664,14 @@ body.page-kernel .persona-card p {
 }
 
 /* ==========================================================================
-   KERNEL PAGE — NUMBERING / BADGES (body.page-kernel)
+   KERNEL PAGE – NUMBERING / BADGES (body.page-kernel)
    Two numbering treatments only on this page:
      · cards  -> .k-badge, a green diamond shared by every card grid
      · lists  -> .step-num, the existing duotone oversized numeral (unchanged)
    The runtime architecture plate keeps its own ochre numerals: it is a
    distinct plate register and is explicitly protected from restyling.
 
-   Eyebrow marker rule (documentation only — no visual change):
+   Eyebrow marker rule (documentation only – no visual change):
      · ochre dot     = status / problem / contact contexts and dark surfaces
                        (.section-head:has(+ .problem-grid), .band-card,
                         .cta-band:has(.cta-band-bg), .hero)
@@ -2695,7 +2695,7 @@ body.page-kernel .k-badge {
 body.page-kernel .k-badge > span { display: block; transform: rotate(-45deg); }
 
 /* ==========================================================================
-   KERNEL PAGE — TYPE HIERARCHY (body.page-kernel)
+   KERNEL PAGE – TYPE HIERARCHY (body.page-kernel)
    Grotesque (Archivo Black) stays the headline face on light surfaces
    (DESIGN-BRIEF §6); the serif stays reserved for the hero / dark surfaces.
    Loudness is differentiated within the one face by size + whitespace:
@@ -2720,7 +2720,7 @@ body.page-kernel .cta-band h2 { font-size: var(--k-fs-key); }
 body.page-kernel .process-item p { font-size: var(--k-fs-body); line-height: 1.6; }
 
 /* ==========================================================================
-   KERNEL PAGE — HERO SURFACE CONTRAST (body.page-kernel)
+   KERNEL PAGE – HERO SURFACE CONTRAST (body.page-kernel)
    v2: the hero is a light surface (panorama + parchment copy panel), so the
    previous dark-hero button hardening is gone and the global light-surface
    rules apply (--legacy-ink secondary outline, ink-filled primary). The
@@ -2731,7 +2731,7 @@ body.page-kernel .process-item p { font-size: var(--k-fs-body); line-height: 1.6
    ========================================================================== */
 
 /* ==========================================================================
-   KERNEL PAGE — SECTION RHYTHM (body.page-kernel)
+   KERNEL PAGE – SECTION RHYTHM (body.page-kernel)
    One separation principle: generous, uniform vertical whitespace on the 4px
    token grid, plus a single intentional background shift (the Foundation
    band, already delimited by its 2px rules) and one divider before the
@@ -2748,10 +2748,10 @@ body.page-kernel .section-head h2 { margin-bottom: var(--sp-16); }
 body.page-kernel .section-head .lede { margin-bottom: 0; }
 
 /* ==========================================================================
-   KERNEL PAGE — PAPER GRAIN (body.page-kernel)
+   KERNEL PAGE – PAPER GRAIN (body.page-kernel)
    The paper substrate is textured with the shared, seamless, alpha-composited
    tile (--grain-paper): warm-dark flecks carry their OWN alpha, so the overlays
-   composite under NORMAL blending — no mix-blend-mode, no live filter or mask,
+   composite under NORMAL blending – no mix-blend-mode, no live filter or mask,
    no re-blend of scroll content. Effective darkening on cream is ~3.4% mean /
    ~7.9% peak: visible at 100% in a full-page screenshot, still reading as paper
    rather than film noise.
@@ -2804,7 +2804,7 @@ body.page-kernel .persona-card::before {
 }
 
 /* ==========================================================================
-   KERNEL PAGE — EMBLEM WATERMARK (body.page-kernel)
+   KERNEL PAGE – EMBLEM WATERMARK (body.page-kernel)
    The ouroboros emblem relocated from the hero into a single decorative
    watermark behind the Definition section ("A system, not content") at 8%
    opacity. It reuses the existing external SVG (also served on status.html, so
@@ -2824,7 +2824,7 @@ body.page-kernel .k-watermark {
 }
 
 /* ==========================================================================
-   KERNEL PAGE — EDITORIAL BAND (body.page-kernel)
+   KERNEL PAGE – EDITORIAL BAND (body.page-kernel)
    Full-bleed panorama between the Foundation and the Cycle. The <picture> is
    absolutely positioned so the band keeps a fixed 45-60vh height with no
    layout shift; object-position is biased right so the archway stays in frame
@@ -2878,7 +2878,7 @@ body.page-kernel .k-band::after {
   opacity: var(--grain-film-opacity);
   pointer-events: none;
 }
-/* R15 — quote-panel device, copied from the index hero card (square, 1px
+/* R15 – quote-panel device, copied from the index hero card (square, 1px
    parchment-@30 hairline, parchment gradient over a forest stage) and adapted
    to this lighter band image. The scrim behind the panel is a soft forest
    ground so the panel's surroundings stay dark enough; the arch stays clear
@@ -2917,7 +2917,7 @@ body.page-kernel .k-band-copy {
   background:
     linear-gradient(180deg, rgba(213, 192, 157, 0.07), rgba(213, 192, 157, 0.03)),
     rgba(18, 51, 41, 0.90);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  box-shadow: 6px 6px 0 var(--legacy-ink);
 }
 @media (max-width: 768px) {
   body.page-kernel .k-band { height: auto; min-height: 0; max-height: none; }
@@ -2932,13 +2932,13 @@ body.page-kernel .k-band-copy {
 }
 
 /* ==========================================================================
-   KERNEL PAGE — GHOST FIELD (body.page-kernel)
+   KERNEL PAGE – GHOST FIELD (body.page-kernel)
    ONE continuous ambient layer behind the Cycle, Layers and Data Advantage
    sections. Since Ruling 10 it is a PRE-BAKED, flattened file: the grade,
    6% opacity, soft edges and the ~80% presence anchor are already composited
    over the section paper tone (#F6F1E2) by scripts/optimize_images.py
    --bake-ghost. So the page only positions ONE plain, unfiltered, unmasked
-   layer at opacity 1 — no live filter/mask/compositing (and no repaint of a
+   layer at opacity 1 – no live filter/mask/compositing (and no repaint of a
    filtered layer while scrolling). A paper-tone ramp on the layer's own
    ::after dissolves the clipped sheet into the following Boundaries section
    (see the rule below). Decorative: alt="" + aria-hidden. The section grain
@@ -3018,7 +3018,7 @@ body.page-kernel .k-ghost-field::after {
 }
 
 /* ==========================================================================
-   KERNEL PAGE — BAND SEAM (body.page-kernel)
+   KERNEL PAGE – BAND SEAM (body.page-kernel)
    Pull the band up against the card grid above so it reads as a true
    full-bleed divider, not a section with padding. High specificity so it
    overrides the section-rhythm rule.
@@ -3028,12 +3028,12 @@ body.page-kernel section.bg-sage:not(.kernel-hero):not(.cta-band):not(.tight) {
 }
 
 /* ==========================================================================
-   PAPER GRAIN — one sheet across the site
+   PAPER GRAIN – one sheet across the site
    Every light/paper surface paints the shared, seamless --grain-paper tile, so
    the site reads as one continuous sheet of warm cotton paper. The grain is a
    background layer BEHIND the ink and images: it never touches glyph
    rendering, contrast or layout, and it costs no blend mode, filter or live
-   compositing. Dark ink surfaces and photographic bands are excluded — they
+   compositing. Dark ink surfaces and photographic bands are excluded – they
    keep their own film grain (--grain-film). body.page-kernel opts out via
    --paper-grain: none because it applies the same tile above its baked ghost
    field. Delete this block to remove the texture site-wide.
@@ -3068,7 +3068,7 @@ body,
 }
 
 /* ==========================================================================
-   BOTANICAL PAPER WASH — Greenery backdrop (DESIGN-BRIEF §4/§5/§7)
+   BOTANICAL PAPER WASH – Greenery backdrop (DESIGN-BRIEF §4/§5/§7)
    One Greenery master sits fixed behind the page at low opacity, so the site
    picks up more of the green/paper palette without replacing any existing
    image or pattern. It is painted by `body::after`, the same fixed,
@@ -3085,7 +3085,7 @@ body,
    carries an image), .page-hero--art, .beta-hero, .site-header, all cards, and
    every dark section. waitlist.html is untouched (its own inline stylesheet).
 
-   Performance: one composited fixed layer with plain `opacity` — no
+   Performance: one composited fixed layer with plain `opacity` – no
    background-attachment, no blend mode, no filter. Tune the strength with
    --botanical-opacity (0.25 = 25%).
    ========================================================================== */
@@ -3143,9 +3143,9 @@ body::after {
 }
 
 /* ==========================================================================
-   READING FIELD — legibility over the botanical wash (WP H / NEW-06)
+   READING FIELD – legibility over the botanical wash (WP H / NEW-06)
    The wash stays. Instead of a panel behind the text, ONE feathered paper
-   light sits above the wash and below all content (`html::after` — the only
+   light sits above the wash and below all content (`html::after` – the only
    layer that paints after the wash at the same negative z-index). It has no
    border and no flat edge: it dissolves into the image, so the reading column
    gets a calm paper field while the image stays visible at the page's outer
@@ -3205,7 +3205,7 @@ html::after {
 /* ==========================================================================
    GENERATIVE DOT FIELDS (js/generative/dot-field)
    Progressive enhancement. Each mount ships the matching static PNG as its
-   background — the intended still — and the module covers it with an animated
+   background – the intended still – and the module covers it with an animated
    canvas only once it mounts. `.is-gen-active` drops the still so the two never
    double up. No JS or `prefers-reduced-motion: reduce` leaves the still; the
    static assets come from scripts/generate_dot_patterns.py. Decorative only
@@ -3246,7 +3246,7 @@ html::after {
    brief reserves for dark surfaces in place of the bright green (DESIGN-BRIEF
    §5). Sits above the scrim so it reads, below the copy grid. */
 /* WP E: a mount `opacity` < 1 turns the animated canvas into an offscreen
-   blend group that is re-rasterised every frame — the hero dropped to ~10 fps
+   blend group that is re-rasterised every frame – the hero dropped to ~10 fps
    while the field was on screen (~60 fps off screen). Carry the same strength
    in the dot colours and drop the offscreen layer once the canvas is live; the
    static plate keeps the mount opacity, so the look is unchanged. */
