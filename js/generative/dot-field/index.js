@@ -111,7 +111,7 @@ export function mount(el, { motion = true, phase = 0 } = {}) {
   document.addEventListener('visibilitychange', onVisibility);
 
   const ro = new ResizeObserver(() => {
-    // Resizing a canvas clears it, so always repaint — even mid-animation —
+    // Resizing a canvas clears it, so always repaint – even mid-animation  – 
     // rather than relying on the next frame (which may be paused offscreen).
     size();
     draw(lastPhase);

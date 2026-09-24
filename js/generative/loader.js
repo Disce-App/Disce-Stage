@@ -2,7 +2,7 @@
 //
 // The plate markup ships hidden. It is revealed only after a successful mount,
 // so a no-JS render, a failed import, or a thrown error leaves the page exactly
-// as it was — the fallback is the current look of the section.
+// as it was – the fallback is the current look of the section.
 //
 // Test hooks (used by the dev-only CDP harness, never by production code):
 //   ?gen-seed=<value>   override the per-plate data-seed

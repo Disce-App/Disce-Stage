@@ -16,3 +16,14 @@ desktop.ini
 node_modules/
 .Rhistory
 .RData
+
+# Local source material and scratch artifacts.
+# These are working files kept on disk but intentionally not part of the
+# published tree (GitHub Pages serves the tracked tree as-is).
+ComfyUI_00063_.png
+Greenery/
+Kernel Background Images/
+Kernel Documents/
+Philosophy Background images/
+disce-kernel-architecture.html
+disce-kernel-architecture.json

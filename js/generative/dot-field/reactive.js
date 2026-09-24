@@ -2,7 +2,7 @@
 //
 // While the cursor is over a dot field, a soft radial mask clears the dots
 // directly beneath it. The mask lives on the field mount, so it covers the
-// static background image and the injected canvas alike — the animated and the
+// static background image and the injected canvas alike – the animated and the
 // still plate react identically.
 //
 // One shared, passive pointer listener drives every participating field; the
@@ -11,7 +11,7 @@
 // the page or the pointer is coarse (touch), where there is no hover.
 //
 // Decorative: conveys no meaning, carries no text, does not gate any function,
-// and is deletable — without it the fields are exactly the previous look.
+// and is deletable – without it the fields are exactly the previous look.
 // Pointer-initiated and local, so it is not treated as autonomous motion.
 
 const fields = new Map();
