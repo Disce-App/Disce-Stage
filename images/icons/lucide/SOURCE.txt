@@ -1,0 +1,21 @@
+Lucide icon subset (vendored)
+
+Package : lucide-static
+Version : 1.48.0 (pinned)
+Source  : https://unpkg.com/lucide-static@1.48.0/icons/
+License : ISC, with the Feather-derived icons under MIT (see ./LICENSE)
+Vendored: 2026-09-24
+
+Icons in this directory are copied verbatim from the pinned package above and
+committed as self-hosted assets. They are rendered through one shared inline
+sprite (an <svg class="icon-sprite"> block delimited by ICON-SPRITE markers) that
+scripts/sync_icon_sprite.py writes into every page, so no runtime request leaves
+the origin and the visuals do not depend on JavaScript.
+
+Included: arrow-left, arrow-right, calendar-clock, check, clock, external-link,
+          mail, menu, pause, play, x
+
+To add an icon: fetch
+  https://unpkg.com/lucide-static@1.48.0/icons/<name>.svg
+keep the @license header, drop it in here, add its <symbol> to SYMBOLS in
+scripts/sync_icon_sprite.py, then run:  python3 scripts/sync_icon_sprite.py

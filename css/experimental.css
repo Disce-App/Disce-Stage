@@ -435,6 +435,43 @@ body::before {
 .hero .btn-secondary { color: var(--legacy-paper); border-color: rgba(213, 192, 157, 0.6); }
 .hero .btn-secondary:hover { background: var(--legacy-paper); color: var(--legacy-ink); }
 
+/* ==========================================================================
+   ICONS – vendored Lucide subset (images/icons/lucide, ISC/MIT)
+   The symbol sprite is injected once per page by js/site.js; markup only
+   carries <svg class="icon"><use href="#icon-x"></use></svg>. Icons draw at
+   1em and inherit the surrounding type and color. Decorative by default
+   (aria-hidden); the adjacent text carries the meaning. No runtime request,
+   no icon font, no dependency.
+   ========================================================================== */
+.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  vertical-align: -0.125em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Small uppercase controls (buttons, motion toggle) get a slightly larger mark
+   so the 2px Lucide stroke stays legible at ~12px text. */
+.btn-primary > .icon,
+.btn-secondary > .icon { width: 1.2em; height: 1.2em; margin-left: var(--sp-8); vertical-align: -0.2em; }
+/* Leading marks (e.g. the mail icon on contact CTAs) sit before the label. */
+.btn-primary > .icon--lead,
+.btn-secondary > .icon--lead { margin-left: 0; margin-right: var(--sp-8); }
+.ticker-toggle-text .icon { width: 1.2em; height: 1.2em; margin-right: var(--sp-8); vertical-align: -0.2em; }
+.footer-col a .icon { margin-right: var(--sp-8); }
+.status-fact-value .icon { margin-right: var(--sp-8); color: var(--green-dark); }
+/* Mobile nav toggle: hamburger <-> close, driven by the JS-set aria-expanded. */
+.nav-toggle .icon { display: block; }
+.nav-toggle .nav-toggle-close { display: none; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-open { display: none; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-close { display: block; }
+
 /* Hero glass cards: heavily darkened, parchment-tinted, thin hairline,
    square corners. No backdrop-filter: a backdrop blur on the scrolling hero
    forced a full-card backdrop resample every frame and was the sole cause of
