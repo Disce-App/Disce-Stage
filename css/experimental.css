@@ -674,6 +674,130 @@ body:not(.page-kernel) .section-head:not(:has(.lede)) {
   .problem-grid { grid-template-columns: 1fr; }
 }
 
+/* Homepage Problem section: the cards are scanned, not read as prose, so they
+   stay left-aligned with hyphenation off. Scoped to the homepage section so the
+   global Blocksatz rule (and the Kernel's problem cards) are unaffected. */
+body:not(.page-kernel) .problem-section .problem-card p {
+  text-align: left;
+  hyphens: manual;
+  -webkit-hyphens: manual;
+}
+
+/* ==========================================================================
+   SCENE GALLERY – homepage "Real-world German" use cases
+   A dense, scannable editorial grid: each card pairs a small engraved-style
+   scene vignette (from the shared .scene-sprite) with a context tag, a short
+   title and one line. Paper surfaces, ink hairlines and square corners follow
+   the established card language; two cards per row are widened and darkened to
+   give the grid rhythm. No links, no detail views, no hover-dependent meaning.
+   ========================================================================== */
+.scene-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.scene-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-20);
+  margin-top: var(--sp-40);
+}
+@media (min-width: 560px)  { .scene-gallery { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px)  { .scene-gallery { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1200px) { .scene-gallery { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 900px)  { .scene-card--wide { grid-column: span 2; } }
+
+.scene-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--legacy-paper);
+  border: 2px solid var(--legacy-ink);
+  overflow: hidden;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .scene-card { transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease); }
+  .scene-card:hover { transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--legacy-ink); }
+}
+
+.scene-plate {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 104px;
+  padding: var(--sp-16);
+  background: var(--cream-dim);
+  color: var(--green-dark);
+  border-bottom: 2px solid var(--legacy-ink);
+}
+.scene-card--wide .scene-plate { min-height: 132px; }
+.scene-card--forest .scene-plate { background: var(--green-forest); color: var(--parchment); }
+.scene-card--forest .scene-index { color: var(--parchment); }
+
+.scene-art {
+  width: 56px;
+  height: 56px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.scene-card--wide .scene-art { width: 68px; height: 68px; }
+
+.scene-index {
+  position: absolute;
+  top: var(--sp-12);
+  left: var(--sp-12);
+  font-family: var(--font-display);
+  font-size: var(--fs-200);
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.scene-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  flex: 1;
+  padding: var(--sp-20);
+}
+.scene-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-8);
+  font-size: var(--fs-100);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green-dark);
+}
+.scene-tag::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  flex: none;
+}
+/* Regulated contexts carry the locked ochre status-dot marker (DESIGN-BRIEF §8). */
+.scene-card[data-context="healthcare"] .scene-tag::before { background: var(--ochre); }
+
+.scene-title { font-size: var(--fs-600); line-height: 1.25; margin: 0; }
+.scene-line {
+  color: var(--muted);
+  font-size: var(--fs-400);
+  text-align: left;
+  hyphens: manual;
+  -webkit-hyphens: manual;
+}
+
+.scene-note {
+  margin-top: var(--sp-24);
+  color: var(--muted);
+  font-size: var(--fs-300);
+  text-align: left;
+  max-width: 62ch;
+}
+
 /* ==========================================================================
    PERSONA / AUDIENCE CARDS
    ========================================================================== */
@@ -3088,6 +3212,8 @@ body,
 .problem-card,
 .problem-card:first-child,
 .persona-card,
+.scene-card,
+.scene-plate,
 .media-card,
 .band-card,
 .team-card,
